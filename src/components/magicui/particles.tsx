@@ -110,8 +110,8 @@ const Particles: React.FC<ParticlesProps> = ({
       const y = mousePosition.y - rect.top - h / 2;
       const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2;
       if (inside) {
-        mouse.current.x = x*2;
-        mouse.current.y = y*2;
+        mouse.current.x = x*1.5;
+        mouse.current.y = y*1.5;
       }
     }
   };

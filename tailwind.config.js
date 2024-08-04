@@ -19,6 +19,25 @@ export default {
     },
     extend: {
       keyframes: {
+        "spin-around": {
+          "0%": {
+            transform: "translateZ(0) rotate(0)",
+          },
+          "15%, 35%": {
+            transform: "translateZ(0) rotate(90deg)",
+          },
+          "65%, 85%": {
+            transform: "translateZ(0) rotate(270deg)",
+          },
+          "100%": {
+            transform: "translateZ(0) rotate(360deg)",
+          },
+        },
+        slide: {
+          to: {
+            transform: "translate(calc(100cqw - 100%), 0)",
+          },
+        },
         grid: {
           "0%": { transform: "translateY(-50%)" },
           "100%": { transform: "translateY(0)" },
@@ -32,10 +51,10 @@ export default {
           to: { height: "0" },
         },
         meteor: {
-          "0%": { transform: "rotate(215deg) translateX(0)", opacity: 1 },
+          "0%": { transform: "rotate(240deg) translateX(0)", opacity: 1 },
           "70%": { opacity: 1 },
           "100%": {
-            transform: "rotate(215deg) translateX(-500px)",
+            transform: "rotate(240deg) translateX(-500px)",
             opacity: 0,
           },
         },
@@ -45,10 +64,11 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "grid": "grid 15s linear infinite",
         meteor: "meteor 10s linear infinite",
-
+        "spin-around": "spin-around calc(var(--speed) * 2) infinite linear",
+        slide: "slide var(--speed) ease-in-out infinite alternate",
       },
-      colors:{
-        blackbg:"#18181b"
+      colors: {
+        blackbg: "#18181b"
       }
     },
   },

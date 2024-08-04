@@ -1,28 +1,30 @@
+import ShimmerButton from "@/components/magicui/shimmer-button";
+
 const Hero: React.FC = () => {
 
     return (
-        <div className="relative text-white flex h-[500px] w-full flex-col items-center justify-center overflow-hidden bg-background md:shadow-xl">
+        <div className="relative text-white flex md:h-[650px] w-full flex-col items-center justify-center overflow-hidden bg-background md:shadow-xl">
             <div className="container mx-auto px-4 py-16">
                 <div className="text-center">
-                    {/* <h1 className="text-5xl font-bold mb-4">
-                        Welcome to dypcetclubs.live
-                    </h1> */}
-                    <h1 className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300/100 bg-clip-text text-center text-7xl font-semibold leading-none text-transparent dark:from-white dark:to-slate-800/10">
+                    <h1 className="pointer-events-none text-center text-3xl text-slate-200 md:text-7xl font-semibold ">
                         Welcome to dypcetclubs.live
                     </h1>
-                    <p className="text-xl py-2">
-                        Discover the vibrant community of clubs at our college, where
-                        students come <br /> together to explore their passions, learn new
-                        skills, and make lasting
-                        <br /> connections.
+                    <p className="md:text-xl py-2 text-slate-400 text-center">
+                        Discover the vibrant community of clubs at our college,<span className="hidden md:block"> where
+                            students come together to </span> explore<span className="md:hidden">,</span> <span className="hidden md:inline">their passions,</span> learn new
+                        skills, and make lasting connections.
                     </p>
-                    <div className="flex gap-4 justify-center pt-4">
-                        <button className="w-40 h-12 bg-white text-black px-4 py-2 rounded-md font-bold transition duration-300">
-                            Explore Clubs
-                        </button>
-                        <button className="h-12 w-48 bg-blackbg text-white px-4 py-2 rounded-md text-lg font-bold border-2 border-white">
-                            Upcoming Events
-                        </button>
+                    <div className="flex gap-4 justify-center pt-4  text-slate-100">
+                        <ShimmerButton className="md:h-16 md:w-48 shadow-2xl">
+                            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight font-semibold dark:from-white dark:to-slate-900/10 lg:text-lg">
+                                Explore Clubs
+                            </span>
+                        </ShimmerButton>
+                        <ShimmerButton className="md:h-16 md:w-48 shadow-2xl">
+                            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight font-semibold dark:from-white dark:to-slate-900/10 lg:text-lg">
+                                Upcoming Events
+                            </span>
+                        </ShimmerButton>
                     </div>
                 </div>
             </div>
