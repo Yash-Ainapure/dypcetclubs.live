@@ -15,14 +15,14 @@ const Events = () => {
             color={"#ffffff"}
             refresh
          />
-         <div className="text-center">
-            <h1 className="text-3xl font-bold mb-2">Upcoming Events</h1>
+         <div className="text-center pb-16 pt-40">
+            <h1 className="text-3xl font-bold pb-4">Upcoming Events</h1>
             <p className="text-gray-400 text-lg">Check out the upcoming events and workshops hosted by our vibrant club community.</p>
          </div>
          <div className="px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
 
             {/* Event Box 1 */}
-            <div className="bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
+            <div className="bg-slate-200 hover:scale-[101%] hover:bg-white transform transition-all duration-500  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
                <h2 className="text-xl font-bold mb-2">Robotics Workshop</h2>
                <p className="text-gray-600 mb-4">Learn the fundamentals of robotics and build your own robot.</p>
                <div className="flex items-center justify-between">
@@ -36,7 +36,7 @@ const Events = () => {
             </div>
 
             {/* Event Box 2 */}
-            <div className="bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
+            <div className="bg-slate-200 hover:scale-[101%] hover:bg-white transform transition-all duration-500 text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
                <h2 className="text-xl font-bold mb-2">Entrepreneurship Meetup</h2>
                <p className="text-gray-600 mb-4">Network with local entrepreneurs and learn about starting a business.</p>
                <div className="flex items-center justify-between">
@@ -50,7 +50,7 @@ const Events = () => {
             </div>
 
             {/* Event Box 3 */}
-            <div className="bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
+            <div className="bg-slate-200 hover:scale-[101%] hover:bg-white transform transition-all duration-500 text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
                <h2 className="text-xl font-bold mb-2">MLSA Hiring</h2>
                <p className="text-gray-600 mb-4">Network with local entrepreneurs and learn about starting a business.</p>
                <div className="flex items-center justify-between">

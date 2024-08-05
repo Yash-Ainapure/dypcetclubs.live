@@ -17,7 +17,15 @@ export default {
         "2xl": "1400px",
       },
     },
+    variants: {
+      extend: {
+        mixBlendMode: ['responsive'], // Ensure mixBlendMode is enabled for responsiveness
+      },
+    },
     extend: {
+      fontFamily: {
+        popins: ['Popins', 'sans-serif'],
+      },
       keyframes: {
         "spin-around": {
           "0%": {

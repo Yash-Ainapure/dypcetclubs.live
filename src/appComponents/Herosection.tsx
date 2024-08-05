@@ -1,32 +1,54 @@
 import ShimmerButton from "@/components/magicui/shimmer-button";
+import { Dock, DockIcon } from "@/components/magicui/dock";
 
+export type IconProps = React.HTMLAttributes<SVGElement>;
 const Hero: React.FC = () => {
 
     return (
-        <div className="relative text-white flex md:h-[650px] w-full flex-col items-center justify-center overflow-hidden bg-background md:shadow-xl">
-            <div className="container mx-auto px-4 py-16">
-                <div className="text-center">
-                    <h1 className="pointer-events-none text-center text-3xl text-slate-200 md:text-7xl font-semibold ">
-                        Welcome to dypcetclubs.live
-                    </h1>
-                    <p className="md:text-xl py-2 text-slate-400 text-center">
-                        Discover the vibrant community of clubs at our college,<span className="hidden md:block"> where
-                            students come together to </span> explore<span className="md:hidden">,</span> <span className="hidden md:inline">their passions,</span> learn new
-                        skills, and make lasting connections.
-                    </p>
-                    <div className="flex gap-4 justify-center pt-4  text-slate-100">
-                        <ShimmerButton className="md:h-16 md:w-48 shadow-2xl">
-                            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight font-semibold dark:from-white dark:to-slate-900/10 lg:text-lg">
-                                Explore Clubs
-                            </span>
-                        </ShimmerButton>
-                        <ShimmerButton className="md:h-16 md:w-48 shadow-2xl">
-                            <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight font-semibold dark:from-white dark:to-slate-900/10 lg:text-lg">
-                                Upcoming Events
-                            </span>
-                        </ShimmerButton>
-                    </div>
+        <div className="relative z-10 text-white flex w-full flex-col overflow-hidden bg-background md:shadow-xl">
+            <div className="flex flex-col items-center min-h-screen justify-start pt-60">
+                <h1 className="pointer-events-none pb-8 text-center text-3xl text-slate-200 md:text-7xl font-semibold ">
+                    Welcome to dypcetclubs.live
+                </h1>
+                <p className="md:text-xl w-2/5 text-slate-400 text-center">
+                    Discover the vibrant community of clubs at our college, where
+                    students come together to explore,their passions, learn new
+                    skills, and make lasting connections.
+                </p>
+                <div className="flex gap-4 justify-center pt-16  text-slate-200">
+                    <ShimmerButton className="md:h-16 md:w-48 shadow-2xl hover:scale-105 transform transition-all duration-500 cursor-pointer">
+                        <span className="whitespace-pre-wrap text-center text-sm font-medium leading-none tracking-tight font-semibold dark:from-white dark:to-slate-900/10 lg:text-lg">
+                            Explore Clubs
+                        </span>
+                    </ShimmerButton>
+                    <ShimmerButton className="md:h-16 shadow-2xl hover:scale-105 transform transition-all duration-500 cursor-pointer relative gap-2">
+                        <span className="whitespace-nowrap text-center text-sm font-medium leading-none tracking-tight font-semibold dark:from-white dark:to-slate-900/10 lg:text-lg flex items-center w-52">
+                            <p>Upcoming Events</p>
+                            <div className=" pl-[24px]">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#0f172a" className="size-12 bg-white rounded-full">
+                                    <path d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" />
+                                </svg>
+
+                            </div>
+                        </span>
+                    </ShimmerButton>
                 </div>
+            </div>
+            <div className='z-20 transform transition-all duration-500 fixed bottom-12 hover:left-[34%] left-[35%] w-[550px] hover:w-[600px]'>
+                <Dock direction="middle" magnification={60} distance={100} className='flex items-center bg-white/1 gap-10 backdrop-blur-xl shadow-lg border-slate-500 border-2 w-full text-base'>
+                    <DockIcon>
+                        <p className='size-full flex items-center font-semibold hover:underline transform transition-all duration-300'>Home</p>
+                    </DockIcon>
+                    <DockIcon>
+                        <p className='size-full flex items-center font-semibold hover:underline transform transition-all duration-300 pr-16 mr-8'>Clubs</p>
+                    </DockIcon>
+                    <DockIcon>
+                        <p className='size-full flex items-center font-semibold hover:underline transform transition-all duration-300 whitespace-nowrap pr-48'>Upcoming Events</p>
+                    </DockIcon>
+                    <DockIcon>
+                        <p className='size-30 flex items-center font-semibold hover:underline transform transition-all duration-300'>Announcements</p>
+                    </DockIcon>
+                </Dock>
             </div>
         </div>
     );
