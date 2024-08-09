@@ -26,7 +26,7 @@ export default function Clubs() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 z-10">
 
         {/* Club Box 1 */}
-        <div className="bg-slate-200 hover:scale-[101%] hover:bg-white transform transition-all duration-500 text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
+        <div className="bg-white hover:scale-[101%] transform transition-all duration-500 text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
           <h2 className="text-xl font-bold mb-2">Robotics Club</h2>
           <p className="text-gray-600 mb-4">Explore the world of robotics and automation with us.</p>
           <div className="flex items-center justify-between">
@@ -40,7 +40,7 @@ export default function Clubs() {
         </div>
 
         {/* Club Box 2 */}
-        <div className="hover:scale-[101%] hover:bg-white transform transition-all duration-500 bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
+        <div className="bg-white hover:scale-[101%] transform transition-all duration-500  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
           <h2 className="text-xl font-bold mb-2">Entrepreneurship Club</h2>
           <p className="text-gray-600 mb-4">Nurture your entrepreneurial spirit and learn from industry experts.</p>
           <div className="flex items-center justify-between">
@@ -54,7 +54,7 @@ export default function Clubs() {
         </div>
 
         {/* Club Box 3 */}
-        <div className="hover:scale-[101%] hover:bg-white transform transition-all duration-500 bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
+        <div className="hover:scale-[101%] transform transition-all duration-500 bg-white text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
           <h2 className="text-xl font-bold mb-2">Design Club</h2>
           <p className="text-gray-600 mb-4">Unleash your creativity and explore the world of design.</p>
           <div className="flex items-center justify-between">
