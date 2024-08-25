@@ -20,45 +20,6 @@ const libsql = createClient({
 const adapter = new PrismaLibSQL(libsql);
 const prisma = new PrismaClient({ adapter });
 
-async function testConnection() {
-  try {
-    await prisma.$connect();
-
-    console.log("Successfully connected to the database!");
-  } catch (error) {
-    console.error("Error connecting to the database:", error);
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-async function connectToDatabase() {
-  try {
-    const connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      port: Number(process.env.PORT),
-      ssl: {
-        ca: fs.readFileSync(process.env.CA as string), // Read the certificate from the provided path
-      },
-    });
-
-    console.log("Connected to MySQL database successfully!");
-
-    // Test the connection by executing a simple query
-    const [rows] = await connection.execute("SELECT * from demo");
-    console.log("The solution is: ", rows);
-
-    // Remember to close the connection when done
-    await connection.end();
-  } catch (error) {
-    console.error("Error connecting to MySQL database:", error);
-  }
-}
-
-
 
 // Route to get all tables in the database
 app.get('/tables', async (req, res) => {
