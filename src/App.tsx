@@ -17,31 +17,38 @@ function App() {
   const numberOfMeteors = window.innerWidth >= 768 ? 60 : 10;
   const numberOfParticles = window.innerWidth >= 768 ? 400 : 100;
   return (
-    <div className="font-popins bg-black">
+    <div className="bg-black font-popins">
       <div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
-        <div className="circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
+        <div className="z-50 circle"></div>
       </div>
       {/* <Demo /> */}
-      <div className="relative overflow-hidden min-h-screen">
+      <div className="relative min-h-screen overflow-hidden">
         <Meteors number={numberOfMeteors} />
         <Particles
           className="absolute inset-0"
