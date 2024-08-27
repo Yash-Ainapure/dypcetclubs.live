@@ -76,7 +76,11 @@ export default {
         slide: "slide var(--speed) ease-in-out infinite alternate",
       },
       colors: {
-        blackbg: "#18181b"
+        blackbg: "#18181b",
+        'space-black': '#0b0c10',  // Deep space black
+        'space-purple': '#2c003e', // Dark purple nebula
+        'space-blue': '#1c1b60',   // Deep blue starry night
+        'star-white': '#ffffff',   // 
       }
     },
   },

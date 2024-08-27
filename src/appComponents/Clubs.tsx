@@ -1,114 +1,52 @@
+import ClubCard from './ClubCard';
+import { useClubs } from '../hooks/useClubs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faLightbulb } from '@fortawesome/free-solid-svg-icons';
-import Particles from "@/components/magicui/particles";
-
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Clubs() {
-  const numberOfParticles = window.innerWidth >= 768 ? 400 : 100;
+  const { data: clubs, error, isLoading } = useClubs();
 
-  return (
-    <div className="py-12 px-6 text-slate-300">
-      <Particles
-        className="absolute inset-0"
-        quantity={numberOfParticles}
-        ease={40}
-        color="#ffffff"
-        refresh
-      />
-      {/* Heading 1 */}
-      <div className="text-center pb-16">
-        <h1 className="text-5xl font-semibold pb-4">Our Clubs</h1>
-        <p className="text-slate-400 text-lg">Explore the diverse range of clubs at our college and discover your passions.</p>
-      </div>
+  if (isLoading) return <div className='min-h-screen px-6 py-12 bg-white'>
+    <div className="pb-10 text-center">
+      <h1 className="pb-4 text-3xl font-semibold">Our Clubs</h1>
+      <p className="text-base text-slate-600">Explore the diverse range of clubs at our college and discover your passions.</p>
+    </div>
 
-      {/* Clubs Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 z-10">
-
-        {/* Club Box 1 */}
-        <div className="bg-white hover:scale-[101%] transform transition-all duration-500 text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-          <h2 className="text-xl font-bold mb-2">Robotics Club</h2>
-          <p className="text-gray-600 mb-4">Explore the world of robotics and automation with us.</p>
-          <div className="flex items-center justify-between">
-            <div>
-              <FontAwesomeIcon icon={faUser} className="mr-2" />
-              <p className="text-gray-600 text-sm font-bold">20 Members</p>
-              <p className="text-gray-600 text-sm">Active Club</p>
+    <div className="flex flex-1">
+      <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 bg-white md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
+        <div className="flex gap-8">
+          {[...new Array(3)].map((_, index) => (
+            <div
+              key={`first-array-${index}`} // Ensure unique key
+              className="relative w-full h-40 bg-gray-200 rounded-lg dark:bg-neutral-800 animate-pulse"
+            >
+              <button className="absolute px-4 py-2 text-sm font-bold transition-all duration-500 transform bg-white rounded-md text-slate-700 bottom-6 right-4 hover:scale-105">loading...</button>
             </div>
-            <button className="hover:scale-105 transform transition-all duration-500 bg-black text-white px-4 py-2 rounded-md text-sm font-bold">View Clubss</button>
-          </div>
-        </div>
-
-        {/* Club Box 2 */}
-        <div className="bg-white hover:scale-[101%] transform transition-all duration-500  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-          <h2 className="text-xl font-bold mb-2">Entrepreneurship Club</h2>
-          <p className="text-gray-600 mb-4">Nurture your entrepreneurial spirit and learn from industry experts.</p>
-          <div className="flex items-center justify-between">
-            <div>
-              <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
-              <p className="text-gray-600 text-sm font-bold">35 Members</p>
-              <p className="text-gray-600 text-sm">Active Club</p>
-            </div>
-            <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-800 transition duration-300">View Club</button>
-          </div>
-        </div>
-
-        {/* Club Box 3 */}
-        <div className="hover:scale-[101%] transform transition-all duration-500 bg-white text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-          <h2 className="text-xl font-bold mb-2">Design Club</h2>
-          <p className="text-gray-600 mb-4">Unleash your creativity and explore the world of design.</p>
-          <div className="flex items-center justify-between">
-            <div>
-              <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
-              <p className="text-gray-600 text-sm font-bold">18 Members</p>
-              <p className="text-gray-600 text-sm">Active Club</p>
-            </div>
-            <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-800 transition duration-300">View Club</button>
-          </div>
-        </div>
-
-        {/* Club Box 4 */}
-        <div className="hover:scale-[101%] hover:bg-white transform transition-all duration-500 bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-          <h2 className="text-xl font-bold mb-2">Photography Club</h2>
-          <p className="text-gray-600 mb-4">Capture the world through your lens and hone your photography skills.</p>
-          <div className="flex items-center justify-between">
-            <div>
-              <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
-              <p className="text-gray-600 text-sm font-bold">22 Members</p>
-              <p className="text-gray-600 text-sm">Active Club</p>
-            </div>
-            <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-800 transition duration-300">View Club</button>
-          </div>
-        </div>
-
-        {/* Club Box 5 */}
-        <div className="hover:scale-[101%] hover:bg-white transform transition-all duration-500 bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-          <h2 className="text-xl font-bold mb-2">Music Club</h2>
-          <p className="text-gray-600 mb-4">Explore the world of music and showcase your talents.</p>
-          <div className="flex items-center justify-between">
-            <div>
-              <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
-              <p className="text-gray-600 text-sm font-bold">15 Members</p>
-              <p className="text-gray-600 text-sm">Active Club</p>
-            </div>
-            <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-800 transition duration-300">View Club</button>
-          </div>
-        </div>
-
-        {/* Club Box 6 */}
-        <div className="hover:scale-[101%] hover:bg-white transform transition-all duration-500 bg-slate-200  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-          <h2 className="text-xl font-bold mb-2">Coding Club</h2>
-          <p className="text-gray-600 mb-4">Develop your programming skills and build innovative projects.</p>
-          <div className="flex items-center justify-between">
-            <div>
-              <FontAwesomeIcon icon={faLightbulb} className="mr-2" />
-              <p className="text-gray-600 text-sm font-bold">28 Members</p>
-              <p className="text-gray-600 text-sm">Active Club</p>
-            </div>
-            <button className="bg-black text-white px-4 py-2 rounded-md text-sm font-bold hover:bg-gray-800 transition duration-300">View Club</button>
-          </div>
+          ))}
         </div>
       </div>
     </div>
+  </div>
+  if (error) return <div>Error loading users: {error.message}</div>;
+
+  console.log("club data: ")
+  console.log(clubs)
+
+  return (
+    <div className="min-h-screen px-6 py-12 bg-white">
+      {/* Heading 1 */}
+      <div className="pb-10 text-center">
+        <h1 className="pb-4 text-3xl font-semibold">Our Clubs</h1>
+        <p className="text-base text-slate-600">Explore the diverse range of clubs at our college and discover your passions.</p>
+      </div>
+      {/* Clubs Grid */}
+      <div className="z-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Club Box 1 */}
+        {clubs?.map((club) => (
+          <ClubCard key={club.ClubId} memberCount={club.Members.length} name={club.ClubName} description={club.Description} />
+        ))}
+      </div>
+    </div >
   );
 }
