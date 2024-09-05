@@ -12,6 +12,7 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@prisma/client": "^5.19.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tabler/icons-react": "^3.13.0",
     "@tanstack/react-form": "^0.29.2",

@@ -1,13 +1,15 @@
 import express from "express";
 import dotenv from "dotenv";
-const cors = require("cors");
-dotenv.config();
-const app = express();
-app.use(express.json());
-
 import { PrismaClient } from "@prisma/client";
 import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { createClient } from "@libsql/client";
+import bcrypt from "bcrypt";
+import cors from "cors";
+
+dotenv.config();
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 const libsql = createClient({
   url: `${process.env.TURSO_DATABASE_URL}`,
@@ -17,14 +19,10 @@ const libsql = createClient({
 const adapter = new PrismaLibSQL(libsql);
 const prisma = new PrismaClient({ adapter });
 
-app.use(cors());
-
 // Route to get all tables in the database
 app.get("/tables", async (req, res) => {
   try {
-    // Query to get the table names from SQLite schema
-    const tables =
-      await prisma.$queryRaw`SELECT name FROM sqlite_master WHERE type='table';`;
+    const tables = await prisma.$queryRaw`SELECT name FROM sqlite_master WHERE type='table';`;
     res.json(tables);
   } catch (error) {
     console.error("Error fetching tables:", error);
@@ -47,7 +45,6 @@ app.get("/addClubData", async (req, res) => {
 
     console.log("Inserted new event:", newEvent);
 
-    // Insert data into the Tags table
     const newTag = await prisma.tag.create({
       data: {
         TagName: "Science",
@@ -58,59 +55,28 @@ app.get("/addClubData", async (req, res) => {
 
     res.json({ message: "Data added successfully" });
   } catch (error) {
-    console.error("Error fetching tables:", error);
-    res.status(500).json({ error: "An error occurred while fetching tables." });
+    console.error("Error adding data:", error);
+    res.status(500).json({ error: "An error occurred while adding data." });
   }
 });
 
-// Route to get all data from UserTable
-app.get("/getClubData", async (req, res) => {
-  try {
-    const data = await prisma.club.findMany({
-      include: {
-        Members: true,
-        Events: true,
-        Announcements: true,
-        ClubImages: true,
-      },
-    });
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).json({ error: "An error occurred while fetching data." });
-  }
-});
-
-app.get("/getEventData", async (req, res) => {
-  try {
-    const clubs = await prisma.event.findMany(); // Fetch all clubs from the database
-    res.json(clubs);
-  } catch (error) {
-    console.error("Error fetching clubs:", error);
-    res.status(500).json({ error: "Failed to fetch clubs" });
-  }
-});
-
+//add club
 app.post("/addClub", async (req, res) => {
   try {
-    const { ClubName, Description, FoundedDate, Email, Password, LogoURL } =
-      req.body;
+    const { ClubName, Description, FoundedDate, Email, Password, LogoURL } = req.body;
 
-    // Validate required fields
     if (!ClubName || !Email || !Password) {
-      return res
-        .status(400)
-        .json({ error: "ClubName, Email, and Password are required." });
+      return res.status(400).json({ error: "ClubName, Email, and Password are required." });
     }
 
-    // Use Prisma to create a new club
+    // Store password in plain text for testing purposes
     const newClub = await prisma.club.create({
       data: {
         ClubName,
         Description,
         FoundedDate,
         Email,
-        Password, // Ensure to hash the password before saving in a production environment
+        Password, // Store the plain text password
         LogoURL,
       },
     });
@@ -119,6 +85,45 @@ app.post("/addClub", async (req, res) => {
   } catch (error) {
     console.error("Error creating club:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Login endpoint comparing plain text passwords
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
+  }
+
+  try {
+    const club = await prisma.club.findUnique({
+      where: { Email: email },
+    });
+
+    if (!club) {
+      console.log(`Club not found for email: ${email}`);
+      return res.status(404).json({ error: "Club data not found." });
+    }
+
+    // Compare the entered password with the stored plain text password
+    const passwordMatch = (password === club.Password);
+
+    // Debugging logs
+    console.log('Entered password:', password);
+    console.log('Stored plain text password:', club.Password);
+    console.log('Password match result:', passwordMatch);
+
+    if (!passwordMatch) {
+      console.log(`Password mismatch for email: ${email}`);
+      return res.status(401).json({ error: "Invalid email or password." });
+    }
+
+    console.log(`Login successful for email: ${email}`);
+    res.status(200).json({ message: "Login successful." });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "An error occurred during login." });
   }
 });
 

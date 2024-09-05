@@ -8,7 +8,7 @@ import Meteors from "@/components/magicui/meteors";
 import Events from "./appComponents/Events";
 import Popup from "./appComponents/Popup";
 import ClubRegistration from "./appComponents/ClubRegistration";
-import ClubLogin from "./appComponents/ClubLogin";
+import ClubLogin from './appComponents/ClubLogin';
 import { ClubAdmin } from "./appComponents/ClubAdmin";
 
 import './App.css';
