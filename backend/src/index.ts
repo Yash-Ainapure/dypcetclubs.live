@@ -5,6 +5,7 @@ import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { createClient } from "@libsql/client";
 import bcrypt from "bcrypt";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 const app = express();
@@ -22,7 +23,8 @@ const prisma = new PrismaClient({ adapter });
 // Route to get all tables in the database
 app.get("/tables", async (req, res) => {
   try {
-    const tables = await prisma.$queryRaw`SELECT name FROM sqlite_master WHERE type='table';`;
+    const tables =
+      await prisma.$queryRaw`SELECT name FROM sqlite_master WHERE type='table';`;
     res.json(tables);
   } catch (error) {
     console.error("Error fetching tables:", error);
@@ -30,43 +32,45 @@ app.get("/tables", async (req, res) => {
   }
 });
 
-app.get("/addClubData", async (req, res) => {
+//Route to get all club data
+app.get("/getClubData", async (req, res) => {
   try {
-    const newEvent = await prisma.event.create({
-      data: {
-        ClubID: 2,
-        EventName: "Annual Science Fair",
-        Description: "An event showcasing scientific projects",
-        StartDateTime: "2024-09-01T10:00:00.000Z",
-        EndDateTime: "2024-09-01T16:00:00.000Z",
-        Location: "Main Hall",
+    const data = await prisma.club.findMany({
+      include: {
+        Members: true,
+        Events: true,
+        Announcements: true,
+        ClubImages: true,
       },
     });
-
-    console.log("Inserted new event:", newEvent);
-
-    const newTag = await prisma.tag.create({
-      data: {
-        TagName: "Science",
-      },
-    });
-
-    console.log("Inserted new tag:", newTag);
-
-    res.json({ message: "Data added successfully" });
+    res.json(data);
   } catch (error) {
-    console.error("Error adding data:", error);
-    res.status(500).json({ error: "An error occurred while adding data." });
+    console.error("Error fetching data:", error);
+    res.status(500).json({ error: "An error occurred while fetching data." });
+  }
+});
+
+//Route to get all event data
+app.get("/getEventData", async (req, res) => {
+  try {
+    const clubs = await prisma.event.findMany(); // Fetch all clubs from the database
+    res.json(clubs);
+  } catch (error) {
+    console.error("Error fetching clubs:", error);
+    res.status(500).json({ error: "Failed to fetch clubs" });
   }
 });
 
 //add club
 app.post("/addClub", async (req, res) => {
   try {
-    const { ClubName, Description, FoundedDate, Email, Password, LogoURL } = req.body;
+    const { ClubName, Description, FoundedDate, Email, Password, LogoURL } =
+      req.body;
 
     if (!ClubName || !Email || !Password) {
-      return res.status(400).json({ error: "ClubName, Email, and Password are required." });
+      return res
+        .status(400)
+        .json({ error: "ClubName, Email, and Password are required." });
     }
 
     // Store password in plain text for testing purposes
@@ -88,6 +92,12 @@ app.post("/addClub", async (req, res) => {
   }
 });
 
+const rateLimmiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 login attempts per windowMs
+  message: "Too many login attempts, please try again later.",
+});
+
 // Login endpoint comparing plain text passwords
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -107,12 +117,12 @@ app.post("/login", async (req, res) => {
     }
 
     // Compare the entered password with the stored plain text password
-    const passwordMatch = (password === club.Password);
+    const passwordMatch = password === club.Password;
 
     // Debugging logs
-    console.log('Entered password:', password);
-    console.log('Stored plain text password:', club.Password);
-    console.log('Password match result:', passwordMatch);
+    console.log("Entered password:", password);
+    console.log("Stored plain text password:", club.Password);
+    console.log("Password match result:", passwordMatch);
 
     if (!passwordMatch) {
       console.log(`Password mismatch for email: ${email}`);
