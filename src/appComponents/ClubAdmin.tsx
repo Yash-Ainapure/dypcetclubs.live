@@ -12,6 +12,9 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 // import { Redirect } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Routes, Route } from "react-router-dom";
+import Events from "./Events";
+import QuizCreation from "./QuizCreation";
 
 export function ClubAdmin() {
   const { isLoggedIn } = useAuth();
@@ -19,6 +22,7 @@ export function ClubAdmin() {
 
   useEffect(() => {
     if (!isLoggedIn) {
+      console.log("Not logged in");
       navigate("/");
       // return <Redirect to="/" />;
     }
@@ -27,21 +31,21 @@ export function ClubAdmin() {
   const links = [
     {
       label: "Dashboard",
-      href: "#",
+      href: "/clubAdmin/dashboard",
       icon: (
         <IconBrandTabler className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
-      label: "Profile",
-      href: "#",
+      label: "Events",
+      href: "/clubAdmin/",
       icon: (
         <IconUserBolt className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
-      label: "Settings",
-      href: "#",
+      label: "Quiz-Creation",
+      href: "/clubAdmin/create-quiz",
       icon: (
         <IconSettings className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -91,7 +95,18 @@ export function ClubAdmin() {
           </div>
         </SidebarBody>
       </Sidebar>
-      <Dashboard />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="bg-black">
+              <Events />
+            </div>
+          }
+        />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create-quiz" element={<QuizCreation />} />
+      </Routes>
     </div>
   );
 }
@@ -127,7 +142,7 @@ export const LogoIcon = () => {
 const Dashboard = () => {
   return (
     <div className="flex flex-1">
-      <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 bg-white border md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
+      <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 bg-slate-500 border md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
         <div className="flex gap-2">
           {[...new Array(4)].map((i) => (
             <div

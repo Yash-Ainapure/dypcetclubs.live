@@ -12,6 +12,7 @@ import ClubLogin from "./appComponents/ClubLogin";
 import { ClubAdmin } from "./appComponents/ClubAdmin";
 
 import "./App.css";
+import QuizPage from "./appComponents/QuizPage";
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -50,7 +51,8 @@ function App() {
           }
         />
         <Route path="/registerClub" element={<ClubRegistration />} />
-        <Route path="/clubAdmin" element={<ClubAdmin />} />
+        <Route path="/clubAdmin/*" element={<ClubAdmin />} />
+        <Route path="/quiz/:id" element={<QuizPage />} />
       </Routes>
     </Router>
   );

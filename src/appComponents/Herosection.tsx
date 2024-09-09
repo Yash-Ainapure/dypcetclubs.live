@@ -27,26 +27,26 @@ const Hero: React.FC = () => {
           direction="middle"
           magnification={60}
           distance={100}
-          className="flex items-center w-full gap-8 p-4 text-base border rounded-lg shadow-xl bg-white/10 backdrop-blur-sm border-white/20"
+          className="flex items-center w-full text-base border rounded-lg shadow-xl bg-white/10 backdrop-blur-sm border-white/20"
         >
           <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-full hover:underline">
+            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Home
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center pr-16 mr-8 font-semibold transition-all duration-300 transform size-full hover:underline">
+            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Clubs
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center pr-48 font-semibold transition-all duration-300 transform size-full hover:underline whitespace-nowrap">
-              Upcoming Events
+            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
+              Events
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-30 hover:underline">
-              Announcements
+            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
+              Hiring
             </p>
           </DockIcon>
         </Dock>

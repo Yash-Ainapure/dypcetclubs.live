@@ -137,6 +137,97 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/api/quizzes", async (req, res) => {
+  const { title, questions, secretCode } = req.body;
+
+  if (!secretCode || typeof secretCode !== "string") {
+    return res.status(400).json({ error: "Invalid secretCode" });
+  }
+
+  try {
+    const hashedSecretCode = await bcrypt.hash(secretCode, 10);
+    const quiz = await prisma.quiz.create({
+      data: {
+        title,
+        secretCode: hashedSecretCode,
+      },
+    });
+
+    await Promise.all(
+      questions.map((q: any) =>
+        prisma.question.create({
+          data: {
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.correctAnswer,
+            quizId: quiz.id,
+          },
+        }),
+      ),
+    );
+
+    res.json({ quizId: quiz.id });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to create quiz" });
+  }
+});
+
+// app.post("/api/quizzes", async (req, res) => {
+//   const { title, questions, secretCode } = req.body;
+
+//   if (!secretCode || typeof secretCode !== "string") {
+//     return res.status(400).json({ error: "Invalid secretCode" });
+//   }
+
+//   try {
+//     const hashedSecretCode = await bcrypt.hash(secretCode, 10);
+//     const quiz = await prisma.quiz.create({
+//       data: {
+//         title,
+//         secretCode: hashedSecretCode,
+//         questions: {
+//           create: questions.map((q: any) => ({
+//             question: q.question,
+//             options: q.options,
+//             correctAnswer: q.correctAnswer,
+//           })),
+//         },
+//       },
+//     });
+//     res.json({ quizId: quiz.id });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ error: "Failed to create quiz" });
+//   }
+// });
+
+// Get quiz by ID (only if secret code is correct)
+app.post("/api/quizzes/:id", async (req, res) => {
+  const { id } = req.params;
+  const { secretCode } = req.body;
+
+  try {
+    const quiz = await prisma.quiz.findUnique({
+      where: { id: parseInt(id) },
+      include: { questions: true },
+    });
+
+    if (!quiz) {
+      return res.status(404).json({ error: "Quiz not found" });
+    }
+
+    const isSecretCodeValid = await bcrypt.compare(secretCode, quiz.secretCode);
+    if (!isSecretCodeValid) {
+      return res.status(403).json({ error: "Invalid secret code" });
+    }
+
+    res.json(quiz);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve quiz" });
+  }
+});
+
 // Start server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

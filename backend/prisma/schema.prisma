@@ -97,3 +97,22 @@ model AnnouncementTag {
 
   @@id([AnnouncementID, TagID])
 }
+
+
+model Quiz {
+  id         Int       @id @default(autoincrement())
+  title      String
+  secretCode String
+  questions  Question[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Question {
+  id            Int      @id @default(autoincrement())
+  question      String
+  options       String   // Store options as a delimited string
+  correctAnswer String
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
+  quizId        Int
+}
