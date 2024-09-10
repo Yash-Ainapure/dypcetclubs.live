@@ -173,35 +173,6 @@ app.post("/api/quizzes", async (req, res) => {
   }
 });
 
-// app.post("/api/quizzes", async (req, res) => {
-//   const { title, questions, secretCode } = req.body;
-
-//   if (!secretCode || typeof secretCode !== "string") {
-//     return res.status(400).json({ error: "Invalid secretCode" });
-//   }
-
-//   try {
-//     const hashedSecretCode = await bcrypt.hash(secretCode, 10);
-//     const quiz = await prisma.quiz.create({
-//       data: {
-//         title,
-//         secretCode: hashedSecretCode,
-//         questions: {
-//           create: questions.map((q: any) => ({
-//             question: q.question,
-//             options: q.options,
-//             correctAnswer: q.correctAnswer,
-//           })),
-//         },
-//       },
-//     });
-//     res.json({ quizId: quiz.id });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ error: "Failed to create quiz" });
-//   }
-// });
-
 // Get quiz by ID (only if secret code is correct)
 app.post("/api/quizzes/:id", async (req, res) => {
   const { id } = req.params;
@@ -225,6 +196,57 @@ app.post("/api/quizzes/:id", async (req, res) => {
     res.json(quiz);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve quiz" });
+  }
+});
+
+// Create a new user
+app.post("/api/users", async (req, res) => {
+  const { name, rollNo, year } = req.body;
+  const parsedYear = parseInt(year);
+  try {
+    const user = await prisma.user.create({
+      data: { name, rollNo, year: parsedYear },
+    });
+    res.json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to create user" });
+  }
+});
+
+// Submit quiz result
+app.post("/api/quizzes/:id/submit", async (req, res) => {
+  const { id } = req.params;
+  const { userId, answers, score } = req.body;
+
+  try {
+    const result = await prisma.result.create({
+      data: {
+        score,
+        answers: JSON.stringify(answers),
+        quiz: { connect: { id: parseInt(id) } },
+        user: { connect: { id: userId } },
+      },
+    });
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to submit quiz result" });
+  }
+});
+
+// Get quiz results for admin panel
+app.get("/api/quizzes/:id/results", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const results = await prisma.result.findMany({
+      where: { quizId: parseInt(id) },
+      include: { user: true },
+    });
+    res.json(results);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to retrieve quiz results" });
   }
 });
 

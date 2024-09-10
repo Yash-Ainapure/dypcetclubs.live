@@ -104,6 +104,7 @@ model Quiz {
   title      String
   secretCode String
   questions  Question[]
+  results    Result[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
@@ -115,4 +116,23 @@ model Question {
   correctAnswer String
   quiz          Quiz     @relation(fields: [quizId], references: [id])
   quizId        Int
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  rollNo   String
+  year     Int
+  results  Result[]
+}
+
+model Result {
+  id        Int      @id @default(autoincrement())
+  score     Float
+  answers   String   // Store answers as a JSON string
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  quizId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
 }

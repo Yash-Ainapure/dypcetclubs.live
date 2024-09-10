@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 interface Option {
   value: string;
@@ -24,7 +24,19 @@ export default function QuizPage() {
   const [secretCode, setSecretCode] = useState<string>("");
   const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
   const [score, setScore] = useState<number | null>(null);
+  const [userInfo, setUserInfo] = useState({ name: "", rollNo: "", year: "" });
+  const [userId, setUserId] = useState(null);
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userId && secretCode != "") {
+      fetchQuiz();
+    } else {
+      console.log("userId", userId);
+      console.log("secretCode", secretCode);
+    }
+  }, [userId]);
 
   const fetchQuiz = async () => {
     try {
@@ -45,22 +57,98 @@ export default function QuizPage() {
     }
   };
 
+  const handleUserInfoSubmit = async (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/api/users", userInfo, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        const user = response.data;
+        setUserId(user.id);
+      })
+      .catch((error) => {
+        console.error("Error creating user", error);
+      });
+  };
+
   const handleAnswerChange = (questionId: string, answer: string) => {
     setUserAnswers({ ...userAnswers, [questionId]: answer });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if (quiz) {
-      let correctAnswers = 0;
-      quiz.questions.forEach((question) => {
-        if (userAnswers[question.id] === question.correctAnswer) {
-          correctAnswers++;
-        }
+    let correctAnswers = 0;
+    quiz?.questions.forEach((question) => {
+      if (userAnswers[question.id] === question.correctAnswer) {
+        correctAnswers++;
+      }
+    });
+    const finalScore = (correctAnswers / quiz.questions.length) * 100;
+    setScore(finalScore);
+
+    axios
+      .post(
+        `http://localhost:4000/api/quizzes/${id}/submit`,
+        {
+          userId,
+          answers: userAnswers,
+          score: finalScore,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      )
+      .catch((error) => {
+        console.error("Error submitting quiz result", error);
       });
-      setScore((correctAnswers / quiz.questions.length) * 100);
-    }
   };
+
+  if (!userId) {
+    return (
+      <div className="container mx-auto p-4">
+        <h1 className="text-2xl font-bold mb-4">Enter Your Information</h1>
+        <form onSubmit={handleUserInfoSubmit} className="space-y-4">
+          <input
+            type="text"
+            value={userInfo.name}
+            onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+            placeholder="Name"
+            className="w-full p-2 border rounded"
+            required
+          />
+          <input
+            type="text"
+            value={userInfo.rollNo}
+            onChange={(e) =>
+              setUserInfo({ ...userInfo, rollNo: e.target.value })
+            }
+            placeholder="Roll No"
+            className="w-full p-2 border rounded"
+            required
+          />
+          <input
+            type="number"
+            value={userInfo.year}
+            onChange={(e) => setUserInfo({ ...userInfo, year: e.target.value })}
+            placeholder="Year"
+            className="w-full p-2 border rounded"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Start Quiz
+          </button>
+        </form>
+      </div>
+    );
+  }
 
   if (!quiz) {
     return (

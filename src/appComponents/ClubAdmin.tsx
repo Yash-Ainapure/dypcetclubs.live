@@ -15,6 +15,7 @@ import { useAuth } from "../context/AuthContext";
 import { Routes, Route } from "react-router-dom";
 import Events from "./Events";
 import QuizCreation from "./QuizCreation";
+import AdminResults from "./AdminResults";
 
 export function ClubAdmin() {
   const { isLoggedIn } = useAuth();
@@ -51,8 +52,8 @@ export function ClubAdmin() {
       ),
     },
     {
-      label: "Logout",
-      href: "#",
+      label: "results",
+      href: "/clubAdmin/results/4",
       icon: (
         <IconArrowLeft className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -106,6 +107,7 @@ export function ClubAdmin() {
         />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/create-quiz" element={<QuizCreation />} />
+        <Route path="/results/:id" element={<AdminResults />} />
       </Routes>
     </div>
   );
