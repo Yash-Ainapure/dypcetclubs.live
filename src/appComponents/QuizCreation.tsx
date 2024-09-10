@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 interface Question {
   question: string;
@@ -10,11 +11,41 @@ interface Question {
 
 const QuizCreation: React.FC = () => {
   const [title, setTitle] = useState<string>("");
+  const [quizzes, setQuizzes] = useState([]);
   const [questions, setQuestions] = useState<Question[]>([
     { question: "", options: ["", "", "", ""], correctAnswer: "" },
   ]);
   const [secretCode, setSecretCode] = useState<string>("");
+  const [clubInfo, setClubInfo] = useState<any>("");
   const navigate = useNavigate();
+  const { userData } = useAuth();
+
+  useEffect(() => {
+    if (userData) {
+      setClubInfo(userData.club);
+      fetchQuizzes();
+    } else {
+      console.log("userData");
+      console.log(userData);
+      console.log("not authenticated..");
+    }
+  }, [userData]);
+
+  const fetchQuizzes = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/quizzes?ClubID=${userData.club.ClubID}`,
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setQuizzes(data);
+      } else {
+        console.error("Failed to fetch quizzes");
+      }
+    } catch (error) {
+      console.error("Error fetching quizzes", error);
+    }
+  };
 
   const handleAddQuestion = () => {
     setQuestions([
@@ -52,11 +83,14 @@ const QuizCreation: React.FC = () => {
         options: q.options.join(","),
       }));
 
-      const response = await axios.post("http://localhost:4000/api/quizzes", {
-        title,
-        questions: formattedQuestions,
-        secretCode,
-      });
+      const response = await axios.post(
+        `http://localhost:4000/api/quizzes?ClubID=${userData.club.ClubID}`,
+        {
+          title,
+          questions: formattedQuestions,
+          secretCode,
+        },
+      );
       navigate(`/quiz/${response.data.quizId}`);
     } catch (error) {
       console.error("Failed to create quiz", error);

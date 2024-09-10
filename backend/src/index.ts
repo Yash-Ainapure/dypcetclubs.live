@@ -72,6 +72,7 @@ app.post("/addClub", async (req, res) => {
         .status(400)
         .json({ error: "ClubName, Email, and Password are required." });
     }
+    const hashedPassword = await bcrypt.hash(Password, 10);
 
     // Store password in plain text for testing purposes
     const newClub = await prisma.club.create({
@@ -80,7 +81,7 @@ app.post("/addClub", async (req, res) => {
         Description,
         FoundedDate,
         Email,
-        Password, // Store the plain text password
+        Password: hashedPassword, // Store the hashed text password
         LogoURL,
       },
     });
@@ -117,7 +118,8 @@ app.post("/login", async (req, res) => {
     }
 
     // Compare the entered password with the stored plain text password
-    const passwordMatch = password === club.Password;
+    //using bcrypt
+    const passwordMatch = await bcrypt.compare(password, club.Password);
 
     // Debugging logs
     console.log("Entered password:", password);
@@ -130,15 +132,17 @@ app.post("/login", async (req, res) => {
     }
 
     console.log(`Login successful for email: ${email}`);
-    res.status(200).json({ message: "Login successful." });
+    club.Password = "encrypted";
+    res.status(200).json({ message: "Login successful.", club: club });
   } catch (error) {
     console.error("Login error:", error);
     res.status(500).json({ error: "An error occurred during login." });
   }
 });
 
-app.post("/api/quizzes", async (req, res) => {
+app.post("/api/quizzes", async (req: any, res) => {
   const { title, questions, secretCode } = req.body;
+  const clubId = Number(req.query.ClubID);
 
   if (!secretCode || typeof secretCode !== "string") {
     return res.status(400).json({ error: "Invalid secretCode" });
@@ -150,6 +154,7 @@ app.post("/api/quizzes", async (req, res) => {
       data: {
         title,
         secretCode: hashedSecretCode,
+        clubId: clubId,
       },
     });
 
@@ -170,6 +175,25 @@ app.post("/api/quizzes", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Failed to create quiz" });
+  }
+});
+
+// Get quizzes for a club
+app.get("/api/quizzes", async (req: any, res) => {
+  const clubId = Number(req.query.ClubID);
+  console.log("id: " + clubId);
+  try {
+    const quizzes = await prisma.quiz.findMany({
+      where: { clubId: clubId },
+      select: { id: true, title: true, createdAt: true },
+    });
+    console.log("quizzes");
+    console.log(quizzes);
+    res.json(quizzes);
+  } catch (error) {
+    console.log("error11");
+    console.log(error);
+    res.status(500).json({ error: "Failed to retrieve quizzes" });
   }
 });
 
@@ -235,10 +259,20 @@ app.post("/api/quizzes/:id/submit", async (req, res) => {
 });
 
 // Get quiz results for admin panel
-app.get("/api/quizzes/:id/results", async (req, res) => {
+app.get("/api/quizzes/:id/results", async (req: any, res) => {
   const { id } = req.params;
+  const clubId = Number(req.query.ClubID);
 
   try {
+    const quiz = await prisma.quiz.findUnique({
+      where: { id: parseInt(id) },
+      include: { club: true },
+    });
+
+    if (!quiz || quiz.clubId !== clubId) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
     const results = await prisma.result.findMany({
       where: { quizId: parseInt(id) },
       include: { user: true },

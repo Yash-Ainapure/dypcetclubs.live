@@ -20,6 +20,7 @@ model Club {
   ClubImages    ClubImage[]
   Members       ClubMember[]
   Events        Event[]
+  Quizzes       Quiz[]
 }
 
 model ClubMember {
@@ -107,6 +108,8 @@ model Quiz {
   results    Result[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+   club       Club      @relation(fields: [clubId], references: [ClubID])
+  clubId     Int
 }
 
 model Question {

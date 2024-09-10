@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function AdminResults() {
   const [results, setResults] = useState([]);
   const [id, setId] = useState("");
   const [loading, setLoading] = useState(false);
+  const { userData } = useAuth();
 
   const fetchResults = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/quizzes/${id}/results`,
+        `http://localhost:4000/api/quizzes/${id}/results?ClubID=${userData.club.ClubID}`,
       );
       if (response.status === 200) {
         setResults(response.data);
