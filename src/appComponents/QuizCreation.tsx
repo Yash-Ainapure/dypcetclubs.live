@@ -38,6 +38,8 @@ const QuizCreation: React.FC = () => {
       );
       if (response.ok) {
         const data = await response.json();
+        console.log("got tht club quizzes");
+        console.log(data);
         setQuizzes(data);
       } else {
         console.error("Failed to fetch quizzes");

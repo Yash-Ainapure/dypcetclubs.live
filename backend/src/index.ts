@@ -140,6 +140,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//create quiz
 app.post("/api/quizzes", async (req: any, res) => {
   const { title, questions, secretCode } = req.body;
   const clubId = Number(req.query.ClubID);
@@ -181,14 +182,11 @@ app.post("/api/quizzes", async (req: any, res) => {
 // Get quizzes for a club
 app.get("/api/quizzes", async (req: any, res) => {
   const clubId = Number(req.query.ClubID);
-  console.log("id: " + clubId);
   try {
     const quizzes = await prisma.quiz.findMany({
       where: { clubId: clubId },
       select: { id: true, title: true, createdAt: true },
     });
-    console.log("quizzes");
-    console.log(quizzes);
     res.json(quizzes);
   } catch (error) {
     console.log("error11");

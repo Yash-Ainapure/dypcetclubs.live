@@ -18,7 +18,7 @@ import QuizCreation from "./QuizCreation";
 import AdminResults from "./AdminResults";
 
 export function ClubAdmin() {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userData } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +31,13 @@ export function ClubAdmin() {
 
   const links = [
     {
+      label: "Events",
+      href: "/clubAdmin/",
+      icon: (
+        <IconUserBolt className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
       label: "Dashboard",
       href: "/clubAdmin/dashboard",
       icon: (
@@ -38,8 +45,8 @@ export function ClubAdmin() {
       ),
     },
     {
-      label: "Events",
-      href: "/clubAdmin/",
+      label: "Hiring",
+      href: "/hiring/",
       icon: (
         <IconUserBolt className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -54,6 +61,13 @@ export function ClubAdmin() {
     {
       label: "results",
       href: "/clubAdmin/results/4",
+      icon: (
+        <IconBrandTabler className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "logout",
+      href: "/",
       icon: (
         <IconArrowLeft className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -70,7 +84,7 @@ export function ClubAdmin() {
       <Sidebar open={open} setOpen={setOpen}>
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
-            {open ? <Logo /> : <LogoIcon />}
+            {open ? <Logo userData={userData} /> : <LogoIcon />}
             <div className="flex flex-col gap-2 mt-8">
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
@@ -112,7 +126,7 @@ export function ClubAdmin() {
     </div>
   );
 }
-export const Logo = () => {
+export const Logo = ({ userData }) => {
   return (
     <Link
       href="#"
@@ -124,7 +138,7 @@ export const Logo = () => {
         animate={{ opacity: 1 }}
         className="font-medium text-black whitespace-pre dark:text-white"
       >
-        Acet Labs
+        {userData.club.ClubName}
       </motion.span>
     </Link>
   );
