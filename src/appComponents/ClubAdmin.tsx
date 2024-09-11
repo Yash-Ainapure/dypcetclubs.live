@@ -16,6 +16,7 @@ import { Routes, Route } from "react-router-dom";
 import Events from "./Events";
 import QuizCreation from "./QuizCreation";
 import AdminResults from "./AdminResults";
+import EventCreation from "./EventCreation";
 
 export function ClubAdmin() {
   const { isLoggedIn, userData } = useAuth();
@@ -32,7 +33,7 @@ export function ClubAdmin() {
   const links = [
     {
       label: "Events",
-      href: "/clubAdmin/",
+      href: "/clubAdmin/events",
       icon: (
         <IconUserBolt className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -120,6 +121,7 @@ export function ClubAdmin() {
           }
         />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/events" element={<EventCreation />} />
         <Route path="/create-quiz" element={<QuizCreation />} />
         <Route path="/results/:id" element={<AdminResults />} />
       </Routes>

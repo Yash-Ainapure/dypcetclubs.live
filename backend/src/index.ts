@@ -140,6 +140,76 @@ app.post("/login", async (req, res) => {
   }
 });
 
+//create a new event by the club
+app.post("/api/create-event", async (req: any, res: any) => {
+  const { EventName, Description, StartDateTime, EndDateTime, Location } =
+    req.body;
+  const clubId = Number(req.query.ClubID);
+
+  try {
+    const newEvent = await prisma.event.create({
+      data: {
+        EventName,
+        Description,
+        StartDateTime,
+        EndDateTime,
+        Location,
+        ClubID: clubId,
+      },
+    });
+    res.status(201).json(newEvent);
+  } catch (error) {
+    console.error("Error creating event:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+//get all the events created by a specific club
+app.get("/api/getEventData", async (req: any, res: any) => {
+  const clubId = Number(req.query.ClubID);
+  try {
+    const events = await prisma.event.findMany({
+      where: { ClubID: clubId },
+    });
+    res.json(events);
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    res.status(500).json({ error: "An error occurred while fetching events." });
+  }
+});
+
+app.delete("/api/deleteEvent", async (req: any, res: any) => {
+  const { eventId } = req.body;
+  const clubId = Number(req.query.ClubID);
+
+  try {
+    const event = await prisma.event.findUnique({
+      where: { EventID: eventId },
+    });
+
+    if (!event) {
+      return res.status(404).json({ error: "Event not found." });
+    }
+
+    if (event.ClubID !== clubId) {
+      console.log("clubid1: " + event.ClubID);
+      console.log("clubid2: " + clubId);
+      return res.status(403).json({
+        error: "You are not authorized to delete this event.",
+      });
+    }
+
+    await prisma.event.delete({
+      where: { EventID: eventId },
+    });
+
+    res.status(204).end();
+  } catch (error) {
+    console.error("Error deleting event:", error);
+    res.status(500).json({ error: "An error occurred while deleting event." });
+  }
+});
+
 //create quiz
 app.post("/api/quizzes", async (req: any, res) => {
   const { title, questions, secretCode } = req.body;
@@ -221,7 +291,7 @@ app.post("/api/quizzes/:id", async (req, res) => {
   }
 });
 
-// Create a new user
+// Create a new user for quiz
 app.post("/api/users", async (req, res) => {
   const { name, rollNo, year } = req.body;
   const parsedYear = parseInt(year);

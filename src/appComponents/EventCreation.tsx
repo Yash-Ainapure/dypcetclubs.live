@@ -1,18 +1,16 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import type { FieldApi } from "@tanstack/react-form";
-import { useNavigate } from "react-router-dom";
-import confetti from "canvas-confetti";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
-// Define a TypeScript interface for the club
-interface Club {
-  ClubName: string;
+interface Event {
+  ClubID: string;
+  EventName: string;
   Description: string;
-  FoundedDate: string; // Optional, formatted as a string "YYYY-MM-DD"
-  Email: string;
-  Password: string;
-  LogoURL: string;
+  StartDateTime: string;
+  EndDateTime: string;
+  Location: string;
 }
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
@@ -26,37 +24,41 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
   );
 }
 
-// Define a mutation function that sends a POST request to add a new club
-const addClub = async (newClub: Club): Promise<Club> => {
-  const response = await axios.post<Club>(
-    "http://localhost:4000/addClub",
-    newClub,
-  );
-  console.log("club added successfully");
-  return response.data;
-};
+const EventCreation: React.FC = () => {
+  const { userData } = useAuth();
+  const [clubInfo, setClubInfo] = useState();
+  const [eventData, setEventData] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
 
-const ClubRegistration: React.FC = () => {
-  const navigate = useNavigate();
-  const [displayModal, setDisplayModal] = useState(false);
   const form = useForm({
     defaultValues: {
-      ClubName: "",
+      EventName: "",
       Description: "",
-      FoundedDate: "", // Optional, formatted as a string "YYYY-MM-DD"
-      Email: "",
-      Password: "",
-      LogoURL: "",
+      StartDateTime: "",
+      EndDateTime: "",
+      Location: "",
     },
     onSubmit: async ({ value }) => {
       // Do something with form data
-      console.log(value);
+      if (!clubInfo.ClubID) {
+        console.log("No club info");
+        return;
+      }
       try {
-        const response = await addClub(value);
-        console.log("response");
-        console.log(response);
-        setDisplayModal(true);
-        handleClick();
+        const response = await axios.post(
+          `http://localhost:4000/api/create-event?ClubID=${clubInfo.ClubID}`,
+          {
+            EventName: value.EventName,
+            Description: value.Description,
+            StartDateTime: value.StartDateTime,
+            EndDateTime: value.EndDateTime,
+            Location: value.Location,
+          },
+        );
+        if (response.status == 201) {
+          setEventData([...eventData, response.data]);
+          form.reset();
+        }
       } catch (e: any) {
         alert("Error: " + e.message);
         console.log(e);
@@ -65,43 +67,59 @@ const ClubRegistration: React.FC = () => {
     },
   });
 
-  const handleClick = () => {
-    const duration = 5 * 1000;
-    const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+  useEffect(() => {
+    const getEventsData = async () => {
+      axios
+        .get(
+          `http://localhost:4000/api/getEventData?ClubID=${userData.club.ClubID}`,
+        )
+        .then((response) => {
+          setEventData(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    if (userData) {
+      setClubInfo(userData.club);
+      getEventsData();
+    } else {
+      console.log("userData not set");
+      console.log(userData);
+    }
+  }, [userData]);
 
-    const randomInRange = (min: number, max: number) =>
-      Math.random() * (max - min) + min;
-
-    const interval = window.setInterval(() => {
-      const timeLeft = animationEnd - Date.now();
-
-      if (timeLeft <= 0) {
-        return clearInterval(interval);
+  const deleteEvent = async (eventid) => {
+    setLoading(true);
+    try {
+      const response = await axios.delete(
+        `http://localhost:4000/api/deleteEvent?ClubID=${clubInfo.ClubID}`,
+        {
+          data: {
+            eventId: eventid,
+          },
+        },
+      );
+      if (response.status == 204) {
+        alert("Event Deleted Successfully");
+        setEventData(
+          eventData.filter((event: any) => event.EventID !== eventid),
+        );
       }
-
-      const particleCount = 50 * (timeLeft / duration);
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-      });
-      confetti({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-      });
-    }, 250);
+      setLoading(false);
+    } catch (e: any) {
+      setLoading(false);
+      alert("Error: " + e.message);
+      console.log(e);
+      return;
+    }
   };
 
   return (
-    <div>
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <h1 className="text-2xl font-semibold underline">
-          Club Registration Form
-        </h1>
+    <div className="w-full h-full bg-slate-500 rounded-tl-2xl p-2">
+      <div className="flex justify-center items-center flex-col gap-4">
         <form
-          className="flex flex-col gap-4 p-4"
+          className="flex flex-col gap-4 p-4 border border-black rounded-xl items-center w-fit bg-slate-400"
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -111,15 +129,15 @@ const ClubRegistration: React.FC = () => {
           <div>
             {/* A type-safe field component*/}
             <form.Field
-              name="ClubName"
+              name="EventName"
               validators={{
                 onChange: ({ value }) =>
-                  !value ? "ClubName is required" : undefined,
+                  !value ? "EventName is required" : undefined,
                 onChangeAsyncDebounceMs: 500,
                 onChangeAsync: async ({ value }) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
-                    value.includes("error") && 'No "error" allowed in ClubName'
+                    value.includes("error") && 'No "error" allowed in EventName'
                   );
                 },
               }}
@@ -127,7 +145,7 @@ const ClubRegistration: React.FC = () => {
                 // Avoid hasty abstractions. Render props are great!
                 return (
                   <>
-                    <label htmlFor={field.name}>ClubName:</label>
+                    <label htmlFor={field.name}>EventName:</label>
                     <input
                       className="mx-2 border rounded-md"
                       id={field.name}
@@ -145,17 +163,18 @@ const ClubRegistration: React.FC = () => {
             />
           </div>
           <div>
+            {/* A type-safe field component*/}
             <form.Field
               name="Description"
               validators={{
                 onChange: ({ value }) =>
-                  !value ? "A Description is required" : undefined,
+                  !value ? "Description is required" : undefined,
                 onChangeAsyncDebounceMs: 500,
                 onChangeAsync: async ({ value }) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
                     value.includes("error") &&
-                    'No "error" allowed in first name'
+                    'No "error" allowed in Description'
                   );
                 },
               }}
@@ -181,17 +200,18 @@ const ClubRegistration: React.FC = () => {
             />
           </div>
           <div>
+            {/* A type-safe field component*/}
             <form.Field
-              name="FoundedDate"
+              name="StartDateTime"
               validators={{
                 onChange: ({ value }) =>
-                  !value ? "FoundedDate is required" : undefined,
+                  !value ? "StartDateTime is required" : undefined,
                 onChangeAsyncDebounceMs: 500,
                 onChangeAsync: async ({ value }) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
                     value.includes("error") &&
-                    'No "error" allowed in first name'
+                    'No "error" allowed in StartDateTime'
                   );
                 },
               }}
@@ -199,47 +219,10 @@ const ClubRegistration: React.FC = () => {
                 // Avoid hasty abstractions. Render props are great!
                 return (
                   <>
-                    <label htmlFor={field.name}>FoundedDate:</label>
-                    <input
-                      className="p-2 mx-2 border rounded-md"
-                      type="date"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    <div className="text-red-600">
-                      <FieldInfo field={field} />
-                    </div>
-                  </>
-                );
-              }}
-            />
-          </div>
-          <div>
-            <form.Field
-              name="Email"
-              validators={{
-                onChange: ({ value }) =>
-                  !value ? "Email is required" : undefined,
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                  return (
-                    value.includes("error") &&
-                    'No "error" allowed in first name'
-                  );
-                },
-              }}
-              children={(field) => {
-                // Avoid hasty abstractions. Render props are great!
-                return (
-                  <>
-                    <label htmlFor={field.name}>Email:</label>
+                    <label htmlFor={field.name}>StartDate:</label>
                     <input
                       className="mx-2 border rounded-md"
-                      type="email"
+                      type="datetime-local"
                       id={field.name}
                       name={field.name}
                       value={field.state.value}
@@ -255,57 +238,18 @@ const ClubRegistration: React.FC = () => {
             />
           </div>
           <div>
+            {/* A type-safe field component*/}
             <form.Field
-              name="Password"
+              name="EndDateTime"
               validators={{
                 onChange: ({ value }) =>
-                  !value
-                    ? "Password is required"
-                    : value.length < 6
-                      ? "Password must be at least 6 characters"
-                      : undefined,
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                  return (
-                    value.includes("error") && 'No "error" allowed in Password'
-                  );
-                },
-              }}
-              children={(field) => {
-                // Avoid hasty abstractions. Render props are great!
-                return (
-                  <>
-                    <label htmlFor={field.name}>Password:</label>
-                    <input
-                      className="mx-2 border rounded-md"
-                      type="password"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    <div className="text-red-600">
-                      <FieldInfo field={field} />
-                    </div>
-                  </>
-                );
-              }}
-            />
-          </div>
-          <div>
-            <form.Field
-              name="LogoURL"
-              validators={{
-                onChange: ({ value }) =>
-                  !value ? "LogoURL is required" : undefined,
+                  !value ? "EndDateTime is required" : undefined,
                 onChangeAsyncDebounceMs: 500,
                 onChangeAsync: async ({ value }) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
                     value.includes("error") &&
-                    'No "error" allowed in LogoURL   '
+                    'No "error" allowed in EndDateTime'
                   );
                 },
               }}
@@ -313,7 +257,44 @@ const ClubRegistration: React.FC = () => {
                 // Avoid hasty abstractions. Render props are great!
                 return (
                   <>
-                    <label htmlFor={field.name}>LogoURL:</label>
+                    <label htmlFor={field.name}>EndDate:</label>
+                    <input
+                      className="mx-2 border rounded-md"
+                      type="datetime-local"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <div className="text-red-600">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
+                );
+              }}
+            />
+          </div>
+          <div>
+            {/* A type-safe field component*/}
+            <form.Field
+              name="Location"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "Location is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  return (
+                    value.includes("error") && 'No "error" allowed in Location'
+                  );
+                },
+              }}
+              children={(field) => {
+                // Avoid hasty abstractions. Render props are great!
+                return (
+                  <>
+                    <label htmlFor={field.name}>Location:</label>
                     <input
                       className="mx-2 border rounded-md"
                       id={field.name}
@@ -330,7 +311,6 @@ const ClubRegistration: React.FC = () => {
               }}
             />
           </div>
-
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
@@ -344,38 +324,52 @@ const ClubRegistration: React.FC = () => {
             )}
           />
         </form>
-      </div>
-
-      {displayModal ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="max-w-sm bg-white rounded-lg shadow-lg w-80">
-            <div className="flex justify-end pt-2 pr-4 ">
-              <button
-                className="right-0 text-2xl font-semibold text-red-500 top-2"
-                onClick={() => {
-                  setDisplayModal(false);
-                  navigate("/");
-                }}
-              >
-                x
-              </button>
-            </div>
-            <div className="p-6">
-              <p className="mb-4 text-lg font-semibold text-center">
-                Club registered successfully!
-              </p>
-              <p className="mb-4 text-center text-gray-700">
-                We will approve it and reach out to you soon through
-                WhatsApp/email. Thanks!
-              </p>
-            </div>
-          </div>
+        <div>
+          <p className="p-2 text-white font-semibold text-lg pl-4">
+            Events Created by you:{" "}
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th className="bg-gray-300 py-2 pl-8 pr-2 rounded-tl-2xl">
+                  EventName
+                </th>
+                <th className="bg-gray-300 p-2">Description</th>
+                <th className="bg-gray-300 p-2">StartDateTime</th>
+                <th className="bg-gray-300 p-2">EndDateTime</th>
+                <th className="bg-gray-300 p-2">Location</th>
+                <th className="bg-gray-300 py-2 pr-8 pl-2 rounded-tr-2xl">
+                  Operations
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {eventData?.map((event: any) => (
+                <tr key={event.id}>
+                  <td>{event.EventName}</td>
+                  <td>{event.Description}</td>
+                  <td>{event.StartDateTime}</td>
+                  <td>{event.EndDateTime}</td>
+                  <td>{event.Location}</td>
+                  <td
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => {
+                      if (
+                        confirm("Are you sure you want to delete this event?")
+                      ) {
+                        deleteEvent(event.EventID);
+                      }
+                    }}
+                  >
+                    {loading ? "deleting..." : "Delete"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </div>
   );
 };
-
-export default ClubRegistration;
+export default EventCreation;

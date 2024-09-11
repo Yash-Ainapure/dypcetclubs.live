@@ -1,62 +1,162 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import Meteors from "@/components/magicui/meteors";
+import EventCard from "./EventCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Events = () => {
+  const [events, setEvents] = useState([]);
 
-   return (
-      <div className='relative flex flex-col items-center justify-center w-full py-8 overflow-hidden text-white md:shadow-xl'>
-         <Meteors number={10} />
-         <div className="pt-10 pb-16 text-center">
-            <h1 className="pb-4 text-3xl font-bold">Upcoming Events</h1>
-            <p className="text-lg text-gray-400">Check out the upcoming events and workshops hosted by our vibrant club community.</p>
-         </div>
-         <div className="grid grid-cols-1 gap-8 px-6 mt-8 sm:grid-cols-2 lg:grid-cols-3">
+  function convertDateTime(eventStartDateTime) {
+    // Convert the string to Date object
+    let dt = new Date(eventStartDateTime);
 
-            {/* Event Box 1 */}
-            <div className="hover:scale-[101%] bg-white transform transition-all duration-500  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-               <h2 className="mb-2 text-xl font-bold">Robotics Workshop</h2>
-               <p className="mb-4 text-gray-600">Learn the fundamentals of robotics and build your own robot.</p>
-               <div className="flex items-center justify-between">
-                  <div>
-                     <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
-                     <p className="text-sm font-bold text-gray-600">April 15, 2023</p>
-                     <p className="text-sm text-gray-600">10:00 AM - 4:00 PM</p>
-                  </div>
-                  <button className="px-4 py-2 text-sm font-bold text-white transition duration-300 bg-black rounded-md hover:bg-gray-800">Register</button>
-               </div>
-            </div>
+    // Array of month names
+    let monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
 
-            {/* Event Box 2 */}
-            <div className=" hover:scale-[101%] bg-white transform transition-all duration-500 text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-               <h2 className="mb-2 text-xl font-bold">Entrepreneurship Meetup</h2>
-               <p className="mb-4 text-gray-600">Network with local entrepreneurs and learn about starting a business.</p>
-               <div className="flex items-center justify-between">
-                  <div>
-                     <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
-                     <p className="text-sm font-bold text-gray-600">May 5, 2023</p>
-                     <p className="text-sm text-gray-600">6:00 PM - 9:00 PM</p>
-                  </div>
-                  <button className="px-4 py-2 text-sm font-bold text-white transition duration-300 bg-black rounded-md hover:bg-gray-800">Register</button>
-               </div>
-            </div>
+    // Get the day, month, year, hours and minutes
+    let day = dt.getDate();
+    let month = monthNames[dt.getMonth()];
+    let year = dt.getFullYear();
+    let hours = dt.getHours();
+    let minutes = dt.getMinutes();
 
-            {/* Event Box 3 */}
-            <div className="hover:scale-[101%] bg-white transform transition-all duration-500 text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
-               <h2 className="mb-2 text-xl font-bold">MLSA Hiring</h2>
-               <p className="mb-4 text-gray-600">Network with local entrepreneurs and learn about starting a business.</p>
-               <div className="flex items-center justify-between">
-                  <div>
-                     <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
-                     <p className="text-sm font-bold text-gray-600">July 29, 2023</p>
-                     <p className="text-sm text-gray-600">8:00 PM - 9:00 PM</p>
-                  </div>
-                  <button className="px-4 py-2 text-sm font-bold text-white transition duration-300 bg-black rounded-md hover:bg-gray-800">Register</button>
-               </div>
-            </div>
-         </div>
+    // Convert hours from 24-hour format to 12-hour format
+    let period = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+    // Pad minutes with a zero if needed
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+
+    // Return the formatted date and time
+    return (
+      month +
+      " " +
+      day +
+      ", " +
+      year +
+      " " +
+      hours +
+      ":" +
+      minutes +
+      " " +
+      period
+    );
+  }
+
+  const formatTimeRange = (startDateTime: any, endDateTime: any) => {
+    // Convert the strings to Date objects
+    let start = new Date(startDateTime);
+    let end = new Date(endDateTime);
+
+    // Array of month names
+    let monthNames = [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+    ];
+
+    // Get the day, month, year, hours and minutes
+    let day = start.getDate();
+    let month = monthNames[start.getMonth()];
+    let year = start.getFullYear();
+    let startHours = start.getHours();
+    let startMinutes = start.getMinutes();
+    let endHours = end.getHours();
+    let endMinutes = end.getMinutes();
+
+    // Convert hours from 24-hour format to 12-hour format
+    let startPeriod = startHours >= 12 ? "PM" : "AM";
+    startHours = startHours % 12;
+    startHours = startHours ? startHours : 12; // the hour '0' should be '12'
+    let endPeriod = endHours >= 12 ? "PM" : "AM";
+    endHours = endHours % 12;
+    endHours = endHours ? endHours : 12; // the hour '0' should be '12'
+
+    // Pad minutes with a zero if needed
+    startMinutes = startMinutes < 10 ? "0" + startMinutes : startMinutes;
+    endMinutes = endMinutes < 10 ? "0" + endMinutes : endMinutes;
+
+    // Return the formatted date and time range
+    return (
+      day +
+      "/" +
+      month +
+      "/" +
+      year +
+      " " +
+      startHours +
+      ":" +
+      startMinutes +
+      " " +
+      startPeriod +
+      " to " +
+      endHours +
+      ":" +
+      endMinutes +
+      " " +
+      endPeriod
+    );
+  };
+
+  useEffect(() => {
+    const getAllEvents = async () => {
+      const response = await axios.get("http://localhost:4000/getEventData");
+      console.log(response.data);
+      setEvents(response.data);
+      const startDateTime = "2024-09-11T16:00";
+      const endDateTime = "2024-09-11T19:00";
+      const timeRange = formatTimeRange(startDateTime, endDateTime);
+      console.log(timeRange);
+    };
+    getAllEvents();
+  }, []);
+  return (
+    <div className="relative flex flex-col items-center justify-center w-full py-8 overflow-hidden text-white md:shadow-xl">
+      <Meteors number={10} />
+      <div className="pt-10 pb-16 text-center">
+        <h1 className="pb-4 text-3xl font-bold">Upcoming Events</h1>
+        <p className="text-lg text-gray-400">
+          Check out the upcoming events and workshops hosted by our vibrant club
+          community.
+        </p>
       </div>
-   )
-}
+      <div className="grid grid-cols-1 gap-8 px-6 mt-8 sm:grid-cols-2 lg:grid-cols-3">
+        {events.map((event) => (
+          <EventCard
+            key={event.EventID}
+            name={event.EventName}
+            description={event.Description}
+            time={formatTimeRange(event.StartDateTime, event.EndDateTime)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default Events
+export default Events;
