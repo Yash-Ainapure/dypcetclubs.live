@@ -1,30 +1,101 @@
-# React + TypeScript + Vite
+# dypcetclubs.live
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> dypcetclubs.live is a platform for managing college clubs, events, and announcements effectively.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Overview](#overview)
+- [Features](#features)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+## Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+dypcetclubs.live is a web application designed for managing activities related to college clubs. It allows club leaders to register their clubs, manage events, make announcements, and engage with club members effectively.
 
-- Configure the top-level `parserOptions` property like this:
+## Features
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Club Registration and Management**: Club leaders can register their clubs and manage club details.
+- **Event Management**: Clubs can create, edit, and delete events, including event images and tags.
+- **Announcement System**: Clubs can post announcements with rich text formatting.
+- **Member Management**: Manage club members and their roles.
+- **Responsive Design**: Optimized for desktop and mobile devices.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Demo
+
+You can view a live demo of the application at -- Coming soooon.
+
+## Installation
+
+To run this project locally, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Yash-Ainapure/dypcetclubs.live.git
+   ```
+
+   ```bash
+    cd dypcetclubs.live
+
+    cd backend
+   ```
+
+   ```bash
+    npm install
+   ```
+
+   ```bash
+    npm start
+   ```
+
+   **_open a new terminal_**
+
+   ```bash
+    cd frontend
+   ```
+
+   ```bash
+    npm install
+   ```
+
+   ```bash
+    npm run dev
+   ```
+
+   ### Open your browser and visit http://localhost:3000 to view the application locally.
+
+   **_please dont forget to add a .env file in the backend folder with the following content for database connecion url, also
+   don't forget to migrate prisma schema to database using following command_**
+
+   ```bash
+    npx prisma migrate dev --name init
+   ```
+
+   ```bash
+    npx prisma generate
+   ```
+
+   **_We use turso SQlite database connection with PRISMA ORM for backend_**
+
+   ```bash
+   TURSO_AUTH_TOKEN="YOUR_TURSO_AUTH_TOKEN"
+   TURSO_DATABASE_URL="YOUR_TURSO_DATABASE_URL"
+
+   ```
+
+  **Technologies Used**
+
+  Frontend: React, Tailwind CSS, Typescript
+
+  Backend: Node.js, Express
+
+  Database: SQlite Turso Database
+
+  ## License
+
+  This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
