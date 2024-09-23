@@ -28,7 +28,9 @@ const EventCreation: React.FC = () => {
   const { userData } = useAuth();
   const [clubInfo, setClubInfo] = useState();
   const [eventData, setEventData] = useState<any>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState({ state: false, id: null });
+  const [updateOrSubmitState, setUpdateOrSubmitState] = useState(false);
+  const [eventId, setEventId] = useState(null);
 
   const form = useForm({
     defaultValues: {
@@ -44,25 +46,61 @@ const EventCreation: React.FC = () => {
         console.log("No club info");
         return;
       }
-      try {
-        const response = await axios.post(
-          `http://localhost:4000/api/create-event?ClubID=${clubInfo.ClubID}`,
-          {
-            EventName: value.EventName,
-            Description: value.Description,
-            StartDateTime: value.StartDateTime,
-            EndDateTime: value.EndDateTime,
-            Location: value.Location,
-          },
-        );
-        if (response.status == 201) {
-          setEventData([...eventData, response.data]);
-          form.reset();
+
+      if (!updateOrSubmitState) {
+        try {
+          const response = await axios.post(
+            `http://localhost:4000/api/events/create-event?ClubID=${clubInfo.ClubID}`,
+            {
+              EventName: value.EventName,
+              Description: value.Description,
+              StartDateTime: value.StartDateTime,
+              EndDateTime: value.EndDateTime,
+              Location: value.Location,
+            },
+          );
+          if (response.status == 201) {
+            setEventData([...eventData, response.data]);
+            form.reset();
+          }
+        } catch (e: any) {
+          alert("Error: " + e.message);
+          console.log(e);
+          return;
         }
-      } catch (e: any) {
-        alert("Error: " + e.message);
-        console.log(e);
-        return;
+      } else {
+        try {
+          const response = await axios.put(
+            `http://localhost:4000/api/events/update-event?ClubID=${clubInfo.ClubID}`,
+            {
+              EventID: eventId,
+              EventName: value.EventName,
+              Description: value.Description,
+              StartDateTime: value.StartDateTime,
+              EndDateTime: value.EndDateTime,
+              Location: value.Location,
+            },
+          );
+          if (response.status == 200) {
+            // setEventData([...eventData, response.data]);
+            form.reset();
+
+            // Find the event in the eventData array and replace it with the updated event
+            const updatedEventData = eventData.map((event: any) => {
+              if (event.EventID === eventId) {
+                return response.data;
+              }
+              return event;
+            });
+            setEventData(updatedEventData);
+          }
+          setUpdateOrSubmitState(false);
+        } catch (e: any) {
+          setUpdateOrSubmitState(false);
+          alert("Error: " + e.message);
+          console.log(e);
+          return;
+        }
       }
     },
   });
@@ -71,7 +109,7 @@ const EventCreation: React.FC = () => {
     const getEventsData = async () => {
       axios
         .get(
-          `http://localhost:4000/api/getEventData?ClubID=${userData.club.ClubID}`,
+          `http://localhost:4000/api/events/getClubEventData?ClubID=${userData.club.ClubID}`,
         )
         .then((response) => {
           setEventData(response.data);
@@ -90,10 +128,10 @@ const EventCreation: React.FC = () => {
   }, [userData]);
 
   const deleteEvent = async (eventid) => {
-    setLoading(true);
+    setLoading({ state: true, id: eventid });
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/deleteEvent?ClubID=${clubInfo.ClubID}`,
+        `http://localhost:4000/api/events/deleteEvent?ClubID=${clubInfo.ClubID}`,
         {
           data: {
             eventId: eventid,
@@ -106,9 +144,9 @@ const EventCreation: React.FC = () => {
           eventData.filter((event: any) => event.EventID !== eventid),
         );
       }
-      setLoading(false);
+      setLoading({ state: false, id: null });
     } catch (e: any) {
-      setLoading(false);
+      setLoading({ state: false, id: null });
       alert("Error: " + e.message);
       console.log(e);
       return;
@@ -117,7 +155,7 @@ const EventCreation: React.FC = () => {
 
   return (
     <div className="w-full h-full bg-slate-500 rounded-tl-2xl p-2">
-      <div className="flex justify-center items-center flex-col gap-4">
+      <div className="flex justify-around items-center flex-col gap-4 min-h-screen">
         <form
           className="flex flex-col gap-4 p-4 border border-black rounded-xl items-center w-fit bg-slate-400"
           onSubmit={(e) => {
@@ -319,13 +357,19 @@ const EventCreation: React.FC = () => {
                 type="submit"
                 disabled={!canSubmit}
               >
-                {isSubmitting ? "Submiting..." : "Submit"}
+                {updateOrSubmitState
+                  ? isSubmitting
+                    ? "Updating..."
+                    : "Update"
+                  : isSubmitting
+                    ? "Submiting..."
+                    : "Submit"}
               </button>
             )}
           />
         </form>
-        <div>
-          <p className="p-2 text-white font-semibold text-lg pl-4">
+        <div className="flex flex-col gap-4 items-end">
+          <p className="text-white font-semibold text-lg pl-4 self-start">
             Events Created by you:{" "}
           </p>
           <table>
@@ -345,28 +389,58 @@ const EventCreation: React.FC = () => {
             </thead>
             <tbody>
               {eventData?.map((event: any) => (
-                <tr key={event.id}>
-                  <td>{event.EventName}</td>
-                  <td>{event.Description}</td>
-                  <td>{event.StartDateTime}</td>
-                  <td>{event.EndDateTime}</td>
-                  <td>{event.Location}</td>
-                  <td
-                    className="text-red-500 cursor-pointer"
-                    onClick={() => {
-                      if (
-                        confirm("Are you sure you want to delete this event?")
-                      ) {
-                        deleteEvent(event.EventID);
-                      }
-                    }}
-                  >
-                    {loading ? "deleting..." : "Delete"}
+                <tr
+                  className="border-b-2 bg-[#121b22] text-white"
+                  key={event.id}
+                >
+                  <td className="px-2 border-r py-2">{event.EventName}</td>
+                  <td className="px-2 border-r">{event.Description}</td>
+                  <td className="px-2 border-r">{event.StartDateTime}</td>
+                  <td className="px-2 border-r">{event.EndDateTime}</td>
+                  <td className="px-2 border-r">{event.Location}</td>
+                  <td className="flex gap-2 px-2 py-2">
+                    <button
+                      className="text-red-500 cursor-pointer"
+                      onClick={() => {
+                        if (
+                          confirm("Are you sure you want to delete this event?")
+                        ) {
+                          deleteEvent(event.EventID);
+                        }
+                      }}
+                    >
+                      {loading.state && loading.id == event.EventID
+                        ? "deleting..."
+                        : "Delete"}
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        form.setFieldValue("EventName", event.EventName);
+                        form.setFieldValue("Description", event.Description);
+                        form.setFieldValue(
+                          "StartDateTime",
+                          event.StartDateTime,
+                        );
+                        form.setFieldValue("EndDateTime", event.EndDateTime);
+                        form.setFieldValue("Location", event.Location);
+                        form.validateAllFields("change");
+
+                        setEventId(event.EventID);
+                        setUpdateOrSubmitState(true);
+                      }}
+                    >
+                      Update
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <button className="bg-black text-white font-semibold rounded-md p-1 w-36">
+            {" "}
+            Create new Event{" "}
+          </button>
         </div>
       </div>
     </div>

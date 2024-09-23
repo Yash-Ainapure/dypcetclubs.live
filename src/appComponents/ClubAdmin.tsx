@@ -10,7 +10,6 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-// import { Redirect } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Routes, Route } from "react-router-dom";
 import Events from "./Events";
@@ -26,7 +25,6 @@ export function ClubAdmin() {
     if (!isLoggedIn) {
       console.log("Not logged in");
       navigate("/");
-      // return <Redirect to="/" />;
     }
   });
 

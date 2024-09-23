@@ -31,15 +31,14 @@ const QuizCreation: React.FC = () => {
     }
   }, [userData]);
 
+  //to get all club quizzes
   const fetchQuizzes = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/quizzes?ClubID=${userData.club.ClubID}`,
+        `http://localhost:4000/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`,
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("got tht club quizzes");
-        console.log(data);
         setQuizzes(data);
       } else {
         console.error("Failed to fetch quizzes");
@@ -85,8 +84,9 @@ const QuizCreation: React.FC = () => {
         options: q.options.join(","),
       }));
 
+      //to create a new quiz
       const response = await axios.post(
-        `http://localhost:4000/api/quizzes?ClubID=${userData.club.ClubID}`,
+        `http://localhost:4000/api/quizzes/createQuiz?ClubID=${userData.club.ClubID}`,
         {
           title,
           questions: formattedQuestions,

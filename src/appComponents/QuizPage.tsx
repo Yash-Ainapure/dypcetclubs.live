@@ -41,7 +41,7 @@ export default function QuizPage() {
   const fetchQuiz = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/quizzes/${id}`,
+        `http://localhost:4000/api/quizzes/getQuizById/${id}`,
         { secretCode },
         {
           headers: { "Content-Type": "application/json" },
@@ -60,7 +60,7 @@ export default function QuizPage() {
   const handleUserInfoSubmit = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/api/users", userInfo, {
+      .post("http://localhost:4000/api/quizzes/createUser", userInfo, {
         headers: {
           "Content-Type": "application/json",
         },

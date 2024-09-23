@@ -5,7 +5,7 @@ interface Club {
   ClubId: number;
   ClubName: string;
   Description: string;
-  Members:Member[];
+  Members: Member[];
 }
 
 interface Member {
@@ -19,7 +19,9 @@ interface Member {
 }
 
 const fetchUsers = async (): Promise<Club[]> => {
-  const { data } = await axios.get("http://localhost:4000/getClubData");
+  const { data } = await axios.get(
+    "http://localhost:4000/api/clubs/getClubData",
+  );
   return data;
 };
 

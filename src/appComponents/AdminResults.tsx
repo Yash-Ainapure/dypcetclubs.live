@@ -11,7 +11,6 @@ export default function AdminResults() {
 
   useEffect(() => {
     if (userData) {
-      console.log("fetching quizzes");
       fetchQuizzes();
     } else {
       console.log("userData");
@@ -43,12 +42,10 @@ export default function AdminResults() {
   const fetchQuizzes = async () => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/quizzes?ClubID=${userData.club.ClubID}`,
+        `http://localhost:4000/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`,
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("got tht club quizzes");
-        console.log(data);
         setQuizzes(data);
       } else {
         console.error("Failed to fetch quizzes");

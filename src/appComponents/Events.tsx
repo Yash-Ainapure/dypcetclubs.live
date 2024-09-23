@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import Meteors from "@/components/magicui/meteors";
 import EventCard from "./EventCard";
 import { useEffect, useState } from "react";
@@ -125,13 +123,14 @@ const Events = () => {
 
   useEffect(() => {
     const getAllEvents = async () => {
-      const response = await axios.get("http://localhost:4000/getEventData");
-      console.log(response.data);
+      const response = await axios.get(
+        "http://localhost:4000/api/events/getAllEventData",
+      );
       setEvents(response.data);
-      const startDateTime = "2024-09-11T16:00";
-      const endDateTime = "2024-09-11T19:00";
-      const timeRange = formatTimeRange(startDateTime, endDateTime);
-      console.log(timeRange);
+      // const startDateTime = "2024-09-11T16:00";
+      // const endDateTime = "2024-09-11T19:00";
+      // const timeRange = formatTimeRange(startDateTime, endDateTime);
+      // console.log(timeRange);
     };
     getAllEvents();
   }, []);
