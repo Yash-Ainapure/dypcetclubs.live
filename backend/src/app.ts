@@ -37,4 +37,8 @@ process.on("SIGINT", async () => {
   process.exit(0);
 });
 
-export default app;
+// export default app;
+// module.exports = app;
+module.exports = (req:any, res:any) => {
+  app(req, res);
+};
