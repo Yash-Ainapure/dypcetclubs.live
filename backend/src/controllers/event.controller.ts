@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
 
 // Add other club-related controller functions here
-
 export const deleteEvent = async (req: Request, res: Response) => {
   const { eventId } = req.body;
   const clubId = Number(req.query.ClubID);
@@ -13,15 +12,11 @@ export const deleteEvent = async (req: Request, res: Response) => {
     });
 
     if (!event) {
-      return res.status(404).json({ error: "Event not found." });
+      return res.status(404).json({ error: MESSAGES.EVENT.EVENT_NOT_FOUND });
     }
 
     if (event.ClubID !== clubId) {
-      console.log("clubid1: " + event.ClubID);
-      console.log("clubid2: " + clubId);
-      return res.status(403).json({
-        error: "You are not authorized to delete this event.",
-      });
+      return res.status(403).json({ error: MESSAGES.EVENT.NOT_AUTHORIZED });
     }
 
     await prisma.event.delete({
@@ -30,8 +25,8 @@ export const deleteEvent = async (req: Request, res: Response) => {
 
     res.status(204).end();
   } catch (error) {
-    console.error("Error deleting event:", error);
-    res.status(500).json({ error: "An error occurred while deleting event." });
+    console.error(MESSAGES.EVENT.ERROR_DELETING_EVENT, error);
+    res.status(500).json({ error: MESSAGES.EVENT.ERROR_DELETING_EVENT });
   }
 };
 
@@ -43,8 +38,8 @@ export const getClubEventData = async (req: Request, res: Response) => {
     });
     res.json(events);
   } catch (error) {
-    console.error("Error fetching events:", error);
-    res.status(500).json({ error: "An error occurred while fetching events." });
+    console.error(MESSAGES.EVENT.ERROR_FETCHING_EVENTS, error);
+    res.status(500).json({ error: MESSAGES.EVENT.ERROR_FETCHING_EVENTS });
   }
 };
 
@@ -71,8 +66,8 @@ export const updateEvent = async (req: Request, res: Response) => {
     });
     res.json(updatedEvent);
   } catch (error) {
-    console.error("Error updating event:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error(MESSAGES.EVENT.ERROR_UPDATING_EVENT, error);
+    res.status(500).json({ error: MESSAGES.EVENT.ERROR_UPDATING_EVENT });
   }
 };
 
@@ -94,11 +89,11 @@ export const createEvent = async (req: Request, res: Response) => {
     });
     res.status(201).json(newEvent);
   } catch (error) {
-    console.error("Error creating event:", error);
+    console.error(MESSAGES.EVENT.ERROR_CREATING_EVENT, error);
     res.status(500).json({
-      error: "An error occurred while creating the event",
+      error: MESSAGES.EVENT.ERROR_CREATING_EVENT,
       details: error,
-    });
+     });
   }
 };
 
@@ -107,7 +102,7 @@ export const getAllEventData = async (req: Request, res: Response) => {
     const clubs = await prisma.event.findMany(); // Fetch all clubs from the database
     res.json(clubs);
   } catch (error) {
-    console.error("Error fetching clubs:", error);
-    res.status(500).json({ error: "Failed to fetch clubs" });
+    console.error(MESSAGES.EVENT.ERROR_FETCHING_EVENTS, error);
+    res.status(500).json({ error: MESSAGES.EVENT.ERROR_FETCHING_EVENTS });
   }
 };
