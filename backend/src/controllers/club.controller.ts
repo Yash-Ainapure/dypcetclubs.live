@@ -76,4 +76,47 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+export const getClubMembers = async (req: Request, res: Response) => {
+  try {
+    const clubId = Number(req.query.ClubID);
+    if (isNaN(clubId)) {
+      return res.status(400).json({ error: "ClubID is required." });
+    }
+    const clubMembers = await prisma.club
+      .findUnique({
+        where: { ClubID: clubId },
+      })
+      .Members();
+    res.json(clubMembers);
+  } catch (error) {
+    console.error("Error fetching club members:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching club members." });
+  }
+};
+
+// export const addClubMember = async (req: Request, res: Response) => {
+//   try {
+//     const { ClubID, MemberID } = req.body;
+//     if (!ClubID || !MemberID) {
+//       return res
+//         .status(400)
+//         .json({ error: "ClubID and MemberID are required." });
+//     }
+//     const newClubMember = await prisma.clubMember.create({
+//       data: {
+//         MemberID,
+//         ClubID,
+//       },
+//     });
+//     res.status(201).json;
+//   } catch (error) {
+//     console.error("Error adding club member:", error);
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while adding club member." });
+//   }
+// };
+
 // Add other club-related controller functions here

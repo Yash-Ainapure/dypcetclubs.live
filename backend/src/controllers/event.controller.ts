@@ -1,33 +1,5 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
-import bcrypt from "bcrypt";
-
-export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required." });
-  }
-  try {
-    const club = await prisma.club.findUnique({
-      where: { Email: email },
-    });
-    if (!club) {
-      console.log(`Club not found for email: ${email}`);
-      return res.status(404).json({ error: "Club data not found." });
-    }
-    const passwordMatch = await bcrypt.compare(password, club.Password);
-    if (!passwordMatch) {
-      console.log(`Password mismatch for email: ${email}`);
-      return res.status(401).json({ error: "Invalid email or password." });
-    }
-    console.log(`Login successful for email: ${email}`);
-    club.Password = "encrypted";
-    res.status(200).json({ message: "Login successful.", club: club });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).json({ error: "An error occurred during login." });
-  }
-};
 
 // Add other club-related controller functions here
 
