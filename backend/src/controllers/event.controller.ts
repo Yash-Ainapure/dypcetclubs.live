@@ -1,34 +1,5 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
-import bcrypt from "bcrypt";
-import { MESSAGES } from "../config/const";
-
-export const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ error: MESSAGES.CLUB.CLUB_NAME_EMAIL_PASSWORD_REQUIRED });
-  }
-  try {
-    const club = await prisma.club.findUnique({
-      where: { Email: email },
-    });
-    if (!club) {
-      console.log(`MESSAGES.CLUB.CLUB_DATA_NOT_FOUND for ${email}`);
-      return res.status(404).json({ error: MESSAGES.CLUB.CLUB_DATA_NOT_FOUND });
-    }
-    const passwordMatch = await bcrypt.compare(password, club.Password);
-    if (!passwordMatch) {
-      console.log(`MESSAGES.CLUB.PASSWORD_MISMATCH for email: ${email}`);
-      return res.status(401).json({ error: MESSAGES.CLUB.PASSWORD_MISMATCH });
-    }
-    console.log(`MESSAGES.CLUB.LOGIN_SUCCESSFUL for email: ${email}`);
-    club.Password = "encrypted";
-    res.status(200).json({ message: MESSAGES.CLUB.LOGIN_SUCCESSFUL, club });
-  } catch (error) {
-    console.error(MESSAGES.GENERIC.INTERNAL_SERVER_ERROR, error);
-    res.status(500).json({ error: MESSAGES.CLUB.ERROR_DURING_LOGIN });
-  }
-};
 
 // Add other club-related controller functions here
 export const deleteEvent = async (req: Request, res: Response) => {

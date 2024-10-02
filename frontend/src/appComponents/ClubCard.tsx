@@ -10,7 +10,7 @@ type ClubCardType = {
 }
 
 
-const ClubCard = ({ name, description, memberCount }: ClubCardType) => {
+const ClubCard:React.FC<ClubCardType> = ({ name, description, memberCount }) => {
    return (
       <div className="bg-black hover:scale-[101%] transform transition-all duration-500 text-gray-900 rounded-lg shadow-2xl p-6 flex flex-col justify-between">
          <h2 className="mb-2 text-xl font-bold text-white">{name}</h2>
