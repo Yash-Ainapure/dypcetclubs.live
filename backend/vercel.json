@@ -1,0 +1,14 @@
+{
+   "functions": {
+     "api/**/*.js": {
+       "runtime": "nodejs18.x"
+     }
+   },
+   "builds": [
+     {
+       "src": "dist/app.js",
+       "use": "@vercel/node"
+     }
+   ]
+ }
+ 
