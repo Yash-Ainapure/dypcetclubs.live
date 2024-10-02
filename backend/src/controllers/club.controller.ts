@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
 import bcrypt from "bcrypt";
 import { MESSAGES } from "../config/const";
+import { uploadClubLogo, uploadImageToCloudinary, uploads } from "../services/cloudnary";
 
 export const getClubData = async (req: Request, res: Response) => {
   try {
@@ -39,7 +40,7 @@ export const addClub = async (req: Request, res: Response) => {
         FoundedDate,
         Email,
         Password: hashedPassword,
-        LogoURL,
+        LogoURL:'https://img.icons8.com/ios-filled/50/test-account.png',
       },
     });
 

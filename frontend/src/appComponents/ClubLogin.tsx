@@ -99,6 +99,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
           <button
             className="text-black border border-black rounded text-lg font-semibold p-2 w-1/2"
             onClick={() => {
+              onClose(false);
               navigate("/registerClub");
             }}
           >

@@ -12,7 +12,7 @@ interface Club {
   FoundedDate: string; // Optional, formatted as a string "YYYY-MM-DD"
   Email: string;
   Password: string;
-  LogoURL: string;
+  LogoURL: unknown;
 }
 
 function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
@@ -28,8 +28,9 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 
 // Define a mutation function that sends a POST request to add a new club
 const addClub = async (newClub: Club): Promise<Club> => {
+  console.log(newClub);
   const response = await axios.post<Club>(
-    "http://localhost:4000/addClub",
+    "http://localhost:4000/api/clubs/addClub",
     newClub,
   );
   console.log("club added successfully");
@@ -46,7 +47,7 @@ const ClubRegistration: React.FC = () => {
       FoundedDate: "", // Optional, formatted as a string "YYYY-MM-DD"
       Email: "",
       Password: "",
-      LogoURL: "",
+      LogoURL: null,
     },
     onSubmit: async ({ value }) => {
       // Do something with form data
@@ -95,8 +96,13 @@ const ClubRegistration: React.FC = () => {
   };
 
   return (
-    <div>
-      <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="absolute h-full w-full flex items-center justify-center">
+      <div className="absolute bg-black opacity-40 z-[11] w-full h-full"></div>
+      <div className="bg-white  relative flex flex-col z-20 items-center justify-center p-8 rounded-md">
+        {/* <img src="" alt="close" /> */}
+        <img width="40" height="40" className="m-2 self-end cursor-pointer"
+          onClick={() => navigate("/")}
+          src="https://img.icons8.com/pastel-glyph/128/cancel--v1.png" alt="cancel--v1" />
         <h1 className="text-2xl font-semibold underline">
           Club Registration Form
         </h1>
@@ -108,114 +114,127 @@ const ClubRegistration: React.FC = () => {
             form.handleSubmit();
           }}
         >
-          <div>
+          <div className="grid grid-cols-2 gap-2">
             {/* A type-safe field component*/}
-            <form.Field
-              name="ClubName"
-              validators={{
-                onChange: ({ value }) =>
-                  !value ? "ClubName is required" : undefined,
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
+            <div className="">
+
+
+              <form.Field
+                name="ClubName"
+                validators={{
+                  onChange: ({ value }) =>
+                    !value ? "ClubName is required" : undefined,
+                  onChangeAsyncDebounceMs: 500,
+                  onChangeAsync: async ({ value }) => {
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                    return (
+                      value.includes("error") && 'No "error" allowed in ClubName'
+                    );
+                  },
+                }}
+                children={(field) => {
+                  // Avoid hasty abstractions. Render props are great!
                   return (
-                    value.includes("error") && 'No "error" allowed in ClubName'
+                    <>
+                      {/* <label htmlFor={field.name}>ClubName:</label> */}
+                      <input
+                        placeholder="Clubname"
+                        className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <div className="text-red-600">
+                        <FieldInfo field={field} />
+                      </div>
+                    </>
                   );
-                },
-              }}
-              children={(field) => {
-                // Avoid hasty abstractions. Render props are great!
-                return (
-                  <>
-                    <label htmlFor={field.name}>ClubName:</label>
-                    <input
-                      className="mx-2 border rounded-md"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    <div className="text-red-600">
-                      <FieldInfo field={field} />
-                    </div>
-                  </>
-                );
-              }}
-            />
+                }}
+              />
+            </div>
+
+            <div>
+              <form.Field
+                name="Description"
+                validators={{
+                  onChange: ({ value }) =>
+                    !value ? "A Description is required" : undefined,
+                  onChangeAsyncDebounceMs: 500,
+                  onChangeAsync: async ({ value }) => {
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                    return (
+                      value?.includes("error") &&
+                      'No "error" allowed in first name'
+                    );
+                  },
+                }}
+                children={(field) => {
+                  // Avoid hasty abstractions. Render props are great!
+                  return (
+                    <>
+                      {/* <label htmlFor={field.name}>Description:</label> */}
+                      <input
+                        placeholder="Description"
+                        className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <div className="text-red-600">
+                        <FieldInfo field={field} />
+                      </div>
+                    </>
+                  );
+                }}
+              />
+            </div>
           </div>
-          <div>
-            <form.Field
-              name="Description"
-              validators={{
-                onChange: ({ value }) =>
-                  !value ? "A Description is required" : undefined,
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          <div className="grid grid-cols-2 gap-2">
+            <label htmlFor={"FoundedDate"} className="outline-none  shadow-2xl  w-full p-3  ">FoundedDate:</label>
+
+
+            <div>
+              <form.Field
+                name="FoundedDate"
+                validators={{
+                  onChange: ({ value }) =>
+                    !value ? "FoundedDate is required" : undefined,
+                  onChangeAsyncDebounceMs: 500,
+                  onChangeAsync: async ({ value }) => {
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                    return (
+                      value.includes("error") &&
+                      'No "error" allowed in first name'
+                    );
+                  },
+                }}
+                children={(field) => {
+                  // Avoid hasty abstractions. Render props are great!
                   return (
-                    value.includes("error") &&
-                    'No "error" allowed in first name'
+                    <>
+                      <input
+                        placeholder="FoundedDate"
+                        className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                        type="date"
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <div className="text-red-600">
+                        <FieldInfo field={field} />
+                      </div>
+                    </>
                   );
-                },
-              }}
-              children={(field) => {
-                // Avoid hasty abstractions. Render props are great!
-                return (
-                  <>
-                    <label htmlFor={field.name}>Description:</label>
-                    <input
-                      className="mx-2 border rounded-md"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    <div className="text-red-600">
-                      <FieldInfo field={field} />
-                    </div>
-                  </>
-                );
-              }}
-            />
-          </div>
-          <div>
-            <form.Field
-              name="FoundedDate"
-              validators={{
-                onChange: ({ value }) =>
-                  !value ? "FoundedDate is required" : undefined,
-                onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                  return (
-                    value.includes("error") &&
-                    'No "error" allowed in first name'
-                  );
-                },
-              }}
-              children={(field) => {
-                // Avoid hasty abstractions. Render props are great!
-                return (
-                  <>
-                    <label htmlFor={field.name}>FoundedDate:</label>
-                    <input
-                      className="p-2 mx-2 border rounded-md"
-                      type="date"
-                      id={field.name}
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
-                    <div className="text-red-600">
-                      <FieldInfo field={field} />
-                    </div>
-                  </>
-                );
-              }}
-            />
+                }}
+              />
+            </div>
           </div>
           <div>
             <form.Field
@@ -236,9 +255,10 @@ const ClubRegistration: React.FC = () => {
                 // Avoid hasty abstractions. Render props are great!
                 return (
                   <>
-                    <label htmlFor={field.name}>Email:</label>
+                    {/* <label htmlFor={field.name}>Email:</label> */}
                     <input
-                      className="mx-2 border rounded-md"
+                      placeholder="Email"
+                      className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
                       type="email"
                       id={field.name}
                       name={field.name}
@@ -276,11 +296,12 @@ const ClubRegistration: React.FC = () => {
                 // Avoid hasty abstractions. Render props are great!
                 return (
                   <>
-                    <label htmlFor={field.name}>Password:</label>
+                    {/* <label htmlFor={field.name}>Password:</label> */}
                     <input
-                      className="mx-2 border rounded-md"
+                      className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
                       type="password"
                       id={field.name}
+                      placeholder="Password"
                       name={field.name}
                       value={field.state.value}
                       onBlur={field.handleBlur}
@@ -299,12 +320,12 @@ const ClubRegistration: React.FC = () => {
               name="LogoURL"
               validators={{
                 onChange: ({ value }) =>
-                  !value ? "LogoURL is required" : undefined,
+                  !value ? "Logo is required" : undefined,
                 onChangeAsyncDebounceMs: 500,
                 onChangeAsync: async ({ value }) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
-                    value.includes("error") &&
+                    value && value.name.includes("error") &&
                     'No "error" allowed in LogoURL   '
                   );
                 },
@@ -313,14 +334,23 @@ const ClubRegistration: React.FC = () => {
                 // Avoid hasty abstractions. Render props are great!
                 return (
                   <>
-                    <label htmlFor={field.name}>LogoURL:</label>
                     <input
-                      className="mx-2 border rounded-md"
+                      type="file"
+                      accept="image/*"
+                      className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
                       id={field.name}
                       name={field.name}
-                      value={field.state.value}
+                      // value={field.state.value}
                       onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        console.log(e.target.files)
+                        if (file) {
+                          field.handleChange(file); // Store the File object directly
+                        } else {
+                          field.handleChange(null); // Reset if no file selected
+                        }
+                      }}
                     />
                     <div className="text-red-600">
                       <FieldInfo field={field} />
@@ -335,7 +365,7 @@ const ClubRegistration: React.FC = () => {
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
               <button
-                className="px-4 py-2 font-semibold text-white bg-black rounded-md"
+                className="outline-none glass shadow-2xl  w-full p-3  bg-[#ffffff42] hover:border-[#035ec5] hover:border-solid hover:border-[1px]  hover:text-[#035ec5] font-bold"
                 type="submit"
                 disabled={!canSubmit}
               >

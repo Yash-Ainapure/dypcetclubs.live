@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
 import Navbar from "./appComponents/Navdar";
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
@@ -10,7 +10,6 @@ import Popup from "./appComponents/Popup";
 import ClubRegistration from "./appComponents/ClubRegistration";
 import ClubLogin from "./appComponents/ClubLogin";
 import { ClubAdmin } from "./appComponents/ClubAdmin";
-
 import "./App.css";
 import QuizPage from "./appComponents/QuizPage";
 
@@ -31,6 +30,7 @@ function App() {
           path="/"
           element={
             <div className="bg-black font-popins">
+              <Outlet />
               <div className="relative overflow-hidden">
                 <Meteors number={numberOfMeteors} />
                 <Particles
@@ -49,8 +49,9 @@ function App() {
               {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
             </div>
           }
-        />
-        <Route path="/registerClub" element={<ClubRegistration />} />
+        >
+          <Route path="registerClub" element={<ClubRegistration />} />
+        </Route>
         <Route path="/clubAdmin/*" element={<ClubAdmin />} />
         <Route path="/quiz/:id" element={<QuizPage />} />
       </Routes>

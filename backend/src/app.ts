@@ -12,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.use(express.urlencoded({extended:true}));
 setupRoutes(app);
 
 const PORT = config.PORT || 4000;
