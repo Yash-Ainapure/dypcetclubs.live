@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
+import { MESSAGES } from "../config/const";
 
 // Add other club-related controller functions here
 export const deleteEvent = async (req: Request, res: Response) => {
