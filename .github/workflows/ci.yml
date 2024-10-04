@@ -35,7 +35,7 @@ jobs:
       # Backend TypeScript check
       - name: Install backend dependencies
         run: |
-          cd ../backend
+          cd backend
           npm ci
 
       - name: TypeScript check (backend)
