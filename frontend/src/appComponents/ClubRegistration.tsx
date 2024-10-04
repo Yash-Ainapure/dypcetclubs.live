@@ -58,7 +58,7 @@ const ClubRegistration: React.FC = () => {
         console.log(response);
         setDisplayModal(true);
         handleClick();
-      } catch (e:any) {
+      } catch (e) {
         alert("Error: " + e.message);
         console.log(e);
         return;
