@@ -9,7 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.closeDatabaseConnection = exports.testDatabaseConnection = exports.prisma = void 0;
+exports.prisma = void 0;
+exports.testDatabaseConnection = testDatabaseConnection;
+exports.closeDatabaseConnection = closeDatabaseConnection;
 const client_1 = require("@prisma/client");
 const adapter_libsql_1 = require("@prisma/adapter-libsql");
 const client_2 = require("@libsql/client");
@@ -33,7 +35,6 @@ function testDatabaseConnection() {
         }
     });
 }
-exports.testDatabaseConnection = testDatabaseConnection;
 // Function to close the database connection
 function closeDatabaseConnection() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -41,4 +42,3 @@ function closeDatabaseConnection() {
         console.log("Database connection closed");
     });
 }
-exports.closeDatabaseConnection = closeDatabaseConnection;

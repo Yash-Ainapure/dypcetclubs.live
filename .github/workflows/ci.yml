@@ -1,0 +1,44 @@
+name: TypeScript Type Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  type-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      # Frontend TypeScript check
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: TypeScript check (frontend)
+        run: |
+          cd frontend
+          npm run check-build
+
+      # Backend TypeScript check
+      - name: Install backend dependencies
+        run: |
+          cd ../backend
+          npm ci
+
+      - name: TypeScript check (backend)
+        run: |
+          cd backend
+          npm run check-build

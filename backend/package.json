@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon",
     "build": "tsc",
-    "start:dev": "nodemon"
+    "start:dev": "nodemon",
+    "check-types": "tsc --noEmit",
+    "check-build": "npm run check-types && npm run build"
   },
   "keywords": [],
   "author": "",

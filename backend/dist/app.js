@@ -20,6 +20,7 @@ const database_config_1 = require("./config/database.config");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
+app.use(express_1.default.urlencoded({ extended: true }));
 (0, index_1.setupRoutes)(app);
 const PORT = env_config_1.config.PORT || 4000;
 function startServer() {

@@ -50,7 +50,7 @@ const addClub = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 FoundedDate,
                 Email,
                 Password: hashedPassword,
-                LogoURL,
+                LogoURL: 'https://img.icons8.com/ios-filled/50/test-account.png',
             },
         });
         res.status(201).json(newClub);
