@@ -20,3 +20,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Type-check passed! Proceeding with push..."
+sh .husky/pre-push

@@ -1,0 +1,11 @@
+{
+   "name": "dypcetclubs-root",
+   "private": true,
+   "version": "0.0.0",
+   "scripts": {
+      "prepare": "husky install"
+   },
+   "devDependencies": {
+      "husky": "^8.0.3"
+   }
+}
