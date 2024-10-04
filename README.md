@@ -87,7 +87,9 @@ To run this project locally, follow these steps:
    TURSO_DATABASE_URL="YOUR_TURSO_DATABASE_URL"
 
    ```
-
+   Make sure to create a account of turso db for the auth token and database url
+   from : https://turso.tech/
+   
   **Technologies Used**
 
   Frontend: React, Tailwind CSS, Typescript
