@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "./axiosInstance";
 import { useForm } from "@tanstack/react-form";
 import type { FieldApi } from "@tanstack/react-form";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,7 @@ function FieldInfo({ field }: { field: FieldApi<any, any, any, any> }) {
 const addClub = async (newClub: Club): Promise<Club> => {
   console.log(newClub);
   const response = await axios.post<Club>(
-    "http://localhost:4000/api/clubs/addClub",
+    "/api/clubs/addClub",
     newClub,
   );
   console.log("club added successfully");

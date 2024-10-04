@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
+import axios from "../appComponents/axiosInstance";
 
 interface Club {
   ClubId: number;
@@ -20,7 +21,7 @@ interface Member {
 
 const fetchUsers = async (): Promise<Club[]> => {
   const { data } = await axios.get(
-    "http://localhost:4000/api/clubs/getClubData",
+    "/api/clubs/getClubData",
   );
   return data;
 };

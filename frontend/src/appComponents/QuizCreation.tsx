@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
 
 interface Question {
@@ -36,15 +36,19 @@ const QuizCreation: React.FC = () => {
   //to get all club quizzes
   const fetchQuizzes = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:4000/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`,
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setQuizzes(data);
-        console.log(quizzes);
-      } else {
-        console.error("Failed to fetch quizzes");
+      try {
+        const response = await axios.get(
+          `/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`
+        );
+        if (response.status === 200) {
+          const data = response.data;
+          setQuizzes(data);
+          console.log(quizzes);
+        } else {
+          console.error("Failed to fetch quizzes");
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes", error);
       }
     } catch (error) {
       console.error("Error fetching quizzes", error);
@@ -92,7 +96,7 @@ const QuizCreation: React.FC = () => {
 
       //to create a new quiz
       const response = await axios.post(
-        `http://localhost:4000/api/quizzes/createQuiz?ClubID=${userData.club.ClubID}`,
+        `/api/quizzes/createQuiz?ClubID=${userData.club.ClubID}`,
         {
           title,
           questions: formattedQuestions,

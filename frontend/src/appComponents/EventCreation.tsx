@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import type { FieldApi } from "@tanstack/react-form";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
+import axios from "./axiosInstance";
 
 // interface Event {
 //   ClubID: string;
@@ -50,7 +50,7 @@ const EventCreation: React.FC = () => {
       if (!updateOrSubmitState) {
         try {
           const response = await axios.post(
-            `http://localhost:4000/api/events/create-event?ClubID=${clubInfo?.ClubID}`,
+            `/api/events/create-event?ClubID=${clubInfo?.ClubID}`,
             {
               EventName: value.EventName,
               Description: value.Description,
@@ -71,7 +71,7 @@ const EventCreation: React.FC = () => {
       } else {
         try {
           const response = await axios.put(
-            `http://localhost:4000/api/events/update-event?ClubID=${clubInfo?.ClubID}`,
+            `/api/events/update-event?ClubID=${clubInfo?.ClubID}`,
             {
               EventID: eventId,
               EventName: value.EventName,
@@ -109,7 +109,7 @@ const EventCreation: React.FC = () => {
     const getEventsData = async () => {
       axios
         .get(
-          `http://localhost:4000/api/events/getClubEventData?ClubID=${userData.club.ClubID}`,
+          `/api/events/getClubEventData?ClubID=${userData.club.ClubID}`,
         )
         .then((response) => {
           setEventData(response.data);
@@ -131,7 +131,7 @@ const EventCreation: React.FC = () => {
     setLoading({ state: true, id: eventid });
     try {
       const response = await axios.delete(
-        `http://localhost:4000/api/events/deleteEvent?ClubID=${clubInfo?.ClubID}`,
+        `/api/events/deleteEvent?ClubID=${clubInfo?.ClubID}`,
         {
           data: {
             eventId: eventid,

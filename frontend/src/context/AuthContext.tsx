@@ -1,6 +1,6 @@
 // src/context/AuthContext.tsx
 
-import axios from "axios";
+import axios from "../appComponents/axiosInstance";
 import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface AuthContextType {
@@ -28,7 +28,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/clubs/login",
+        "/api/clubs/login",
         {
           email,
           password,

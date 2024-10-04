@@ -1,7 +1,7 @@
 import Meteors from "@/components/magicui/meteors";
 import EventCard from "./EventCard";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "./axiosInstance";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
@@ -124,7 +124,7 @@ const Events = () => {
   useEffect(() => {
     const getAllEvents = async () => {
       const response = await axios.get(
-        "http://localhost:4000/api/events/getAllEventData",
+        "/api/events/getAllEventData",
       );
       setEvents(response.data);
       // const startDateTime = "2024-09-11T16:00";

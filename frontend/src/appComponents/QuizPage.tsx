@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axiosInstance";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -35,7 +35,7 @@ export default function QuizPage() {
   const fetchQuiz = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/quizzes/getQuizById/${id}`,
+        `/api/quizzes/getQuizById/${id}`,
         { secretCode },
         {
           headers: { "Content-Type": "application/json" },
@@ -54,7 +54,7 @@ export default function QuizPage() {
   const handleUserInfoSubmit = async (e:any) => {
     e.preventDefault();
     axios
-      .post("http://localhost:4000/api/quizzes/createUser", userInfo, {
+      .post("/api/quizzes/createUser", userInfo, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -85,7 +85,7 @@ export default function QuizPage() {
 
     axios
       .post(
-        `http://localhost:4000/api/quizzes/${id}/submit`,
+        `/api/quizzes/${id}/submit`,
         {
           userId,
           answers: userAnswers,

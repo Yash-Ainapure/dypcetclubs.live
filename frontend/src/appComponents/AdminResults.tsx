@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axiosInstance";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
@@ -24,7 +24,7 @@ export default function AdminResults() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/quizzes/${id}/results?ClubID=${userData.club.ClubID}`,
+        `/api/quizzes/${id}/results?ClubID=${userData.club.ClubID}`,
       );
       if (response.status === 200) {
         setResults(response.data);
@@ -41,14 +41,17 @@ export default function AdminResults() {
 
   const fetchQuizzes = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:4000/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`,
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setQuizzes(data);
-      } else {
-        console.error("Failed to fetch quizzes");
+      try {
+        const response = await axios.get(
+          `/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`,
+        );
+        if (response.status === 200) {
+          setQuizzes(response.data);
+        } else {
+          console.error("Failed to fetch quizzes");
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes", error);
       }
     } catch (error) {
       console.error("Error fetching quizzes", error);
