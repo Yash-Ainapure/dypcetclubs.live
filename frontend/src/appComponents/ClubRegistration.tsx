@@ -322,7 +322,7 @@ const ClubRegistration: React.FC = () => {
                 onChange: ({ value }) =>
                   !value ? "Logo is required" : undefined,
                 onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }) => {
+                onChangeAsync: async ({ value }:any) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
                     value && value.name.includes("error") &&
@@ -342,7 +342,7 @@ const ClubRegistration: React.FC = () => {
                       name={field.name}
                       // value={field.state.value}
                       onBlur={field.handleBlur}
-                      onChange={(e) => {
+                      onChange={(e:any) => {
                         const file = e.target.files[0];
                         console.log(e.target.files)
                         if (file) {
