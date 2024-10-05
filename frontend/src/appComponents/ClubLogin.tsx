@@ -27,7 +27,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
     try {
       const response = login(email, password);
 
-      if(response !== undefined) {
+      if (response !== undefined) {
         setErrorMessage("");
         setSuccessMessage("Login successful! 🎉");
         setLoading(false);
@@ -45,7 +45,10 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 rounded-lg">
+    <form
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 rounded-lg"
+      onSubmit={handleLogin}
+    >
       <div className="bg-white rounded-lg px-4 relative border-2 py-8 md:w-1/2 flex flex-col justify-center gap-4 items-center ">
         <p
           className="cursor-pointer absolute p-2 rounded-md top-0 right-2 text-red-600 font-semibold"
@@ -91,7 +94,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
           <button
             disabled={loading}
             className={`text-white rounded text-lg font-semibold p-2 w-1/2 bg-black`}
-            onClick={handleLogin}
+            type="submit"
           >
             {loading ? "" : "Log in"}
             <ClipLoader loading={loading} color="#ffffff" />
@@ -107,7 +110,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
