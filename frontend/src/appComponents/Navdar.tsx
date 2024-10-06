@@ -20,7 +20,7 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
         onClick={() => {
           setShowLoginPage(true);
         }}
-        className="text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white"
+        className="mr-[15vw] lg:mr-0 text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white"
       >
         Club login
       </div>
