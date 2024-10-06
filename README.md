@@ -113,6 +113,63 @@ We welcome contributions to **dypcetclubs.live**!
 We are grateful to all the contributors who have helped improve this project. Your contributions are what make this project better!
 
 <!-- readme: contributors -start -->
+<table>
+	<tbody>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/Yash-Ainapure">
+                    <img src="https://avatars.githubusercontent.com/u/136250383?v=4" width="100;" alt="Yash-Ainapure"/>
+                    <br />
+                    <sub><b>yash ainapure</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/prateek2102">
+                    <img src="https://avatars.githubusercontent.com/u/130992856?v=4" width="100;" alt="prateek2102"/>
+                    <br />
+                    <sub><b>Prateek </b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/jainaryan04">
+                    <img src="https://avatars.githubusercontent.com/u/138214350?v=4" width="100;" alt="jainaryan04"/>
+                    <br />
+                    <sub><b>Aryan Ramesh Jain</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/rishyym0927">
+                    <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
+                    <br />
+                    <sub><b>RISHIRAJ MUKHERJEE</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/yashksaini-coder">
+                    <img src="https://avatars.githubusercontent.com/u/115717039?v=4" width="100;" alt="yashksaini-coder"/>
+                    <br />
+                    <sub><b>Yash Kumar Saini</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/im-amanjai">
+                    <img src="https://avatars.githubusercontent.com/u/145966547?v=4" width="100;" alt="im-amanjai"/>
+                    <br />
+                    <sub><b>im-amanjai</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/radheypatil6630">
+                    <img src="https://avatars.githubusercontent.com/u/85211195?v=4" width="100;" alt="radheypatil6630"/>
+                    <br />
+                    <sub><b>Radhey patil</b></sub>
+                </a>
+            </td>
+		</tr>
+	<tbody>
+</table>
 <!-- readme: contributors -end -->
 
 ## 📄 **License**
