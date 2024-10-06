@@ -15,8 +15,10 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
   const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
 
     if (!email || !password) {
       setErrorMessage("Please fill in all details.");
@@ -25,22 +27,20 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
     }
 
     try {
-      const response = login(email, password);
-
-      if(response !== undefined) {
-        setErrorMessage("");
+      const success = await login(email, password);
+      if (success) {
         setSuccessMessage("Login successful! 🎉");
-        setLoading(false);
-        navigate("/clubAdmin"); // Redirect to admin page
+        setTimeout(() => {
+          navigate("/clubAdmin");
+        }, 1000);
       } else {
-        setErrorMessage("Email or password is wrong.");
-        setSuccessMessage(""); // Clear success message if login fails
-        setLoading(false);
+        setErrorMessage("Email or password is incorrect.");
       }
     } catch (error) {
-      setLoading(false);
+      console.error("Login error:", error);
       setErrorMessage("An error occurred. Please try again.");
-      setSuccessMessage(""); // Clear success message if login fails
+    } finally {
+      setLoading(false);
     }
   };
 
