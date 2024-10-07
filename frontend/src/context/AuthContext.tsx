@@ -6,7 +6,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 interface AuthContextType {
   isLoggedIn: boolean;
   userData: any;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
