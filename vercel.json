@@ -10,6 +10,10 @@
   ],
   "routes": [
     {
+      "src": "/quiz/:id", 
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
