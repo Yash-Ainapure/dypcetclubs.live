@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "./axiosInstance";
 import { useForm } from "@tanstack/react-form";
 import type { FieldApi } from "@tanstack/react-form";
 import { useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
+import { autoGrow } from "@/lib/utils";
 
 // Define a TypeScript interface for the club
 interface Club {
@@ -51,16 +52,14 @@ const ClubRegistration: React.FC = () => {
     },
     onSubmit: async ({ value }) => {
       // Do something with form data
-      console.log(value);
       try {
         const response = await addClub(value);
-        console.log("response");
-        console.log(response);
+        console.log("response")
+        console.log(response)
         setDisplayModal(true);
         handleClick();
       } catch (e:any) {
         alert("Error: " + e.message);
-        console.log(e);
         return;
       }
     },
@@ -98,14 +97,21 @@ const ClubRegistration: React.FC = () => {
   return (
     <div className="absolute h-full w-full flex items-center justify-center">
       <div className="absolute bg-black opacity-40 z-[11] w-full h-full"></div>
-      <div className="bg-white  relative flex flex-col z-20 items-center justify-center p-8 rounded-md">
+      <div className="bg-white rounded-3xl relative flex flex-col gap-4 z-20 items-center justify-center px-8 py-4 ">
         {/* <img src="" alt="close" /> */}
-        <img width="40" height="40" className="m-2 self-end cursor-pointer"
-          onClick={() => navigate("/")}
-          src="https://img.icons8.com/pastel-glyph/128/cancel--v1.png" alt="cancel--v1" />
-        <h1 className="text-2xl font-semibold underline">
-          Club Registration Form
-        </h1>
+        <div className="flex items-center justify-end w-full ">
+          <h1 className="text-2xl font-bold underline grow text-center ml-4">
+            Club Registration Form
+          </h1>
+          <img
+            width="30"
+            height="30"
+            className="m-2 self-end cursor-pointer"
+            onClick={() => navigate("/")}
+            src="https://img.icons8.com/pastel-glyph/128/cancel--v1.png"
+            alt="cancel--v1"
+          />
+        </div>
         <form
           className="flex flex-col gap-4 p-4"
           onSubmit={(e) => {
@@ -114,21 +120,20 @@ const ClubRegistration: React.FC = () => {
             form.handleSubmit();
           }}
         >
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2">
             {/* A type-safe field component*/}
             <div className="">
-
-
               <form.Field
                 name="ClubName"
                 validators={{
                   onChange: ({ value }) =>
-                    !value ? "ClubName is required" : undefined,
+                    !value ? "Club  Name is required" : undefined,
                   onChangeAsyncDebounceMs: 500,
                   onChangeAsync: async ({ value }) => {
                     await new Promise((resolve) => setTimeout(resolve, 1000));
                     return (
-                      value.includes("error") && 'No "error" allowed in ClubName'
+                      value.includes("error") &&
+                      'No "error" allowed in ClubName'
                     );
                   },
                 }}
@@ -138,15 +143,15 @@ const ClubRegistration: React.FC = () => {
                     <>
                       {/* <label htmlFor={field.name}>ClubName:</label> */}
                       <input
-                        placeholder="Clubname"
-                        className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                        placeholder="Club Name"
+                        className="p-2 glass shadow-2xl border border-gray-300  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
                       />
-                      <div className="text-red-600">
+                      <div className="text-red-600 text-sm ml-2">
                         <FieldInfo field={field} />
                       </div>
                     </>
@@ -171,20 +176,28 @@ const ClubRegistration: React.FC = () => {
                   },
                 }}
                 children={(field) => {
+                  const descriptionRef = useRef(null);
+                  const handleInput = () => {
+                    if (descriptionRef && typeof descriptionRef !== "function") {
+                      autoGrow(descriptionRef);
+                    }
+                  };
                   // Avoid hasty abstractions. Render props are great!
                   return (
                     <>
                       {/* <label htmlFor={field.name}>Description:</label> */}
-                      <input
+                      <textarea
                         placeholder="Description"
-                        className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                        className="p-2 glass resize-none max-h-24 h-12 shadow-2xl border border-gray-300  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
+                        onInput={handleInput}
+                        ref={descriptionRef}
                       />
-                      <div className="text-red-600">
+                      <div className="text-red-600 text-sm ml-2">
                         <FieldInfo field={field} />
                       </div>
                     </>
@@ -194,10 +207,7 @@ const ClubRegistration: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            <label htmlFor={"FoundedDate"} className="outline-none  shadow-2xl  w-full p-3  ">FoundedDate:</label>
-
-
+          <div className="grid grid-cols-1 ">
             <div>
               <form.Field
                 name="FoundedDate"
@@ -214,20 +224,23 @@ const ClubRegistration: React.FC = () => {
                   },
                 }}
                 children={(field) => {
+                  const [isFocused,setIsFocused] = useState(false);
+
                   // Avoid hasty abstractions. Render props are great!
                   return (
                     <>
                       <input
-                        placeholder="FoundedDate"
-                        className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
-                        type="date"
+                        placeholder="Founded Date (DD/MM/YYYY)"
+                        className="p-2 shadow-xl  glass border border-gray-300 h-12  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px]  border-[#035ec5]"
+                        type={isFocused ? "date" : "text"}  
                         id={field.name}
                         name={field.name}
                         value={field.state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
+                        onFocus={() => setIsFocused(true)}  
                       />
-                      <div className="text-red-600">
+                      <div className="text-red-600 text-sm ml-2">
                         <FieldInfo field={field} />
                       </div>
                     </>
@@ -258,7 +271,7 @@ const ClubRegistration: React.FC = () => {
                     {/* <label htmlFor={field.name}>Email:</label> */}
                     <input
                       placeholder="Email"
-                      className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                      className="p-2  border border-gray-300  shadow-xl w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
                       type="email"
                       id={field.name}
                       name={field.name}
@@ -266,7 +279,7 @@ const ClubRegistration: React.FC = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
-                    <div className="text-red-600">
+                    <div className="text-red-600 text-sm ml-2">
                       <FieldInfo field={field} />
                     </div>
                   </>
@@ -282,8 +295,8 @@ const ClubRegistration: React.FC = () => {
                   !value
                     ? "Password is required"
                     : value.length < 6
-                      ? "Password must be at least 6 characters"
-                      : undefined,
+                    ? "Password must be at least 6 characters"
+                    : undefined,
                 onChangeAsyncDebounceMs: 500,
                 onChangeAsync: async ({ value }) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -298,7 +311,7 @@ const ClubRegistration: React.FC = () => {
                   <>
                     {/* <label htmlFor={field.name}>Password:</label> */}
                     <input
-                      className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                      className="p-2 glass shadow-xl border border-gray-300  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
                       type="password"
                       id={field.name}
                       placeholder="Password"
@@ -307,7 +320,7 @@ const ClubRegistration: React.FC = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
-                    <div className="text-red-600">
+                    <div className="text-red-600 text-sm ml-2">
                       <FieldInfo field={field} />
                     </div>
                   </>
@@ -322,10 +335,11 @@ const ClubRegistration: React.FC = () => {
                 onChange: ({ value }) =>
                   !value ? "Logo is required" : undefined,
                 onChangeAsyncDebounceMs: 500,
-                onChangeAsync: async ({ value }:any) => {
+                onChangeAsync: async ({ value }: any) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
-                    value && value.name.includes("error") &&
+                    value &&
+                    value.name.includes("error") &&
                     'No "error" allowed in LogoURL   '
                   );
                 },
@@ -337,14 +351,13 @@ const ClubRegistration: React.FC = () => {
                     <input
                       type="file"
                       accept="image/*"
-                      className="p-3 glass shadow-2xl  w-full placeholder:text-black outline-none focus:border-solid focus:border-[1px] border-[#035ec5]"
+                      className="p-2 glass shadow-xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
                       id={field.name}
                       name={field.name}
                       // value={field.state.value}
                       onBlur={field.handleBlur}
-                      onChange={(e:any) => {
+                      onChange={(e: any) => {
                         const file = e.target.files[0];
-                        console.log(e.target.files)
                         if (file) {
                           field.handleChange(file); // Store the File object directly
                         } else {
@@ -352,7 +365,7 @@ const ClubRegistration: React.FC = () => {
                         }
                       }}
                     />
-                    <div className="text-red-600">
+                    <div className="text-red-600 text-sm ml-2">
                       <FieldInfo field={field} />
                     </div>
                   </>
@@ -365,11 +378,11 @@ const ClubRegistration: React.FC = () => {
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
               <button
-                className="outline-none glass shadow-2xl  w-full p-3  bg-[#ffffff42] hover:border-[#035ec5] hover:border-solid hover:border-[1px]  hover:text-[#035ec5] font-bold"
+                className="outline-none cursor-pointer glass border-slate-50 border shadow-xl tracking-wider leading-8  w-full p-2 bg-gray-900 text-white text-xl font-bold hover:bg-slate-50 hover:text-stone-950  hover:border-black hover:border-solid hover:border-[1px]  hover:text-[#035ec5] font-bold"
                 type="submit"
                 disabled={!canSubmit}
               >
-                {isSubmitting ? "Submiting..." : "Submit"}
+                {isSubmitting ? "Submiting..." : "Register"}
               </button>
             )}
           />
