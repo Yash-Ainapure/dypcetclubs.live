@@ -6,7 +6,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 interface AuthContextType {
   isLoggedIn: boolean;
   userData: any;
-  login: (email: string, password: string) => void;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -14,7 +14,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   userData: null,
-  login: () => {},
+  login: async () => false,
   logout: () => {},
 });
 
@@ -25,15 +25,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await axios.post(
-        "/api/clubs/login",
-        {
-          email,
-          password,
-        },
-      );
+      const response = await axios.post("/api/clubs/login", {
+        email,
+        password,
+      });
       if (response.status === 200) {
         setUserData(response.data);
         setIsLoggedIn(true);
@@ -42,14 +39,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     } catch (error: any) {
       if (error.response) {
         console.log(error.response.data.error);
-        console.log(error);
       } else {
         console.log("An error occurred during login.");
       }
-      return false;
     }
+    return false;
   };
-
   const logout = () => {
     // Simulate logout logic, e.g., clearing tokens
     setIsLoggedIn(false);
@@ -58,7 +53,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn,userData, login, logout  }}>
+    <AuthContext.Provider value={{ isLoggedIn, userData, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
