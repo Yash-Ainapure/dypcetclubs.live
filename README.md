@@ -152,14 +152,21 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/Sourabh782">
+                    <img src="https://avatars.githubusercontent.com/u/103349890?v=4" width="100;" alt="Sourabh782"/>
+                    <br />
+                    <sub><b>Sourabh Singh Rawat</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
+            <td align="center">
                 <a href="https://github.com/ZayedShahcode">
                     <img src="https://avatars.githubusercontent.com/u/115407231?v=4" width="100;" alt="ZayedShahcode"/>
                     <br />
                     <sub><b>Zayed</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/im-amanjai">
                     <img src="https://avatars.githubusercontent.com/u/145966547?v=4" width="100;" alt="im-amanjai"/>
