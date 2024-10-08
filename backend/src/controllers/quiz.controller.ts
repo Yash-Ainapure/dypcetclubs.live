@@ -7,7 +7,7 @@ import logger from "../config/logger"; // Import Winston logger
 export const createQuiz = async (req: Request, res: Response) => {
   const { title, questions, secretCode } = req.body;
   const clubId = Number(req.query.ClubID);
-  
+
   if (!secretCode || typeof secretCode !== "string") {
     logger.warn("Invalid or missing secret code during quiz creation.");
     return res.status(400).json({ error: MESSAGES.QUIZ.INVALID_SECRET_CODE });
@@ -22,7 +22,7 @@ export const createQuiz = async (req: Request, res: Response) => {
         clubId: clubId,
       },
     });
-    
+
     await Promise.all(
       questions.map((q: any) =>
         prisma.question.create({
@@ -35,7 +35,7 @@ export const createQuiz = async (req: Request, res: Response) => {
         })
       )
     );
-    
+
     logger.info(`Quiz created successfully: ${title} for ClubID: ${clubId}`);
     res.status(201).json({ quizId: quiz.id });
   } catch (error) {
@@ -46,13 +46,13 @@ export const createQuiz = async (req: Request, res: Response) => {
 
 export const getClubQuizzes = async (req: Request, res: Response) => {
   const clubId = Number(req.query.ClubID);
-  
+
   try {
     const quizzes = await prisma.quiz.findMany({
       where: { clubId: clubId },
       select: { id: true, title: true, createdAt: true },
     });
-    
+
     logger.info(`Fetched quizzes for ClubID: ${clubId}`);
     res.json(quizzes);
   } catch (error) {
@@ -71,14 +71,14 @@ export const getQuizById = async (req: Request, res: Response) => {
       where: { id: parseInt(id) },
       include: { questions: true },
     });
-    
+
     if (!quiz) {
       logger.warn(`Quiz not found for ID: ${id}`);
       return res.status(404).json({ error: MESSAGES.QUIZ.QUIZ_NOT_FOUND });
     }
 
     const isSecretCodeValid = await bcrypt.compare(secretCode, quiz.secretCode);
-    
+
     if (!isSecretCodeValid) {
       logger.warn(`Invalid secret code for quiz ID: ${id}`);
       return res.status(403).json({ error: MESSAGES.QUIZ.INVALID_SECRET_CODE });
@@ -101,7 +101,7 @@ export const createQuizUser = async (req: Request, res: Response) => {
     const user = await prisma.user.create({
       data: { name, rollNo, year: parsedYear },
     });
-    
+
     logger.info(`Created quiz user: ${name}`);
     res.status(201).json(user);
   } catch (error) {
@@ -125,7 +125,9 @@ export const submitQuiz = async (req: Request, res: Response) => {
       },
     });
 
-    logger.info(`Quiz result submitted for quiz ID: ${id} by user ID: ${userId}`);
+    logger.info(
+      `Quiz result submitted for quiz ID: ${id} by user ID: ${userId}`
+    );
     res.status(201).json(result);
   } catch (error) {
     logger.error(`${MESSAGES.QUIZ.ERROR_SUBMITTING_QUIZ_RESULT}: ${error}`);
@@ -145,7 +147,9 @@ export const getQuizResults = async (req: Request, res: Response) => {
     });
 
     if (!quiz || quiz.clubId !== clubId) {
-      logger.warn(`Unauthorized access to quiz results for quiz ID: ${id} by ClubID: ${clubId}`);
+      logger.warn(
+        `Unauthorized access to quiz results for quiz ID: ${id} by ClubID: ${clubId}`
+      );
       return res.status(403).json({ error: MESSAGES.QUIZ.ACCESS_DENIED });
     }
 
@@ -159,5 +163,24 @@ export const getQuizResults = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error(`${MESSAGES.QUIZ.ERROR_FETCHING_QUIZ_RESULTS}: ${error}`);
     res.status(500).json({ error: MESSAGES.QUIZ.ERROR_FETCHING_QUIZ_RESULTS });
+  }
+};
+
+// Delete quiz by ID
+export const deleteQuiz = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await prisma.result.deleteMany({ where: { quizId: parseInt(id) }, });
+    await prisma.question.deleteMany({ where: { quizId: parseInt(id) }, });
+    await prisma.quiz.delete({ where: { id: parseInt(id) }, });
+
+    //also delete the users who have taken the quiz
+    //not done yet
+    
+    logger.info(`Quiz deleted successfully for ID: ${id}`);
+    res.json({ message: MESSAGES.QUIZ.QUIZ_DELETED });
+  } catch (error) {
+    logger.error(`${MESSAGES.QUIZ.ERROR_DELETING_QUIZ}: ${error}`);
+    res.status(500).json({ error: MESSAGES.QUIZ.ERROR_DELETING_QUIZ });
   }
 };
