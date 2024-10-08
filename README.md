@@ -131,6 +131,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/rishyym0927">
+                    <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
+                    <br />
+                    <sub><b>RISHIRAJ MUKHERJEE</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/prateek2102">
                     <img src="https://avatars.githubusercontent.com/u/130992856?v=4" width="100;" alt="prateek2102"/>
                     <br />
@@ -142,13 +149,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <img src="https://avatars.githubusercontent.com/u/138214350?v=4" width="100;" alt="jainaryan04"/>
                     <br />
                     <sub><b>Aryan Ramesh Jain</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/rishyym0927">
-                    <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
-                    <br />
-                    <sub><b>RISHIRAJ MUKHERJEE</b></sub>
                 </a>
             </td>
             <td align="center">
