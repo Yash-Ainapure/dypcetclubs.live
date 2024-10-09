@@ -131,6 +131,20 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/devxMani">
+                    <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
+                    <br />
+                    <sub><b>MANI </b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/rishyym0927">
+                    <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
+                    <br />
+                    <sub><b>RISHIRAJ MUKHERJEE</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/prateek2102">
                     <img src="https://avatars.githubusercontent.com/u/130992856?v=4" width="100;" alt="prateek2102"/>
                     <br />
@@ -144,6 +158,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Aryan Ramesh Jain</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/Sourabh782">
                     <img src="https://avatars.githubusercontent.com/u/103349890?v=4" width="100;" alt="Sourabh782"/>
@@ -151,8 +167,20 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Sourabh Singh Rawat</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
+            <td align="center">
+                <a href="https://github.com/Swetabh333">
+                    <img src="https://avatars.githubusercontent.com/u/109225662?v=4" width="100;" alt="Swetabh333"/>
+                    <br />
+                    <sub><b>Swetabh Shreyam</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/ZayedShahcode">
+                    <img src="https://avatars.githubusercontent.com/u/115407231?v=4" width="100;" alt="ZayedShahcode"/>
+                    <br />
+                    <sub><b>Zayed</b></sub>
+                </a>
+            </td>
             <td align="center">
                 <a href="https://github.com/im-amanjai">
                     <img src="https://avatars.githubusercontent.com/u/145966547?v=4" width="100;" alt="im-amanjai"/>
