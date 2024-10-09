@@ -19,7 +19,7 @@ export default function AdminResults() {
     }
   }, [userData]);
 
-  const fetchResults = async (e:any) => {
+  const fetchResults = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -58,7 +58,7 @@ export default function AdminResults() {
     }
   };
 
-  const handleIdChange = (event:any) => {
+  const handleIdChange = (event: any) => {
     setId(event.target.value);
   };
 
@@ -94,16 +94,33 @@ export default function AdminResults() {
           <tr className="">
             <th className="p-2 rounded-tl-2xl bg-gray-300">Quiz ID</th>
             <th className="p-2 bg-gray-300">Quiz Name</th>
-            <th className="p-2 bg-gray-300 rounded-tr-2xl">Creation Time</th>
+            <th className="p-2 bg-gray-300">Creation Time</th>
+            <th className="p-2 bg-gray-300 rounded-tr-2xl">Action</th>
           </tr>
         </thead>
         <tbody>
-          {quizzes.map((quiz:any) => (
+          {quizzes.map((quiz: any) => (
             <tr key={quiz.id}>
               <td className="border border-gray-300 p-2">{quiz.id}</td>
               <td className="border border-gray-300 p-2">{quiz.title}</td>
               <td className="border border-gray-300 p-2">
                 {new Date(quiz.createdAt).toLocaleString()}
+              </td>
+              <td className="border border-gray-300 p-2 cursor-pointer text-red-600" onClick={() => {
+                if (confirm("Are you sure you want to delete this quiz?")) {
+                  console.log("id: ", quiz.id);
+                  axios.delete(`/api/quizzes/${quiz.id}`).then((response) => {
+                    if (response.status === 200) {
+                      fetchQuizzes();
+                    }
+                  }).catch((error) => {
+                    console.error("Error deleting quiz", error);
+                  });
+                }else{
+                  console.log("Deletion");
+                }
+              }}>
+                Delete
               </td>
             </tr>
           ))}

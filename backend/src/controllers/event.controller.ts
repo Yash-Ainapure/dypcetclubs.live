@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
 import { MESSAGES } from "../config/const";
-
+import logger from "../config/logger";
+import bcrypt from 'bcrypt'
 // Add other club-related controller functions here
 export const deleteEvent = async (req: Request, res: Response) => {
   const { eventId } = req.body;
@@ -13,10 +14,12 @@ export const deleteEvent = async (req: Request, res: Response) => {
     });
 
     if (!event) {
+      logger.warn(`Event not found for EventID: ${eventId}`);
       return res.status(404).json({ error: MESSAGES.EVENT.EVENT_NOT_FOUND });
     }
 
     if (event.ClubID !== clubId) {
+      logger.warn(`Unauthorized attempt to delete event: ${eventId} by ClubID: ${clubId}`);
       return res.status(403).json({ error: MESSAGES.EVENT.NOT_AUTHORIZED });
     }
 
@@ -24,9 +27,10 @@ export const deleteEvent = async (req: Request, res: Response) => {
       where: { EventID: eventId },
     });
 
+    logger.info(`Event deleted: ${eventId}`);
     res.status(204).end();
   } catch (error) {
-    console.error(MESSAGES.EVENT.ERROR_DELETING_EVENT, error);
+    logger.error(`${MESSAGES.EVENT.ERROR_DELETING_EVENT}: ${error}`);
     res.status(500).json({ error: MESSAGES.EVENT.ERROR_DELETING_EVENT });
   }
 };
@@ -37,9 +41,10 @@ export const getClubEventData = async (req: Request, res: Response) => {
     const events = await prisma.event.findMany({
       where: { ClubID: clubId },
     });
+    logger.info(`Fetched events for ClubID: ${clubId}`);
     res.json(events);
   } catch (error) {
-    console.error(MESSAGES.EVENT.ERROR_FETCHING_EVENTS, error);
+    logger.error(`${MESSAGES.EVENT.ERROR_FETCHING_EVENTS}: ${error}`);
     res.status(500).json({ error: MESSAGES.EVENT.ERROR_FETCHING_EVENTS });
   }
 };
@@ -65,16 +70,16 @@ export const updateEvent = async (req: Request, res: Response) => {
         Location,
       },
     });
+    logger.info(`Event updated: ${EventID} by ClubID: ${clubId}`);
     res.json(updatedEvent);
   } catch (error) {
-    console.error(MESSAGES.EVENT.ERROR_UPDATING_EVENT, error);
+    logger.error(`${MESSAGES.EVENT.ERROR_UPDATING_EVENT}: ${error}`);
     res.status(500).json({ error: MESSAGES.EVENT.ERROR_UPDATING_EVENT });
   }
 };
 
 export const createEvent = async (req: Request, res: Response) => {
-  const { EventName, Description, StartDateTime, EndDateTime, Location } =
-    req.body;
+  const { EventName, Description, StartDateTime, EndDateTime, Location } = req.body;
   const clubId = Number(req.query.ClubID);
 
   try {
@@ -88,22 +93,60 @@ export const createEvent = async (req: Request, res: Response) => {
         ClubID: clubId,
       },
     });
+    logger.info(`New event created: ${newEvent.EventName} for ClubID: ${clubId}`);
     res.status(201).json(newEvent);
   } catch (error) {
-    console.error(MESSAGES.EVENT.ERROR_CREATING_EVENT, error);
+    logger.error(`${MESSAGES.EVENT.ERROR_CREATING_EVENT}: ${error}`);
     res.status(500).json({
       error: MESSAGES.EVENT.ERROR_CREATING_EVENT,
       details: error,
-     });
+    });
   }
 };
 
 export const getAllEventData = async (req: Request, res: Response) => {
   try {
-    const clubs = await prisma.event.findMany(); // Fetch all clubs from the database
+    const clubs = await prisma.event.findMany();
+    logger.info("Fetched all event data.");
     res.json(clubs);
   } catch (error) {
-    console.error(MESSAGES.EVENT.ERROR_FETCHING_EVENTS, error);
+    logger.error(`${MESSAGES.EVENT.ERROR_FETCHING_EVENTS}: ${error}`);
     res.status(500).json({ error: MESSAGES.EVENT.ERROR_FETCHING_EVENTS });
+  }
+};
+
+export const createQuiz = async (req: Request, res: Response) => {
+  const { title, questions, secretCode } = req.body;
+  const clubId = Number(req.query.ClubID);
+  if (!secretCode || typeof secretCode !== "string") {
+    logger.warn("Invalid secret code provided.");
+    return res.status(400).json({ error: MESSAGES.QUIZ.INVALID_SECRET_CODE });
+  }
+  try {
+    const hashedSecretCode = await bcrypt.hash(secretCode, 10);
+    const quiz = await prisma.quiz.create({
+      data: {
+        title,
+        secretCode: hashedSecretCode,
+        clubId: clubId,
+      },
+    });
+    await Promise.all(
+      questions.map((q: any) =>
+        prisma.question.create({
+          data: {
+            question: q.question,
+            options: q.options,
+            correctAnswer: q.correctAnswer,
+            quizId: quiz.id,
+          },
+        }),
+      ),
+    );
+    logger.info(`Quiz created: ${title} for ClubID: ${clubId}`);
+    res.status(201).json({ quizId: quiz.id });
+  } catch (error) {
+    logger.error(`${MESSAGES.QUIZ.ERROR_CREATING_QUIZ}: ${error}`);
+    res.status(500).json({ error: MESSAGES.QUIZ.ERROR_CREATING_QUIZ });
   }
 };

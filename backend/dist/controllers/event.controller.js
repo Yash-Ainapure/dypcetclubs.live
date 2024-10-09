@@ -8,10 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllEventData = exports.createEvent = exports.updateEvent = exports.getClubEventData = exports.deleteEvent = void 0;
+exports.createQuiz = exports.getAllEventData = exports.createEvent = exports.updateEvent = exports.getClubEventData = exports.deleteEvent = void 0;
 const database_config_1 = require("../config/database.config");
 const const_1 = require("../config/const");
+const logger_1 = __importDefault(require("../config/logger"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 // Add other club-related controller functions here
 const deleteEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { eventId } = req.body;
@@ -21,18 +26,21 @@ const deleteEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             where: { EventID: eventId },
         });
         if (!event) {
+            logger_1.default.warn(`Event not found for EventID: ${eventId}`);
             return res.status(404).json({ error: const_1.MESSAGES.EVENT.EVENT_NOT_FOUND });
         }
         if (event.ClubID !== clubId) {
+            logger_1.default.warn(`Unauthorized attempt to delete event: ${eventId} by ClubID: ${clubId}`);
             return res.status(403).json({ error: const_1.MESSAGES.EVENT.NOT_AUTHORIZED });
         }
         yield database_config_1.prisma.event.delete({
             where: { EventID: eventId },
         });
+        logger_1.default.info(`Event deleted: ${eventId}`);
         res.status(204).end();
     }
     catch (error) {
-        console.error(const_1.MESSAGES.EVENT.ERROR_DELETING_EVENT, error);
+        logger_1.default.error(`${const_1.MESSAGES.EVENT.ERROR_DELETING_EVENT}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.EVENT.ERROR_DELETING_EVENT });
     }
 });
@@ -43,10 +51,11 @@ const getClubEventData = (req, res) => __awaiter(void 0, void 0, void 0, functio
         const events = yield database_config_1.prisma.event.findMany({
             where: { ClubID: clubId },
         });
+        logger_1.default.info(`Fetched events for ClubID: ${clubId}`);
         res.json(events);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENTS, error);
+        logger_1.default.error(`${const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENTS}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENTS });
     }
 });
@@ -65,10 +74,11 @@ const updateEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 Location,
             },
         });
+        logger_1.default.info(`Event updated: ${EventID} by ClubID: ${clubId}`);
         res.json(updatedEvent);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.EVENT.ERROR_UPDATING_EVENT, error);
+        logger_1.default.error(`${const_1.MESSAGES.EVENT.ERROR_UPDATING_EVENT}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.EVENT.ERROR_UPDATING_EVENT });
     }
 });
@@ -87,10 +97,11 @@ const createEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 ClubID: clubId,
             },
         });
+        logger_1.default.info(`New event created: ${newEvent.EventName} for ClubID: ${clubId}`);
         res.status(201).json(newEvent);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.EVENT.ERROR_CREATING_EVENT, error);
+        logger_1.default.error(`${const_1.MESSAGES.EVENT.ERROR_CREATING_EVENT}: ${error}`);
         res.status(500).json({
             error: const_1.MESSAGES.EVENT.ERROR_CREATING_EVENT,
             details: error,
@@ -100,12 +111,46 @@ const createEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.createEvent = createEvent;
 const getAllEventData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const clubs = yield database_config_1.prisma.event.findMany(); // Fetch all clubs from the database
+        const clubs = yield database_config_1.prisma.event.findMany();
+        logger_1.default.info("Fetched all event data.");
         res.json(clubs);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENTS, error);
+        logger_1.default.error(`${const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENTS}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENTS });
     }
 });
 exports.getAllEventData = getAllEventData;
+const createQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { title, questions, secretCode } = req.body;
+    const clubId = Number(req.query.ClubID);
+    if (!secretCode || typeof secretCode !== "string") {
+        logger_1.default.warn("Invalid secret code provided.");
+        return res.status(400).json({ error: const_1.MESSAGES.QUIZ.INVALID_SECRET_CODE });
+    }
+    try {
+        const hashedSecretCode = yield bcrypt_1.default.hash(secretCode, 10);
+        const quiz = yield database_config_1.prisma.quiz.create({
+            data: {
+                title,
+                secretCode: hashedSecretCode,
+                clubId: clubId,
+            },
+        });
+        yield Promise.all(questions.map((q) => database_config_1.prisma.question.create({
+            data: {
+                question: q.question,
+                options: q.options,
+                correctAnswer: q.correctAnswer,
+                quizId: quiz.id,
+            },
+        })));
+        logger_1.default.info(`Quiz created: ${title} for ClubID: ${clubId}`);
+        res.status(201).json({ quizId: quiz.id });
+    }
+    catch (error) {
+        logger_1.default.error(`${const_1.MESSAGES.QUIZ.ERROR_CREATING_QUIZ}: ${error}`);
+        res.status(500).json({ error: const_1.MESSAGES.QUIZ.ERROR_CREATING_QUIZ });
+    }
+});
+exports.createQuiz = createQuiz;

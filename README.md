@@ -131,13 +131,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/devxMani">
-                    <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
-                    <br />
-                    <sub><b>MANI </b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/prateek2102">
                     <img src="https://avatars.githubusercontent.com/u/130992856?v=4" width="100;" alt="prateek2102"/>
                     <br />
@@ -152,10 +145,10 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/rishyym0927">
-                    <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
+                <a href="https://github.com/Sourabh782">
+                    <img src="https://avatars.githubusercontent.com/u/103349890?v=4" width="100;" alt="Sourabh782"/>
                     <br />
-                    <sub><b>RISHIRAJ MUKHERJEE</b></sub>
+                    <sub><b>Sourabh Singh Rawat</b></sub>
                 </a>
             </td>
 		</tr>
