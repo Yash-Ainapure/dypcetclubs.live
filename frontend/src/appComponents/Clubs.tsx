@@ -4,6 +4,8 @@ import { useClubs } from "../hooks/useClubs";
 export default function Clubs() {
   const { data: clubs, error, isLoading } = useClubs();
 
+  const displayedClubs = clubs?.slice(0, 6);
+
   if (isLoading)
     return (
       <div className="min-h-screen px-6 py-12 bg-white">
@@ -47,7 +49,7 @@ export default function Clubs() {
       </div>
       {/* Clubs Grid */}
       <div className="z-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {clubs?.map((club, index) => (
+        {displayedClubs?.map((club, index) => (
           <ClubCard
             key={index}
             memberCount={club.Members.length}
