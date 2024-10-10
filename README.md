@@ -161,6 +161,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		</tr>
 		<tr>
             <td align="center">
+                <a href="https://github.com/Hh440">
+                    <img src="https://avatars.githubusercontent.com/u/91595810?v=4" width="100;" alt="Hh440"/>
+                    <br />
+                    <sub><b>Harsh</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/devxMani">
                     <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
                     <br />
@@ -195,6 +202,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>im-amanjai</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/radheypatil6630">
                     <img src="https://avatars.githubusercontent.com/u/85211195?v=4" width="100;" alt="radheypatil6630"/>
