@@ -1,6 +1,6 @@
 import axios from "./axiosInstance";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Question {
   id: string;
@@ -23,6 +23,7 @@ export default function QuizPage() {
   const [userId, setUserId] = useState(null);
   const { id } = useParams<{ id: string }>();
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (userId && secretCode != "") {
       fetchQuiz();
@@ -51,7 +52,7 @@ export default function QuizPage() {
     }
   };
 
-  const handleUserInfoSubmit = async (e:any) => {
+  const handleUserInfoSubmit = async (e: any) => {
     e.preventDefault();
     axios
       .post("/api/quizzes/createUser", userInfo, {
@@ -96,7 +97,10 @@ export default function QuizPage() {
             "Content-Type": "application/json",
           },
         },
-      )
+      ).then(() => {
+        alert("Quiz submitted successfully");
+        navigate("/");
+      })
       .catch((error) => {
         console.error("Error submitting quiz result", error);
       });
