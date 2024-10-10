@@ -4,11 +4,14 @@ import { useState } from "react";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import cross from "../assets/cross-icon.svg";
 import burger from "../assets/burger-menu.svg";
+import { useNavigate } from "react-router-dom";
 
 const Hero: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const route= useNavigate()
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+
   };
 
   return (
@@ -60,6 +63,12 @@ const Hero: React.FC = () => {
               Hiring
             </p>
           </DockIcon>
+          <DockIcon >
+            <p className="flex items-center font-semibold transition-all duration-300 transform size-full" onClick={()=>route('/about')}>
+              About
+            </p>
+          </DockIcon>
+
         </Dock>
       </div>
 
