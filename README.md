@@ -152,14 +152,21 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/Gauravtb2253">
+                    <img src="https://avatars.githubusercontent.com/u/114927759?v=4" width="100;" alt="Gauravtb2253"/>
+                    <br />
+                    <sub><b>Gaurav Bomble</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
+            <td align="center">
                 <a href="https://github.com/devxMani">
                     <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
                     <br />
                     <sub><b>MANI </b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/Sourabh782">
                     <img src="https://avatars.githubusercontent.com/u/103349890?v=4" width="100;" alt="Sourabh782"/>
