@@ -17,7 +17,7 @@
     "@prisma/client": "^5.19.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@tabler/icons-react": "^3.13.0",
-    "@tanstack/react-form": "^0.29.2",
+    "@tanstack/react-form": "^0.24.3",
     "@tanstack/react-query": "^5.52.2",
     "axios": "^1.7.5",
     "canvas-confetti": "^1.9.3",
