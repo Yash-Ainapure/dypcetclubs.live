@@ -24,8 +24,9 @@ export default function QuizPage() {
   const { id } = useParams<{ id: string }>();
 
   const navigate = useNavigate();
+
   useEffect(() => {
-    if (userId && secretCode !== "") {
+    if (userId && secretCode != "") {
       fetchQuiz();
     }
   }, [userId]);
@@ -35,7 +36,9 @@ export default function QuizPage() {
       const response = await axios.post(
         `/api/quizzes/getQuizById/${id}`,
         { secretCode },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: { "Content-Type": "application/json" },
+        },
       );
       const data = response.data;
       setQuiz(data);
@@ -49,7 +52,9 @@ export default function QuizPage() {
     e.preventDefault();
     axios
       .post("/api/quizzes/createUser", userInfo, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
       .then((response) => {
         const user = response.data;
@@ -72,14 +77,24 @@ export default function QuizPage() {
         correctAnswers++;
       }
     });
-    const finalScore = quiz ? (correctAnswers / quiz.questions.length) * 100 : 0;
+    const finalScore = quiz
+      ? (correctAnswers / quiz.questions.length) * 100
+      : 0;
     setScore(finalScore);
 
     axios
       .post(
         `/api/quizzes/${id}/submit`,
-        { userId, answers: userAnswers, score: finalScore },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          userId,
+          answers: userAnswers,
+          score: finalScore,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
       )
       .then(() => {
         alert("Quiz submitted successfully");
@@ -92,14 +107,18 @@ export default function QuizPage() {
 
   if (!userId) {
     return (
-      <div className="container mx-auto p-8 min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md">
-          <h1 className="text-3xl font-bold text-center mb-6">Enter Your Information</h1>
-          <form onSubmit={handleUserInfoSubmit} className="space-y-4">
+      <div className="container mx-auto p-6 min-h-screen flex flex-col items-center justify-center">
+        <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
+          <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
+            Enter Your Information
+          </h1>
+          <form onSubmit={handleUserInfoSubmit} className="space-y-6">
             <input
               type="text"
               value={userInfo.name}
-              onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, name: e.target.value })
+              }
               placeholder="Name"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -107,7 +126,9 @@ export default function QuizPage() {
             <input
               type="text"
               value={userInfo.rollNo}
-              onChange={(e) => setUserInfo({ ...userInfo, rollNo: e.target.value })}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, rollNo: e.target.value })
+              }
               placeholder="Roll No"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
@@ -115,14 +136,16 @@ export default function QuizPage() {
             <input
               type="number"
               value={userInfo.year}
-              onChange={(e) => setUserInfo({ ...userInfo, year: e.target.value })}
+              onChange={(e) =>
+                setUserInfo({ ...userInfo, year: e.target.value })
+              }
               placeholder="Year"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold shadow-lg transition-all duration-300"
             >
               Start Quiz
             </button>
@@ -134,19 +157,21 @@ export default function QuizPage() {
 
   if (!quiz) {
     return (
-      <div className="container mx-auto p-8 min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md">
-          <h1 className="text-3xl font-bold text-center mb-6">Enter Secret Code</h1>
+      <div className="container mx-auto p-6 min-h-screen flex flex-col items-center justify-center ">
+        <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
+          <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
+            Enter Secret Code
+          </h1>
           <input
             type="text"
             value={secretCode}
             onChange={(e) => setSecretCode(e.target.value)}
             placeholder="Secret Code"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-6"
           />
           <button
             onClick={fetchQuiz}
-            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold shadow-lg transition-all duration-300"
           >
             Start Quiz
           </button>
@@ -156,42 +181,60 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="container mx-auto p-8 bg-gray-50 min-h-screen">
-      <div className="bg-white p-8 shadow-lg rounded-lg">
-        <h1 className="text-3xl font-bold mb-6 text-center">{quiz.title}</h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {quiz.questions.map((question) => (
-            <div key={question.id} className="space-y-2">
-              <p className="font-semibold text-lg">{question.question}</p>
-              {question.options.split(",").map((option, index) => (
-                <label key={index} className="block p-2 bg-gray-100 rounded-lg hover:bg-gray-200 cursor-pointer">
-                  <input
-                    type="radio"
-                    name={`question-${question.id}`}
-                    value={option}
-                    onChange={() => handleAnswerChange(question.id, option)}
-                    className="mr-2"
-                  />
-                  {option}
-                </label>
-              ))}
+  <div className="container mx-auto p-6 min-h-screen flex flex-col items-center justify-center bg-gray-100">
+    <div className="bg-white shadow-lg rounded-lg p-8 max-w-3xl w-full mx-auto">
+      {quiz ? (
+        <>
+          <h1 className="text-4xl font-extrabold text-center text-gray-800 mb-8">
+            {quiz.title || "Quiz Title"}
+          </h1>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {quiz.questions.map((question) => (
+              <div key={question.id} className="space-y-4">
+                <p className="text-xl font-semibold text-gray-800">
+                  {question.question || "Untitled Question"}
+                </p>
+                <div className="space-y-2">
+                  {question.options.split(",").map((option, index) => (
+                    <label key={index} className="block">
+                      <input
+                        type="radio"
+                        name={`question-${question.id}`}
+                        value={option}
+                        onChange={() =>
+                          handleAnswerChange(question.id, option)
+                        }
+                        className="mr-2 accent-blue-500"
+                        required
+                      />
+                      {option}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <button
+              type="submit"
+              className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold shadow-lg transition-all duration-300"
+            >
+              Submit Answers
+            </button>
+          </form>
+          {score !== null && (
+            <div className="mt-8 text-center">
+              <h2 className="text-2xl font-bold text-gray-800">
+                Your Score: {score.toFixed(2)}%
+              </h2>
             </div>
-          ))}
-          <button
-            type="submit"
-            className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition duration-200"
-          >
-            Submit Answers
-          </button>
-        </form>
-        {score !== null && (
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold text-center text-gray-700">
-              Your Score: {score.toFixed(2)}%
-            </h2>
-          </div>
-        )}
-      </div>
+          )}
+        </>
+      ) : (
+        <div className="text-center">
+          <h2 className="text-3xl font-bold text-gray-700">Loading Quiz...</h2>
+        </div>
+      )}
     </div>
+  </div>
+
   );
 }
