@@ -6,6 +6,8 @@ import { Accordion,AccordionContent,AccordionItem, AccordionTrigger } from "@/co
 import { Input } from "@/components/magicui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { Navigation } from "./Navdar"
+//import { Navigation } from "./Navdar"
 
 
 const About =()=>{
@@ -19,18 +21,24 @@ const About =()=>{
         setEmail('')
       }
     return(
-        <div className="min-h-screen bg-gray-50 text-gray-800">
+        <div className="min-h-screen w-full bg-gray-50 text-gray-800">
 
-            <div className="relative bg-gray-900 text-white py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 animate-gradient"></div>
-                <div className="relative z-10 max-w-4xl mx-auto text-center">
-                    <h1 className="text-5xl font-extrabold mb-4">Welcome to DYPCET Clubs</h1>
+            <div className="relative z-10  bg-black  text-white py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+                <div className="absolute inset-0 animate-gradient"></div>
+                <div className="relative z-10 max-w-4xl mx-auto text-center pt-20">
+                    <h1 className="text-5xl font-extrabold mb-4">Discover DYPCET Clubs</h1>
                     <p className="text-xl mb-8">Where Passion Meets Purpose</p>
                     <Button 
                     onClick={()=>route('/')}
                     className="bg-white text-gray-900 hover:bg-gray-200">Explore Out Clubs</Button>
                 </div>
             </div>
+
+            <Navigation/>
+
+            
+            
+            
 
             <div className="max-w-6xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
 

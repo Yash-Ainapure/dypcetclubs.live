@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
-import Navbar from "./appComponents/Navdar";
+import { Navbar } from "./appComponents/Navdar";
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -26,6 +26,7 @@ function App() {
 
   return (
     <Router>
+      
       <Routes>
         <Route
           path="/"
