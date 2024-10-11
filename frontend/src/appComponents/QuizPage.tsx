@@ -25,11 +25,8 @@ export default function QuizPage() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (userId && secretCode != "") {
+    if (userId && secretCode !== "") {
       fetchQuiz();
-    } else {
-      console.log("userId", userId);
-      console.log("secretCode", secretCode);
     }
   }, [userId]);
 
@@ -38,13 +35,9 @@ export default function QuizPage() {
       const response = await axios.post(
         `/api/quizzes/getQuizById/${id}`,
         { secretCode },
-        {
-          headers: { "Content-Type": "application/json" },
-        },
+        { headers: { "Content-Type": "application/json" } }
       );
       const data = response.data;
-      console.log("data");
-      console.log(data);
       setQuiz(data);
       setUserAnswers({});
     } catch (error) {
@@ -56,9 +49,7 @@ export default function QuizPage() {
     e.preventDefault();
     axios
       .post("/api/quizzes/createUser", userInfo, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
         const user = response.data;
@@ -87,17 +78,10 @@ export default function QuizPage() {
     axios
       .post(
         `/api/quizzes/${id}/submit`,
-        {
-          userId,
-          answers: userAnswers,
-          score: finalScore,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      ).then(() => {
+        { userId, answers: userAnswers, score: finalScore },
+        { headers: { "Content-Type": "application/json" } }
+      )
+      .then(() => {
         alert("Quiz submitted successfully");
         navigate("/");
       })
@@ -108,100 +92,106 @@ export default function QuizPage() {
 
   if (!userId) {
     return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Enter Your Information</h1>
-        <form onSubmit={handleUserInfoSubmit} className="space-y-4">
-          <input
-            type="text"
-            value={userInfo.name}
-            onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
-            placeholder="Name"
-            className="w-full p-2 border rounded"
-            required
-          />
-          <input
-            type="text"
-            value={userInfo.rollNo}
-            onChange={(e) =>
-              setUserInfo({ ...userInfo, rollNo: e.target.value })
-            }
-            placeholder="Roll No"
-            className="w-full p-2 border rounded"
-            required
-          />
-          <input
-            type="number"
-            value={userInfo.year}
-            onChange={(e) => setUserInfo({ ...userInfo, year: e.target.value })}
-            placeholder="Year"
-            className="w-full p-2 border rounded"
-            required
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Start Quiz
-          </button>
-        </form>
+      <div className="container mx-auto p-8 min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md">
+          <h1 className="text-3xl font-bold text-center mb-6">Enter Your Information</h1>
+          <form onSubmit={handleUserInfoSubmit} className="space-y-4">
+            <input
+              type="text"
+              value={userInfo.name}
+              onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+              placeholder="Name"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <input
+              type="text"
+              value={userInfo.rollNo}
+              onChange={(e) => setUserInfo({ ...userInfo, rollNo: e.target.value })}
+              placeholder="Roll No"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <input
+              type="number"
+              value={userInfo.year}
+              onChange={(e) => setUserInfo({ ...userInfo, year: e.target.value })}
+              placeholder="Year"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
+            >
+              Start Quiz
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
 
   if (!quiz) {
     return (
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Enter Secret Code</h1>
-        <input
-          type="text"
-          value={secretCode}
-          onChange={(e) => setSecretCode(e.target.value)}
-          placeholder="Secret Code"
-          className="w-full p-2 border rounded mb-4"
-        />
-        <button
-          onClick={fetchQuiz}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Start Quiz
-        </button>
+      <div className="container mx-auto p-8 min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md">
+          <h1 className="text-3xl font-bold text-center mb-6">Enter Secret Code</h1>
+          <input
+            type="text"
+            value={secretCode}
+            onChange={(e) => setSecretCode(e.target.value)}
+            placeholder="Secret Code"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+          />
+          <button
+            onClick={fetchQuiz}
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            Start Quiz
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">{quiz.title}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {quiz.questions.map((question) => (
-          <div key={question.id} className="space-y-2">
-            <p className="font-semibold">{question.question}</p>
-            {question.options.split(",").map((option, index) => (
-              <label key={index} className="block">
-                <input
-                  type="radio"
-                  name={`question-${question.id}`}
-                  value={option}
-                  onChange={() => handleAnswerChange(question.id, option)}
-                  className="mr-2"
-                />
-                {option}
-              </label>
-            ))}
+    <div className="container mx-auto p-8 bg-gray-50 min-h-screen">
+      <div className="bg-white p-8 shadow-lg rounded-lg">
+        <h1 className="text-3xl font-bold mb-6 text-center">{quiz.title}</h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {quiz.questions.map((question) => (
+            <div key={question.id} className="space-y-2">
+              <p className="font-semibold text-lg">{question.question}</p>
+              {question.options.split(",").map((option, index) => (
+                <label key={index} className="block p-2 bg-gray-100 rounded-lg hover:bg-gray-200 cursor-pointer">
+                  <input
+                    type="radio"
+                    name={`question-${question.id}`}
+                    value={option}
+                    onChange={() => handleAnswerChange(question.id, option)}
+                    className="mr-2"
+                  />
+                  {option}
+                </label>
+              ))}
+            </div>
+          ))}
+          <button
+            type="submit"
+            className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition duration-200"
+          >
+            Submit Answers
+          </button>
+        </form>
+        {score !== null && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-center text-gray-700">
+              Your Score: {score.toFixed(2)}%
+            </h2>
           </div>
-        ))}
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          Submit Answers
-        </button>
-      </form>
-      {score !== null && (
-        <div className="mt-4">
-          <h2 className="text-xl font-bold">Your Score: {score.toFixed(2)}%</h2>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
