@@ -131,6 +131,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/Hh440">
+                    <img src="https://avatars.githubusercontent.com/u/91595810?v=4" width="100;" alt="Hh440"/>
+                    <br />
+                    <sub><b>Harsh</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/rishyym0927">
                     <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
                     <br />
@@ -151,20 +158,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Aryan Ramesh Jain</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/Gauravtb2253">
                     <img src="https://avatars.githubusercontent.com/u/114927759?v=4" width="100;" alt="Gauravtb2253"/>
                     <br />
                     <sub><b>Gaurav Bomble</b></sub>
-                </a>
-            </td>
-		</tr>
-		<tr>
-            <td align="center">
-                <a href="https://github.com/Hh440">
-                    <img src="https://avatars.githubusercontent.com/u/91595810?v=4" width="100;" alt="Hh440"/>
-                    <br />
-                    <sub><b>Harsh</b></sub>
                 </a>
             </td>
             <td align="center">
