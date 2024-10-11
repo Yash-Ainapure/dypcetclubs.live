@@ -189,12 +189,21 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/vedhcet-07">
+                    <img src="https://avatars.githubusercontent.com/u/176995332?v=4" width="100;" alt="vedhcet-07"/>
+                    <br />
+                    <sub><b>Vishwas M D</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/ZayedShahcode">
                     <img src="https://avatars.githubusercontent.com/u/115407231?v=4" width="100;" alt="ZayedShahcode"/>
                     <br />
                     <sub><b>Zayed</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/im-amanjai">
                     <img src="https://avatars.githubusercontent.com/u/145966547?v=4" width="100;" alt="im-amanjai"/>
@@ -202,8 +211,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>im-amanjai</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/radheypatil6630">
                     <img src="https://avatars.githubusercontent.com/u/85211195?v=4" width="100;" alt="radheypatil6630"/>
