@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getQuizResults = exports.submitQuiz = exports.createQuizUser = exports.getQuizById = exports.getClubQuizzes = exports.createQuiz = void 0;
+exports.deleteQuiz = exports.getQuizResults = exports.submitQuiz = exports.createQuizUser = exports.getQuizById = exports.getClubQuizzes = exports.createQuiz = void 0;
 const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
@@ -158,3 +158,21 @@ const getQuizResults = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getQuizResults = getQuizResults;
+// Delete quiz by ID
+const deleteQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        yield database_config_1.prisma.result.deleteMany({ where: { quizId: parseInt(id) }, });
+        yield database_config_1.prisma.question.deleteMany({ where: { quizId: parseInt(id) }, });
+        yield database_config_1.prisma.quiz.delete({ where: { id: parseInt(id) }, });
+        //also delete the users who have taken the quiz
+        //not done yet
+        logger_1.default.info(`Quiz deleted successfully for ID: ${id}`);
+        res.json({ message: const_1.MESSAGES.QUIZ.QUIZ_DELETED });
+    }
+    catch (error) {
+        logger_1.default.error(`${const_1.MESSAGES.QUIZ.ERROR_DELETING_QUIZ}: ${error}`);
+        res.status(500).json({ error: const_1.MESSAGES.QUIZ.ERROR_DELETING_QUIZ });
+    }
+});
+exports.deleteQuiz = deleteQuiz;
