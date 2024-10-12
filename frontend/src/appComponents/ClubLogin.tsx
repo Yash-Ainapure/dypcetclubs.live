@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import user_icon from "../assets/user_icon.png";
 import password_icon from "../assets/password_icon.png";
 import { useAuth } from "../context/AuthContext";
+import {Eye, EyeOff} from "lucide-react"
 import ClipLoader from "react-spinners/ClipLoader";
 
 const ClubLogin: React.FC<any> = ({ onClose }) => {
@@ -11,12 +12,15 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [hidden, setHidden] = useState(true);
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
 
     if (!email || !password) {
       setErrorMessage("Please fill in all details.");
@@ -25,22 +29,20 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
     }
 
     try {
-      const response = login(email, password);
-
-      if(response !== undefined) {
-        setErrorMessage("");
+      const success = await login(email, password);
+      if (success) {
         setSuccessMessage("Login successful! 🎉");
-        setLoading(false);
-        navigate("/clubAdmin"); // Redirect to admin page
+        setTimeout(() => {
+          navigate("/clubAdmin");
+        }, 1000);
       } else {
-        setErrorMessage("Email or password is wrong.");
-        setSuccessMessage(""); // Clear success message if login fails
-        setLoading(false);
+        setErrorMessage("Email or password is incorrect.");
       }
     } catch (error) {
-      setLoading(false);
+      console.error("Login error:", error);
       setErrorMessage("An error occurred. Please try again.");
-      setSuccessMessage(""); // Clear success message if login fails
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,15 +71,20 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="items-center flex flex-row rounded-md border-solid border-black border-2 w-full">
+        <div className="items-center flex flex-row rounded-md border-solid border-black border-2 w-full relative">
           <img src={password_icon} alt="password" className="h-6 m-3" />
           <input
-            type="password"
+            type={hidden ? "password" : "text"}
             className="h-full w-full border-0 outline-none text-1xl"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <button className="absolute right-4" onClick={()=>setHidden(!hidden)}>
+            {
+              hidden ? <EyeOff /> : <Eye />
+            }
+          </button>
         </div>
         {errorMessage && (
           <div className="text-red-500 text-center mb-4">{errorMessage}</div>
