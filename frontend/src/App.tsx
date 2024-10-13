@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
-import Navbar from "./appComponents/Navdar";
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -12,6 +11,7 @@ import ClubLogin from "./appComponents/ClubLogin";
 import { ClubAdmin } from "./appComponents/ClubAdmin";
 import "./App.css";
 import QuizPage from "./appComponents/QuizPage";
+import { Navbar } from "./appComponents/Navbar";
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
