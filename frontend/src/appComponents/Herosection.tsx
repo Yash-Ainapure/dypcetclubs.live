@@ -1,5 +1,7 @@
 "use client";
 
+import React from 'react';
+
 const Hero: React.FC = () => {
   return (
     <div className="relative z-10 flex flex-col w-full overflow-hidden text-white bg-background md:shadow-xl">
@@ -21,9 +23,8 @@ const Hero: React.FC = () => {
           </button>
         </div>
       </div>
-    </div> {/* This div was previously unclosed */}
+    </div>
   );
 };
 
 export default Hero;
-
