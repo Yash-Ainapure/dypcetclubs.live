@@ -12,7 +12,6 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useAuth } from "../context/AuthContext";
 import { Routes, Route } from "react-router-dom";
-import Events from "./Events";
 import QuizCreation from "./QuizCreation";
 import AdminResults from "./AdminResults";
 import EventCreation from "./EventCreation";
