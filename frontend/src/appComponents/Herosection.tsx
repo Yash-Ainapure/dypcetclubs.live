@@ -1,4 +1,7 @@
 "use client";
+
+import React from 'react';
+
 const Hero: React.FC = () => {
   return (
     <div className="relative z-10 flex flex-col w-full overflow-hidden text-white bg-background md:shadow-xl">
