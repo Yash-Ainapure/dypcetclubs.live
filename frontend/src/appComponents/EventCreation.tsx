@@ -3,6 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import type { FieldApi } from "@tanstack/react-form";
 import { useAuth } from "../context/AuthContext";
 import axios from "./axiosInstance";
+import { useNavigate } from "react-router-dom";
 
 // interface Event {
 //   ClubID: string;
@@ -31,6 +32,7 @@ const EventCreation: React.FC = () => {
   const [loading, setLoading] = useState({ state: false, id: null });
   const [updateOrSubmitState, setUpdateOrSubmitState] = useState(false);
   const [eventId, setEventId] = useState(null);
+  const navigate =useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -107,11 +109,13 @@ const EventCreation: React.FC = () => {
 
   useEffect(() => {
     const getEventsData = async () => {
+      console.log("fetching event data..")
       axios
         .get(
           `/api/events/getClubEventData?ClubID=${userData.club.ClubID}`,
         )
         .then((response) => {
+          console.log(response.data);
           setEventData(response.data);
         })
         .catch((error) => {
@@ -154,10 +158,10 @@ const EventCreation: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-full bg-slate-500 rounded-tl-2xl p-2">
-      <div className="flex justify-around items-center flex-col gap-4 min-h-screen">
+    <div className="p-2 w-full bg-slate-500 rounded-tl-2xl">
+      <div className="flex flex-col items-center justify-around min-h-screen gap-4">
         <form
-          className="flex flex-col gap-4 p-4 border border-black rounded-xl items-center w-fit bg-slate-400"
+          className="flex flex-col items-center gap-4 p-4 border border-black rounded-xl w-fit bg-slate-400"
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -368,21 +372,21 @@ const EventCreation: React.FC = () => {
             )}
           />
         </form>
-        <div className="flex flex-col gap-4 items-end">
-          <p className="text-white font-semibold text-lg pl-4 self-start">
+        <div className="flex flex-col items-end gap-4">
+          <p className="self-start pl-4 text-lg font-semibold text-white">
             Events Created by you:{" "}
           </p>
           <table>
             <thead>
               <tr>
-                <th className="bg-gray-300 py-2 pl-8 pr-2 rounded-tl-2xl">
+                <th className="py-2 pl-8 pr-2 bg-gray-300 rounded-tl-2xl">
                   EventName
                 </th>
-                <th className="bg-gray-300 p-2">Description</th>
-                <th className="bg-gray-300 p-2">StartDateTime</th>
-                <th className="bg-gray-300 p-2">EndDateTime</th>
-                <th className="bg-gray-300 p-2">Location</th>
-                <th className="bg-gray-300 py-2 pr-8 pl-2 rounded-tr-2xl">
+                <th className="p-2 bg-gray-300">Description</th>
+                <th className="p-2 bg-gray-300">StartDateTime</th>
+                <th className="p-2 bg-gray-300">EndDateTime</th>
+                <th className="p-2 bg-gray-300">Location</th>
+                <th className="py-2 pl-2 pr-8 bg-gray-300 rounded-tr-2xl">
                   Operations
                 </th>
               </tr>
@@ -393,14 +397,14 @@ const EventCreation: React.FC = () => {
                   className="border-b-2 bg-[#121b22] text-white"
                   key={event.id}
                 >
-                  <td className="px-2 border-r py-2">{event.EventName}</td>
+                  <td className="px-2 py-2 border-r">{event.EventName}</td>
                   <td className="px-2 border-r">{event.Description}</td>
                   <td className="px-2 border-r">{event.StartDateTime}</td>
                   <td className="px-2 border-r">{event.EndDateTime}</td>
                   <td className="px-2 border-r">{event.Location}</td>
                   <td className="flex gap-2 px-2 py-2">
                     <button
-                      className="text-red-500 cursor-pointer"
+                      className="text-red-700 cursor-pointer bg-white rounded-md px-2"
                       onClick={() => {
                         if (
                           confirm("Are you sure you want to delete this event?")
@@ -414,6 +418,7 @@ const EventCreation: React.FC = () => {
                         : "Delete"}
                     </button>
                     <button
+                    className="bg-white rounded-md text-black px-2"
                       onClick={(e) => {
                         e.preventDefault();
                         form.setFieldValue("EventName", event.EventName);
@@ -432,12 +437,15 @@ const EventCreation: React.FC = () => {
                     >
                       Update
                     </button>
+                    <button className="bg-white rounded-md text-black px-2" onClick={()=>{
+                      navigate(`/clubAdmin/event/${event.EventID}`)
+                    }}>View event state</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <button className="bg-black text-white font-semibold rounded-md p-1 w-36">
+          <button className="p-1 font-semibold text-white bg-black rounded-md w-36">
             {" "}
             Create new Event{" "}
           </button>

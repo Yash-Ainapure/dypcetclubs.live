@@ -16,6 +16,7 @@ import Events from "./Events";
 import QuizCreation from "./QuizCreation";
 import AdminResults from "./AdminResults";
 import EventCreation from "./EventCreation";
+import ViewEvent from "./ViewEvent";
 
 export function ClubAdmin() {
   const { isLoggedIn, userData } = useAuth();
@@ -45,7 +46,7 @@ export function ClubAdmin() {
     },
     {
       label: "Hiring",
-      href: "/hiring/",
+      href: "/clubAdmin/hiring",
       icon: (
         <IconUserBolt className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -110,23 +111,18 @@ export function ClubAdmin() {
         </SidebarBody>
       </Sidebar>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="bg-black">
-              <Events />
-            </div>
-          }
-        />
+        <Route path="/" element={<EventCreation />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/events" element={<EventCreation />} />
+        <Route path="/event/:id" element={<ViewEvent />} />
         <Route path="/create-quiz" element={<QuizCreation />} />
         <Route path="/results/:id" element={<AdminResults />} />
+        <Route path="/hiring" element={<Dashboard />} />
       </Routes>
     </div>
   );
 }
-export const Logo = ({ userData }:any) => {
+export const Logo = ({ userData }: any) => {
   return (
     <Link
       to="/demo"
@@ -158,7 +154,7 @@ export const LogoIcon = () => {
 const Dashboard = () => {
   return (
     <div className="flex flex-1">
-      <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 bg-slate-500 border md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
+      <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 border bg-slate-500 md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
         <div className="flex gap-2">
           {[...new Array(4)].map((i) => (
             <div
