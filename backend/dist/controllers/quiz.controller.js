@@ -16,10 +16,12 @@ exports.getQuizResults = exports.submitQuiz = exports.createQuizUser = exports.g
 const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
+const logger_1 = __importDefault(require("../config/logger")); // Import Winston logger
 const createQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, questions, secretCode } = req.body;
     const clubId = Number(req.query.ClubID);
     if (!secretCode || typeof secretCode !== "string") {
+        logger_1.default.warn("Invalid or missing secret code during quiz creation.");
         return res.status(400).json({ error: const_1.MESSAGES.QUIZ.INVALID_SECRET_CODE });
     }
     try {
@@ -39,10 +41,11 @@ const createQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 quizId: quiz.id,
             },
         })));
+        logger_1.default.info(`Quiz created successfully: ${title} for ClubID: ${clubId}`);
         res.status(201).json({ quizId: quiz.id });
     }
     catch (error) {
-        console.error(const_1.MESSAGES.QUIZ.ERROR_CREATING_QUIZ, error);
+        logger_1.default.error(`${const_1.MESSAGES.QUIZ.ERROR_CREATING_QUIZ}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.QUIZ.ERROR_CREATING_QUIZ });
     }
 });
@@ -54,10 +57,11 @@ const getClubQuizzes = (req, res) => __awaiter(void 0, void 0, void 0, function*
             where: { clubId: clubId },
             select: { id: true, title: true, createdAt: true },
         });
+        logger_1.default.info(`Fetched quizzes for ClubID: ${clubId}`);
         res.json(quizzes);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZZES, error);
+        logger_1.default.error(`${const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZZES}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZZES });
     }
 });
@@ -72,16 +76,19 @@ const getQuizById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             include: { questions: true },
         });
         if (!quiz) {
+            logger_1.default.warn(`Quiz not found for ID: ${id}`);
             return res.status(404).json({ error: const_1.MESSAGES.QUIZ.QUIZ_NOT_FOUND });
         }
         const isSecretCodeValid = yield bcrypt_1.default.compare(secretCode, quiz.secretCode);
         if (!isSecretCodeValid) {
+            logger_1.default.warn(`Invalid secret code for quiz ID: ${id}`);
             return res.status(403).json({ error: const_1.MESSAGES.QUIZ.INVALID_SECRET_CODE });
         }
+        logger_1.default.info(`Fetched quiz by ID: ${id}`);
         res.json(quiz);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZ, error);
+        logger_1.default.error(`${const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZ}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZ });
     }
 });
@@ -94,10 +101,11 @@ const createQuizUser = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const user = yield database_config_1.prisma.user.create({
             data: { name, rollNo, year: parsedYear },
         });
+        logger_1.default.info(`Created quiz user: ${name}`);
         res.status(201).json(user);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.USER.ERROR_CREATING_USER, error);
+        logger_1.default.error(`${const_1.MESSAGES.USER.ERROR_CREATING_USER}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.USER.ERROR_CREATING_USER });
     }
 });
@@ -115,10 +123,11 @@ const submitQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 user: { connect: { id: userId } },
             },
         });
+        logger_1.default.info(`Quiz result submitted for quiz ID: ${id} by user ID: ${userId}`);
         res.status(201).json(result);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.QUIZ.ERROR_SUBMITTING_QUIZ_RESULT, error);
+        logger_1.default.error(`${const_1.MESSAGES.QUIZ.ERROR_SUBMITTING_QUIZ_RESULT}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.QUIZ.ERROR_SUBMITTING_QUIZ_RESULT });
     }
 });
@@ -133,16 +142,18 @@ const getQuizResults = (req, res) => __awaiter(void 0, void 0, void 0, function*
             include: { club: true },
         });
         if (!quiz || quiz.clubId !== clubId) {
+            logger_1.default.warn(`Unauthorized access to quiz results for quiz ID: ${id} by ClubID: ${clubId}`);
             return res.status(403).json({ error: const_1.MESSAGES.QUIZ.ACCESS_DENIED });
         }
         const results = yield database_config_1.prisma.result.findMany({
             where: { quizId: parseInt(id) },
             include: { user: true },
         });
+        logger_1.default.info(`Fetched quiz results for quiz ID: ${id}`);
         res.json(results);
     }
     catch (error) {
-        console.error(const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZ_RESULTS, error);
+        logger_1.default.error(`${const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZ_RESULTS}: ${error}`);
         res.status(500).json({ error: const_1.MESSAGES.QUIZ.ERROR_FETCHING_QUIZ_RESULTS });
     }
 });

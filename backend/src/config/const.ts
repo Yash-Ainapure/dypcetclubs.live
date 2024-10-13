@@ -37,5 +37,7 @@ export const MESSAGES = {
     ERROR_SUBMITTING_QUIZ_RESULT: "Failed to submit quiz result.",
     ACCESS_DENIED: "Access denied to this quiz.",
     ERROR_FETCHING_QUIZ_RESULTS: "Failed to retrieve quiz results.",
+    ERROR_DELETING_QUIZ: "Failed to delete quiz.",
+    QUIZ_DELETED: "Quiz deleted successfully.",
   },
 };
