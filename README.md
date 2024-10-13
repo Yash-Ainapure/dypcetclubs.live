@@ -168,6 +168,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/KrishChothani">
+                    <img src="https://avatars.githubusercontent.com/u/143370415?v=4" width="100;" alt="KrishChothani"/>
+                    <br />
+                    <sub><b>Krish Chothani</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/devxMani">
                     <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
                     <br />
@@ -195,6 +202,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Vishwas M D</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/ZayedShahcode">
                     <img src="https://avatars.githubusercontent.com/u/115407231?v=4" width="100;" alt="ZayedShahcode"/>
@@ -202,8 +211,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Zayed</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/im-amanjai">
                     <img src="https://avatars.githubusercontent.com/u/145966547?v=4" width="100;" alt="im-amanjai"/>
