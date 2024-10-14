@@ -205,6 +205,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		</tr>
 		<tr>
             <td align="center">
+                <a href="https://github.com/varma-101">
+                    <img src="https://avatars.githubusercontent.com/u/138625491?v=4" width="100;" alt="varma-101"/>
+                    <br />
+                    <sub><b>SAGI VENKATA NAGA GOPAL VARMA</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/devxMani">
                     <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
                     <br />
@@ -239,6 +246,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Aryan Ramesh Jain</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/AasthaSingh28">
                     <img src="https://avatars.githubusercontent.com/u/138100998?v=4" width="100;" alt="AasthaSingh28"/>
