@@ -9,10 +9,11 @@ export type IconProps = React.HTMLAttributes<SVGElement>;
 
 const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   return (
     <div className="relative flex items-center justify-between w-full px-4 py-4 text-slate-300 md:h-28 sm:px-6 lg:px-8">
       {/* image-logo */}
@@ -26,46 +27,35 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
           dypcetclubs.live
         </h2>
       </div>
-      <div className=" transform bg-[#060f1c] bg-gradient-to-b from-[rgb(10,17,27)] to-[#010a18] sticky top-6 transition-all duration-500 hover:left-[34%] left-[35%] w-[550px] hover:w-[600px]">
+      <div className="transform bg-[#060f1c] bg-gradient-to-b from-[rgb(10,17,27)] to-[#010a18] sticky top-6 transition-all duration-500 hover:left-[34%] left-[35%] w-[550px] hover:w-[600px] hidden md:block">
         <Dock
           direction="middle"
           magnification={60}
           distance={100}
-          className="hidden lg:flex items-center w-full text-base border rounded-lg shadow-xl bg-white/10 backdrop-blur-sm border-white/20"
+          className="flex items-center w-full text-base border rounded-lg shadow-xl bg-white/10 backdrop-blur-sm border-white/20"
         >
           <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-full"
-            onClick={()=>{
-              navigate("/")
-            }}>
+            <p className="flex items-center font-semibold transition-all duration-300 transform size-full" onClick={() => navigate("/")}>
               Home
             </p>
           </DockIcon>
           <DockIcon>
-            <p onClick={()=>{
-              navigate("/clubs")
-            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p onClick={() => navigate("/clubs")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Clubs
             </p>
           </DockIcon>
           <DockIcon>
-            <p onClick={()=>{
-              navigate("/events")
-            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p onClick={() => navigate("/events")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Events
             </p>
           </DockIcon>
           <DockIcon>
-            <p onClick={()=>{
-              navigate("/hiring")
-            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p onClick={() => navigate("/hiring")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Hiring
             </p>
           </DockIcon>
           <DockIcon>
-            <p onClick={()=>{
-              navigate("/about")
-            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p onClick={() => navigate("/about")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
               About
             </p>
           </DockIcon>
@@ -82,7 +72,6 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
         </button>
       </div>
 
-
       {isMenuOpen && (
         <div className="fixed inset-0 bg-white flex flex-col items-center justify-center text-6xl font-bold font-pixeboy z-[1001]">
           <button className="absolute top-5 right-5" onClick={toggleMenu}>
@@ -95,19 +84,21 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
           </button>
 
           <ul className="flex flex-col gap-8 mt-12 text-black">
-            <li className="hover:underline cursor-pointer text-center ">Home</li>
-            <li className="hover:underline cursor-pointer text-center ">Clubs</li>
-            <li className="hover:underline cursor-pointer text-center ">Events</li>
-            <li className="hover:underline cursor-pointer text-center ">Hiring</li>
-            <li className="hover:underline cursor-pointer text-center ">About</li>
+            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/"); toggleMenu(); }}>Home</li>
+            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/clubs"); toggleMenu(); }}>Clubs</li>
+            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/events"); toggleMenu(); }}>Events</li>
+            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/hiring"); toggleMenu(); }}>Hiring</li>
+            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/about"); toggleMenu(); }}>About</li>
+            <li className="hover:underline cursor-pointer text-center" onClick={() => { setShowLoginPage(true); toggleMenu(); }}>Club Login</li>
           </ul>
         </div>
       )}
+
       <div
         onClick={() => {
           setShowLoginPage(true);
         }}
-        className="mr-[15vw] lg:mr-0 text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white"
+        className="mr-[15vw] lg:mr-0 text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white md:block hidden"
       >
         Club login
       </div>
@@ -123,7 +114,7 @@ const Navigation = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  
   return (
     <div>
       {/* Logo and Title at top-left corner */}
