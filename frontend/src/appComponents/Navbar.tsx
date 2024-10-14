@@ -73,7 +73,7 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
       </div>
 
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-white flex flex-col items-center justify-center text-6xl font-bold font-pixeboy z-[1001]">
+        <div className="fixed inset-0 bg-white flex flex-col items-center justify-center text-2xl font-bold font-pixeboy z-[1001] md:text-6xl text-black">
           <button className="absolute top-5 right-5" onClick={toggleMenu}>
             <img
               src={cross}
@@ -83,7 +83,7 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
             />
           </button>
 
-          <ul className="flex flex-col gap-8 mt-12 text-black">
+          <ul className="flex flex-col gap-4 mt-12 md:gap-8">
             <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/"); toggleMenu(); }}>Home</li>
             <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/clubs"); toggleMenu(); }}>Clubs</li>
             <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/events"); toggleMenu(); }}>Events</li>
@@ -114,7 +114,7 @@ const Navigation = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
+
   return (
     <div>
       {/* Logo and Title at top-left corner */}
@@ -179,7 +179,7 @@ const Navigation = () => {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center text-6xl font-bold font-pixeboy z-[1001] text-white">
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center text-2xl font-bold font-pixeboy z-[1001] md:text-6xl text-white">
           <button className="absolute top-5 right-5" onClick={toggleMenu}>
             <img
               src={cross}
@@ -189,17 +189,19 @@ const Navigation = () => {
             />
           </button>
 
-          <ul className="flex flex-col gap-8 mt-12">
+          <ul className="flex flex-col gap-4 mt-12 md:gap-8">
             <li onClick={() => { navigate("/"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Home</li>
             <li onClick={() => { navigate("/clubs"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Clubs</li>
             <li onClick={() => { navigate("/events"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Events</li>
             <li onClick={() => { navigate("/hiring"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Hiring</li>
             <li onClick={() => { navigate("/about"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">About</li>
+            <li onClick={() => { navigate("/club-login"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Club Login</li>
           </ul>
         </div>
       )}
     </div>
   );
 };
+
 
 export { Navbar,Navigation };
