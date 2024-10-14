@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Input } from "@/components/magicui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Navigation } from "./Navbar"
+// import { Navigation } from "./Navbar"
 //import { Navigation } from "./Navdar"
 
 
@@ -34,7 +34,7 @@ const About = () => {
                 </div>
             </div>
 
-            <Navigation />
+            {/* <Navigation /> */}
 
 
 
