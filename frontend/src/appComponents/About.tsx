@@ -6,7 +6,8 @@ import { Accordion,AccordionContent,AccordionItem, AccordionTrigger } from "@/co
 import { Input } from "@/components/magicui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Navigation } from "./Navdar"
+import { Navigation } from "./Navbar"
+import Footer from "./Footer"
 //import { Navigation } from "./Navdar"
 
 
@@ -29,7 +30,7 @@ const About =()=>{
                     <h1 className="text-5xl font-extrabold mb-4">Discover DYPCET Clubs</h1>
                     <p className="text-xl mb-8">Where Passion Meets Purpose</p>
                     <Button 
-                    onClick={()=>route('/')}
+                    onClick={()=>route('/clubboard')}
                     className="bg-white text-gray-900 hover:bg-gray-200">Explore Out Clubs</Button>
                 </div>
             </div>
@@ -189,7 +190,7 @@ const About =()=>{
                         Explore our diverse range of clubs, find your passion, and become part of our vibrant community today!
                     </p>
                     <Button 
-                    onClick={()=>route('/')}
+                    onClick={()=>route('/clubboard')}
                     className="bg-gray-800 text-white hover:bg-gray-700">
                         Explore Clubs <ChevronRight className="ml-2"/>
                     </Button>
@@ -199,7 +200,7 @@ const About =()=>{
 
 
             </div>
-           
+           <Footer/>
         </div>
     )
 }

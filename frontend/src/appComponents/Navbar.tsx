@@ -72,7 +72,7 @@ const Navigation = () => {
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center text-white font-semibold transition-all duration-300 transform size-full cursor-pointer" onClick={() => navigate("/clubs")}>
+            <p className="flex items-center text-white font-semibold transition-all duration-300 transform size-full cursor-pointer" onClick={() => navigate("/clubboard")}>
               Clubs
             </p>
           </DockIcon>
@@ -120,7 +120,7 @@ const Navigation = () => {
 
           <ul className="flex flex-col gap-8 mt-12">
             <li onClick={() => { navigate("/"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Home</li>
-            <li onClick={() => { navigate("/clubs"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Clubs</li>
+            <li onClick={() => { navigate("/clubboard"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Clubs</li>
             <li onClick={() => { navigate("/events"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Events</li>
             <li onClick={() => { navigate("/hiring"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Hiring</li>
             <li onClick={() => { navigate("/about"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">About</li>
