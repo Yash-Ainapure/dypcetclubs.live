@@ -11,9 +11,9 @@ import ClubLogin from "./appComponents/ClubLogin";
 import { ClubAdmin } from "./appComponents/ClubAdmin";
 import "./App.css";
 import QuizPage from "./appComponents/QuizPage";
+import Footer from "./appComponents/Footer"; // Import the Footer component
 
 import { Navbar } from "./appComponents/Navbar";
-
 import About from "./appComponents/About";
 
 
@@ -29,13 +29,11 @@ function App() {
 
   return (
     <Router>
-
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="bg-black font-popins">
-              <Outlet />
+      <div className="bg-black font-popins">
+        <Routes>
+          <Route
+            path="/"
+            element={
               <div className="relative overflow-hidden">
                 <Meteors number={numberOfMeteors} />
                 <Particles
@@ -48,19 +46,20 @@ function App() {
                 <Navbar setShowLoginPage={setShowLoginPage} />
                 <Hero />
               </div>
-              <Clubs />
-              <Events />
-              {showPopup && <Popup onClose={handleClose} />}
-              {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
-            </div>
-          }
-        >
-          <Route path="registerClub" element={<ClubRegistration />} />
-        </Route>
-        <Route path="/clubAdmin/*" element={<ClubAdmin />} />
-        <Route path="/quiz/:id" element={<QuizPage />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
+            }
+          >
+            <Route path="registerClub" element={<ClubRegistration />} />
+          </Route>
+          <Route path="/clubAdmin/*" element={<ClubAdmin />} />
+          <Route path="/quiz/:id" element={<QuizPage />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+        <Clubs />
+        <Events />
+        {showPopup && <Popup onClose={handleClose} />}
+        {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
+      </div>
+      <Footer /> {/* Render the Footer component on all routes */}
     </Router>
   );
 }
