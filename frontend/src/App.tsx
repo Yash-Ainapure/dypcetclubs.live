@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router} from "react-router-dom";
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
