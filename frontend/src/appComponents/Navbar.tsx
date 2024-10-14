@@ -9,6 +9,7 @@ export type IconProps = React.HTMLAttributes<SVGElement>;
 
 const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate=useNavigate();
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -33,23 +34,39 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
           className="hidden lg:flex items-center w-full text-base border rounded-lg shadow-xl bg-white/10 backdrop-blur-sm border-white/20"
         >
           <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p className="flex items-center font-semibold transition-all duration-300 transform size-full"
+            onClick={()=>{
+              navigate("/")
+            }}>
               Home
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p onClick={()=>{
+              navigate("/clubs")
+            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Clubs
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p onClick={()=>{
+              navigate("/events")
+            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Events
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-full">
+            <p onClick={()=>{
+              navigate("/hiring")
+            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
               Hiring
+            </p>
+          </DockIcon>
+          <DockIcon>
+            <p onClick={()=>{
+              navigate("/about")
+            }} className="flex items-center font-semibold transition-all duration-300 transform size-full">
+              About
             </p>
           </DockIcon>
         </Dock>
@@ -82,6 +99,7 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
             <li className="hover:underline cursor-pointer text-center ">Clubs</li>
             <li className="hover:underline cursor-pointer text-center ">Events</li>
             <li className="hover:underline cursor-pointer text-center ">Hiring</li>
+            <li className="hover:underline cursor-pointer text-center ">About</li>
           </ul>
         </div>
       )}
@@ -193,4 +211,4 @@ const Navigation = () => {
   );
 };
 
-export { Navbar, Navigation };
+export { Navbar,Navigation };
