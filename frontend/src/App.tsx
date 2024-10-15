@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Route, Routes, BrowserRouter as Router} from "react-router-dom";
+import {
+  Route,
+  Routes,
+  BrowserRouter as Router,
+  Outlet,
+} from "react-router-dom";
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -11,11 +16,10 @@ import ClubLogin from "./appComponents/ClubLogin";
 import { ClubAdmin } from "./appComponents/ClubAdmin";
 import "./App.css";
 import QuizPage from "./appComponents/QuizPage";
-import Footer from "./appComponents/Footer"; // Import the Footer component
+import Footer from "./appComponents/Footer"; 
 
 import { Navbar } from "./appComponents/Navbar";
 import About from "./appComponents/About";
-
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -29,11 +33,12 @@ function App() {
 
   return (
     <Router>
-      <div className="bg-black font-popins">
-        <Routes>
-          <Route
-            path="/"
-            element={
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="bg-black font-popins">
+              <Outlet />
               <div className="relative overflow-hidden">
                 <Meteors number={numberOfMeteors} />
                 <Particles
@@ -46,20 +51,20 @@ function App() {
                 <Navbar setShowLoginPage={setShowLoginPage} />
                 <Hero />
               </div>
-            }
-          >
-            <Route path="registerClub" element={<ClubRegistration />} />
-          </Route>
-          <Route path="/clubAdmin/*" element={<ClubAdmin />} />
-          <Route path="/quiz/:id" element={<QuizPage />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-        <Clubs />
-        <Events />
-        {showPopup && <Popup onClose={handleClose} />}
-        {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
-      </div>
-      <Footer /> {/* Render the Footer component on all routes */}
+              <Clubs />
+              <Events />
+              {showPopup && <Popup onClose={handleClose} />}
+              {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
+            </div>
+          }
+        >
+          <Route path="registerClub" element={<ClubRegistration />} />
+        </Route>
+        <Route path="/clubAdmin/*" element={<ClubAdmin />} />
+        <Route path="/quiz/:id" element={<QuizPage />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+      <Footer /> 
     </Router>
   );
 }
