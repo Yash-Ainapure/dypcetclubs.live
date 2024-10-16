@@ -1,9 +1,9 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/dypLogo.png";
 import { Dock, DockIcon } from "@/components/magicui/dock";
 import cross from "../assets/cross-icon.svg";
 import burger from "../assets/burger-menu.svg";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
@@ -27,8 +27,7 @@ const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
       {/* Club login button */}
       <div
         onClick={() => setShowLoginPage(true)}
-        className="text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white"
-      >
+        className="text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white">
         Club login
       </div>
     </div>

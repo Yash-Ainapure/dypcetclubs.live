@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
-import { Navbar } from "./appComponents/Navbar.tsx";
+import { Navbar } from "./appComponents/Navbar"; // Clean import
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -13,10 +13,10 @@ import { ClubAdmin } from "./appComponents/ClubAdmin";
 import "./App.css";
 import QuizPage from "./appComponents/QuizPage";
 import About from "./appComponents/About";
-import Footer from "./appComponents/Footer.tsx"
-import ClubsPage from "./appComponents/ClubsPage.tsx"
+import Footer from "./appComponents/Footer.tsx";
+import ClubsPage from "./appComponents/ClubsPage.tsx";
 import EventsPage from "./appComponents/EventsPage.tsx";
-import Features from "./appComponents/Features.js"
+import Features from "./appComponents/Features.js";
 import HiringPage from "./appComponents/HiringPage.tsx";
 import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
@@ -33,7 +33,6 @@ function App() {
 
   return (
     <Router>
-      
       <Routes>
         <Route
           path="/"
@@ -52,10 +51,10 @@ function App() {
                 <Navbar setShowLoginPage={setShowLoginPage} />
                 <Hero />
               </div>
-              <Features/>
+              <Features />
               <Clubs />
               <Events />
-              <Footer/>
+              <Footer />
               {showPopup && <Popup onClose={handleClose} />}
               {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
             </div>
@@ -65,12 +64,12 @@ function App() {
         </Route>
         <Route path="/clubAdmin/*" element={<ClubAdmin />} />
         <Route path="/quiz/:id" element={<QuizPage />} />
-        <Route path="/about"  element={<About />} />
-        <Route path="/clubboard" element={<ClubsPage/>}/>
-        <Route path="/events" element={<EventsPage/>}/>
-        <Route path="/hirimaineng" element={<HiringPage/>}/>
-        <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
-        <Route path="/terms" element={<Terms/>}/>
+        <Route path="/about" element={<About />} />
+        <Route path="/clubboard" element={<ClubsPage />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/hirimaineng" element={<HiringPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<Terms />} />
       </Routes>
     </Router>
   );
