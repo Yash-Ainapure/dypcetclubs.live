@@ -7,99 +7,27 @@ import burger from "../assets/burger-menu.svg";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
+// Navbar component
 const Navbar: React.FC<any> = ({ setShowLoginPage }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   return (
-    <div className="relative flex items-center justify-between w-full px-4 py-4 text-slate-300 md:h-28 sm:px-6 lg:px-8">
+
+    <div className="relative flex items-center justify-between w-full px-4 py-4 text-slate-300 bg-black md:h-28 sm:px-6 lg:px-8">
       {/* image-logo */}
       <div className="z-10 flex items-center gap-2">
-        <img
+        <a href="https://dypcetclubs-live.vercel.app"><img
           src={logo}
           alt="Logo"
           className="w-10 h-8 transition-all duration-500 transform cursor-pointer md:h-16 md:w-16 hover:scale-110"
-        />
-        <h2 className="text-xl font-bold transition-all duration-500 transform cursor-pointer hover:text-white hover:scale-105">
+        /></a>
+        <a href="https://dypcetclubs-live.vercel.app"><h2 className="text-xl font-bold transition-all duration-500 transform cursor-pointer hover:text-white hover:scale-105">
           dypcetclubs.live
-        </h2>
-      </div>
-      <div className="transform bg-[#060f1c] bg-gradient-to-b from-[rgb(10,17,27)] to-[#010a18] sticky top-6 transition-all duration-500 hover:left-[34%] left-[35%] w-[550px] hover:w-[600px] hidden md:block">
-        <Dock
-          direction="middle"
-          magnification={60}
-          distance={100}
-          className="flex items-center w-full text-base border rounded-lg shadow-xl bg-white/10 backdrop-blur-sm border-white/20"
-        >
-          <DockIcon>
-            <p className="flex items-center font-semibold transition-all duration-300 transform size-full" onClick={() => navigate("/")}>
-              Home
-            </p>
-          </DockIcon>
-          <DockIcon>
-            <p onClick={() => navigate("/clubs")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
-              Clubs
-            </p>
-          </DockIcon>
-          <DockIcon>
-            <p onClick={() => navigate("/events")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
-              Events
-            </p>
-          </DockIcon>
-          <DockIcon>
-            <p onClick={() => navigate("/hiring")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
-              Hiring
-            </p>
-          </DockIcon>
-          <DockIcon>
-            <p onClick={() => navigate("/about")} className="flex items-center font-semibold transition-all duration-300 transform size-full">
-              About
-            </p>
-          </DockIcon>
-        </Dock>
-      </div>
-      <div className="z-20 transform transition-all duration-500 fixed top-4 right-4 md:hidden">
-        <button onClick={toggleMenu}>
-          <img
-            src={isMenuOpen ? cross : burger}
-            width={50}
-            height={50}
-            alt={isMenuOpen ? "Close Menu" : "Open Menu"}
-          />
-        </button>
+        </h2></a>
       </div>
 
-      {isMenuOpen && (
-        <div className="fixed inset-0 bg-white flex flex-col items-center justify-center text-2xl font-bold font-pixeboy z-[1001] md:text-6xl text-black">
-          <button className="absolute top-5 right-5" onClick={toggleMenu}>
-            <img
-              src={cross}
-              width={75}
-              height={75}
-              alt="Close Menu"
-            />
-          </button>
-
-          <ul className="flex flex-col gap-4 mt-12 md:gap-8">
-            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/"); toggleMenu(); }}>Home</li>
-            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/clubs"); toggleMenu(); }}>Clubs</li>
-            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/events"); toggleMenu(); }}>Events</li>
-            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/hiring"); toggleMenu(); }}>Hiring</li>
-            <li className="hover:underline cursor-pointer text-center" onClick={() => { navigate("/about"); toggleMenu(); }}>About</li>
-            <li className="hover:underline cursor-pointer text-center" onClick={() => { setShowLoginPage(true); toggleMenu(); }}>Club Login</li>
-          </ul>
-        </div>
-      )}
-
+      {/* Club login button */}
       <div
-        onClick={() => {
-          setShowLoginPage(true);
-        }}
-        className="mr-[15vw] lg:mr-0 text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white md:block hidden"
-      >
+        onClick={() => setShowLoginPage(true)}
+        className="text-base rounded-md shadow-xl text-black bg-white border-white border p-2 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white">
         Club login
       </div>
     </div>
@@ -143,7 +71,7 @@ const Navigation = () => {
             </p>
           </DockIcon>
           <DockIcon>
-            <p className="flex items-center text-white font-semibold transition-all duration-300 transform size-full cursor-pointer" onClick={() => navigate("/clubs")}>
+            <p className="flex items-center text-white font-semibold transition-all duration-300 transform size-full cursor-pointer" onClick={() => navigate("/clubboard")}>
               Clubs
             </p>
           </DockIcon>
@@ -179,7 +107,7 @@ const Navigation = () => {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center text-2xl font-bold font-pixeboy z-[1001] md:text-6xl text-white">
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center text-6xl font-bold font-pixeboy z-[1001] text-white">
           <button className="absolute top-5 right-5" onClick={toggleMenu}>
             <img
               src={cross}
@@ -189,13 +117,12 @@ const Navigation = () => {
             />
           </button>
 
-          <ul className="flex flex-col gap-4 mt-12 md:gap-8">
+          <ul className="flex flex-col gap-8 mt-12">
             <li onClick={() => { navigate("/"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Home</li>
-            <li onClick={() => { navigate("/clubs"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Clubs</li>
+            <li onClick={() => { navigate("/clubboard"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Clubs</li>
             <li onClick={() => { navigate("/events"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Events</li>
             <li onClick={() => { navigate("/hiring"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Hiring</li>
             <li onClick={() => { navigate("/about"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">About</li>
-            <li onClick={() => { navigate("/club-login"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Club Login</li>
           </ul>
         </div>
       )}
@@ -203,5 +130,4 @@ const Navigation = () => {
   );
 };
 
-
-export { Navbar,Navigation };
+export { Navbar, Navigation };
