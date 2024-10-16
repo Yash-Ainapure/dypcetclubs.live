@@ -270,6 +270,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/vastavikadi">
+                    <img src="https://avatars.githubusercontent.com/u/160533006?v=4" width="100;" alt="vastavikadi"/>
+                    <br />
+                    <sub><b>Aditya Shukla</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/AasthaSingh28">
                     <img src="https://avatars.githubusercontent.com/u/138100998?v=4" width="100;" alt="AasthaSingh28"/>
                     <br />
