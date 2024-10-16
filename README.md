@@ -263,6 +263,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/NK-Works">
+                    <img src="https://avatars.githubusercontent.com/u/132702983?v=4" width="100;" alt="NK-Works"/>
+                    <br />
+                    <sub><b>Anneshu Nag</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/AasthaSingh28">
                     <img src="https://avatars.githubusercontent.com/u/138100998?v=4" width="100;" alt="AasthaSingh28"/>
                     <br />
