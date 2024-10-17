@@ -10,7 +10,7 @@ type EventCardProps = {
 
 const EventCard: React.FC<EventCardProps> = ({ name, description, time }) => {
   return (
-    <div className="hover:scale-[101%] bg-white transform transition-all duration-500  text-gray-900 rounded-lg shadow-md p-6 flex flex-col justify-between">
+    <div className="hover:scale-[101%] bg-white transform transition-all duration-500  text-gray-900 rounded-lg shadow-md p-1 flex flex-col justify-between">
       <h2 className="mb-2 text-xl font-bold">{name}</h2>
       <p className="mb-4 text-gray-600">{description}</p>
       <div className="flex items-center justify-between">

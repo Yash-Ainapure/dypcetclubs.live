@@ -9,11 +9,11 @@ datasource db {
 }
 
 model Club {
-  ClubID        Int            @id @default(autoincrement())
+  ClubID        Int             @id @default(autoincrement())
   ClubName      String
   Description   String?
   FoundedDate   String?
-  Email         String         @unique
+  Email         String          @unique
   Password      String
   LogoURL       String?
   Announcements Announcement[]
@@ -21,6 +21,7 @@ model Club {
   Members       ClubMember[]
   Events        Event[]
   Quizzes       Quiz[]
+  HiringSession HiringSession[]
 }
 
 model ClubMember {
@@ -99,43 +100,82 @@ model AnnouncementTag {
   @@id([AnnouncementID, TagID])
 }
 
-
 model Quiz {
-  id         Int       @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
   title      String
   secretCode String
   questions  Question[]
   results    Result[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-   club       Club      @relation(fields: [clubId], references: [ClubID])
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  club       Club       @relation(fields: [clubId], references: [ClubID])
   clubId     Int
 }
 
 model Question {
-  id            Int      @id @default(autoincrement())
+  id            Int    @id @default(autoincrement())
   question      String
-  options       String   // Store options as a delimited string
+  options       String // Store options as a delimited string
   correctAnswer String
-  quiz          Quiz     @relation(fields: [quizId], references: [id])
+  quiz          Quiz   @relation(fields: [quizId], references: [id])
   quizId        Int
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  rollNo   String
-  year     Int
-  results  Result[]
+  id      Int      @id @default(autoincrement())
+  name    String
+  rollNo  String
+  year    Int
+  results Result[]
 }
 
 model Result {
   id        Int      @id @default(autoincrement())
   score     Float
-  answers   String   // Store answers as a JSON string
+  answers   String // Store answers as a JSON string
   quiz      Quiz     @relation(fields: [quizId], references: [id])
   quizId    Int
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime @default(now())
+}
+
+model HiringSession {
+  SessionID   Int              @id @default(autoincrement())
+  ClubID      Int
+  Title       String
+  Description String?
+  StartDate   DateTime
+  EndDate     DateTime
+  Club        Club             @relation(fields: [ClubID], references: [ClubID])
+  Positions   HiringPosition[]
+}
+
+model HiringPosition {
+  PositionID    Int                 @id @default(autoincrement())
+  SessionID     Int
+  Title         String
+  Description   String?
+  Spots         Int
+  HiringSession HiringSession       @relation(fields: [SessionID], references: [SessionID])
+  Applications  HiringApplication[]
+}
+
+model Applicant {
+  ApplicantID  Int                 @id @default(autoincrement())
+  Name         String
+  YearOfStudy  Int
+  Department   String
+  PhoneNumber  String
+  ResumeURL    String
+  Applications HiringApplication[]
+}
+
+model HiringApplication {
+  ApplicationID Int            @id @default(autoincrement())
+  PositionID    Int
+  ApplicantID   Int
+  CreatedAt     DateTime       @default(now())
+  Position      HiringPosition @relation(fields: [PositionID], references: [PositionID])
+  Applicant     Applicant      @relation(fields: [ApplicantID], references: [ApplicantID])
 }
