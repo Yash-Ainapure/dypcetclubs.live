@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
+import { Navbar } from "./appComponents/Navbar"; 
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -11,8 +12,14 @@ import ClubLogin from "./appComponents/ClubLogin";
 import { ClubAdmin } from "./appComponents/ClubAdmin";
 import "./App.css";
 import QuizPage from "./appComponents/QuizPage";
-import { Navbar } from "./appComponents/Navbar";
 import About from "./appComponents/About";
+import Footer from "./appComponents/Footer.tsx";
+import ClubsPage from "./appComponents/ClubsPage.tsx";
+import EventsPage from "./appComponents/EventsPage.tsx";
+import Features from "./appComponents/Features.js";
+import HiringPage from "./appComponents/HiringPage.tsx";
+import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
+import Terms from "./appComponents/Terms.tsx";
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -27,44 +34,43 @@ function App() {
   return (
     <Router>
       <div className="bg-black font-popins">
-        {/* Always visible components */}
         <Navbar setShowLoginPage={setShowLoginPage} />
         <Routes>
-          {/* Home Route */}
           <Route
             path="/"
             element={
-              <div className="relative overflow-hidden">
-                {/* Background effects */}
-                <Meteors number={numberOfMeteors} />
-                <Particles
-                  className="absolute inset-0"
-                  quantity={400}
-                  ease={40}
-                  color={"#ffffff"}
-                  refresh
-                />
-                {/* Hero section */}
-                <Hero />
-                <Clubs />
-                <Events />
+              <div className="bg-black font-popins">
+                <div className="relative overflow-hidden">
+                  <Meteors number={numberOfMeteors} />
+                  <Particles
+                    className="absolute inset-0"
+                    quantity={400}
+                    ease={40}
+                    color={"#ffffff"}
+                    refresh
+                  />
+                  <Hero />
+                  <Features />
+                  <Clubs />
+                  <Events />
+                  <Footer />
+                  {showPopup && <Popup onClose={handleClose} />}
+                  {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
+                </div>
               </div>
             }
-          />
-          <Route path="registerClub" element={<ClubRegistration />} />
+          >
+            <Route path="registerClub" element={<ClubRegistration />} />
+          </Route>
           <Route path="/clubAdmin/*" element={<ClubAdmin />} />
           <Route path="/quiz/:id" element={<QuizPage />} />
-          <Route
-            path="/about"
-            element={ <About />}
-          />
-          <Route path="/clubs" element={<Clubs />} />
-          <Route path="/events" element={<Events />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/clubboard" element={<ClubsPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/hiring" element={<HiringPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
         </Routes>
-
-        {/* Popups */}
-        {showPopup && <Popup onClose={handleClose} />}
-        {showLoginPage && <ClubLogin onClose={() => setShowLoginPage(false)} />}
       </div>
     </Router>
   );
