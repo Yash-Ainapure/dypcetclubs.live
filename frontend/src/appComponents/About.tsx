@@ -6,6 +6,7 @@ import { Accordion,AccordionContent,AccordionItem, AccordionTrigger } from "@/co
 import { Input } from "@/components/magicui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Footer from "./Footer"
 // import { Navigation } from "./Navbar"
 //import { Navigation } from "./Navdar"
 
