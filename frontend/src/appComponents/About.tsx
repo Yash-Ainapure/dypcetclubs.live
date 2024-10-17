@@ -6,8 +6,8 @@ import { Accordion,AccordionContent,AccordionItem, AccordionTrigger } from "@/co
 import { Input } from "@/components/magicui/input"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Navigation } from "./Navbar"
 import Footer from "./Footer"
+// import { Navigation } from "./Navbar"
 //import { Navigation } from "./Navdar"
 
 
@@ -35,11 +35,11 @@ const About =()=>{
                 </div>
             </div>
 
-            <Navigation/>
+            {/* <Navigation /> */}
 
-            
-            
-            
+
+
+
 
             <div className="max-w-6xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
 
