@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createQuiz = exports.getAllEventData = exports.createEvent = exports.updateEvent = exports.getClubEventData = exports.deleteEvent = void 0;
+exports.getSingleEventData = exports.createQuiz = exports.getAllEventData = exports.createEvent = exports.updateEvent = exports.getClubEventData = exports.deleteEvent = void 0;
 const database_config_1 = require("../config/database.config");
 const const_1 = require("../config/const");
 const logger_1 = __importDefault(require("../config/logger"));
@@ -154,3 +154,22 @@ const createQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.createQuiz = createQuiz;
+const getSingleEventData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const eventId = Number(req.query.EventID);
+    try {
+        const event = yield database_config_1.prisma.event.findUnique({
+            where: { EventID: eventId },
+        });
+        if (!event) {
+            logger_1.default.warn(`Event not found for EventID: ${eventId}`);
+            return res.status(404).json({ error: const_1.MESSAGES.EVENT.EVENT_NOT_FOUND });
+        }
+        logger_1.default.info(`Fetched event data for EventID: ${eventId}`);
+        res.json(event);
+    }
+    catch (error) {
+        logger_1.default.error(`${const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENT}: ${error}`);
+        res.status(500).json({ error: const_1.MESSAGES.EVENT.ERROR_FETCHING_EVENT });
+    }
+});
+exports.getSingleEventData = getSingleEventData;
