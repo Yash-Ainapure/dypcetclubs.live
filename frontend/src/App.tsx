@@ -19,6 +19,7 @@ import EventsPage from "./appComponents/EventsPage.tsx";
 import HiringPage from "./appComponents/HiringPage.tsx";
 import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
+import ErrorPage from "./appComponents/Error.tsx";
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -58,8 +59,8 @@ function App() {
               </div>
             }
           >
-            <Route path="registerClub" element={<ClubRegistration />} />
-          </Route>
+            <Route path="registerClub" element={<ClubRegistration />} />           
+          </Route>        
           <Route path="/clubAdmin/*" element={<ClubAdmin />} />
           <Route path="/quiz/:id" element={<QuizPage />} />
           <Route path="/about" element={<About />} />
@@ -68,6 +69,7 @@ function App() {
           <Route path="/hiring" element={<HiringPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </div>
     </Router>
