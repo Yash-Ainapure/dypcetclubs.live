@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
-import { Navbar } from "./appComponents/Navbar"; // Clean import
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import { Navbar } from "./appComponents/Navbar"; 
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -33,44 +33,45 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="bg-black font-popins">
-              <Outlet />
-              <div className="relative overflow-hidden">
-                <Meteors number={numberOfMeteors} />
-                <Particles
-                  className="absolute inset-0"
-                  quantity={400}
-                  ease={40}
-                  color={"#ffffff"}
-                  refresh
-                />
-                <Navbar setShowLoginPage={setShowLoginPage} />
-                <Hero />
+      <div className="bg-black font-popins">
+        <Navbar setShowLoginPage={setShowLoginPage} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="bg-black font-popins">
+                <div className="relative overflow-hidden">
+                  <Meteors number={numberOfMeteors} />
+                  <Particles
+                    className="absolute inset-0"
+                    quantity={400}
+                    ease={40}
+                    color={"#ffffff"}
+                    refresh
+                  />
+                  <Hero />
+                  <Features />
+                  <Clubs />
+                  <Events />
+                  <Footer />
+                  {showPopup && <Popup onClose={handleClose} />}
+                  {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
+                </div>
               </div>
-              <Features />
-              <Clubs />
-              <Events />
-              <Footer />
-              {showPopup && <Popup onClose={handleClose} />}
-              {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
-            </div>
-          }
-        >
-          <Route path="registerClub" element={<ClubRegistration />} />
-        </Route>
-        <Route path="/clubAdmin/*" element={<ClubAdmin />} />
-        <Route path="/quiz/:id" element={<QuizPage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/clubboard" element={<ClubsPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/hirimaineng" element={<HiringPage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<Terms />} />
-      </Routes>
+            }
+          >
+            <Route path="registerClub" element={<ClubRegistration />} />
+          </Route>
+          <Route path="/clubAdmin/*" element={<ClubAdmin />} />
+          <Route path="/quiz/:id" element={<QuizPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/clubboard" element={<ClubsPage />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/hiring" element={<HiringPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
