@@ -6,6 +6,7 @@ interface Club {
   ClubId: number;
   ClubName: string;
   Description: string;
+  Email:string,
   Members: Member[];
 }
 

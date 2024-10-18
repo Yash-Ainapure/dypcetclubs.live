@@ -7,7 +7,7 @@ import burger from "../assets/burger-menu.svg";
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
-const Navigation = ({ setShowLoginPage }: any) => {
+const Navigation = ({ setShowLoginPage, isLoggedIn }: any) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -65,13 +65,15 @@ const Navigation = ({ setShowLoginPage }: any) => {
         </Dock>
       </div>
 
-      <div
-        onClick={() => setShowLoginPage(true)}
-        className="text-base rounded-md shadow-xl text-black bg-white border-white border py-2 px-4 font-semibold cursor-pointer hov
-        er:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white absolute top-8 right-4 z-[11]">
-        Club login
-      </div>
-
+      {/* Conditionally render Club login button if not logged in */}
+      {!isLoggedIn && (
+        <div
+          onClick={() => setShowLoginPage(true)}
+          className="text-base rounded-md shadow-xl text-black bg-white border-white border py-2 px-4 font-semibold cursor-pointer hover:scale-105 transform transition-all duration-500 hover:bg-transparent hover:text-white absolute top-8 right-4 z-[11]"
+        >
+          Club login
+        </div>
+      )}
 
       {/* Mobile menu toggle button */}
       <div className="z-20 fixed top-4 right-4 md:hidden">
@@ -89,20 +91,55 @@ const Navigation = ({ setShowLoginPage }: any) => {
       {isMenuOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col items-center justify-center text-6xl font-bold font-pixeboy z-[1001] text-white">
           <button className="absolute top-5 right-5" onClick={toggleMenu}>
-            <img
-              src={cross}
-              width={75}
-              height={75}
-              alt="Close Menu"
-            />
+            <img src={cross} width={75} height={75} alt="Close Menu" />
           </button>
 
           <ul className="flex flex-col gap-8 mt-12">
-            <li onClick={() => { navigate("/"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Home</li>
-            <li onClick={() => { navigate("/clubboard"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Clubs</li>
-            <li onClick={() => { navigate("/events"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Events</li>
-            <li onClick={() => { navigate("/hiring"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">Hiring</li>
-            <li onClick={() => { navigate("/about"); toggleMenu(); }} className="hover:underline cursor-pointer text-center">About</li>
+            <li
+              onClick={() => {
+                navigate("/");
+                toggleMenu();
+              }}
+              className="hover:underline cursor-pointer text-center"
+            >
+              Home
+            </li>
+            <li
+              onClick={() => {
+                navigate("/clubboard");
+                toggleMenu();
+              }}
+              className="hover:underline cursor-pointer text-center"
+            >
+              Clubs
+            </li>
+            <li
+              onClick={() => {
+                navigate("/events");
+                toggleMenu();
+              }}
+              className="hover:underline cursor-pointer text-center"
+            >
+              Events
+            </li>
+            <li
+              onClick={() => {
+                navigate("/hiring");
+                toggleMenu();
+              }}
+              className="hover:underline cursor-pointer text-center"
+            >
+              Hiring
+            </li>
+            <li
+              onClick={() => {
+                navigate("/about");
+                toggleMenu();
+              }}
+              className="hover:underline cursor-pointer text-center"
+            >
+              About
+            </li>
           </ul>
         </div>
       )}

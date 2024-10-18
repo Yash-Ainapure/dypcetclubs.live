@@ -23,7 +23,7 @@ const QuizCreation: React.FC = () => {
 
   useEffect(() => {
     if (userData) {
-      setClubInfo(userData.club);
+      setClubInfo(userData?.Club);
       console.log(clubInfo);
       fetchQuizzes();
     } else {
@@ -38,7 +38,7 @@ const QuizCreation: React.FC = () => {
     try {
       try {
         const response = await axios.get(
-          `/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`
+          `/api/quizzes/getClubQuizzes?ClubID=${userData?.ClubID}`
         );
         if (response.status === 200) {
           const data = response.data;
@@ -96,7 +96,7 @@ const QuizCreation: React.FC = () => {
 
       //to create a new quiz
       const response = await axios.post(
-        `/api/quizzes/createQuiz?ClubID=${userData.club.ClubID}`,
+        `/api/quizzes/createQuiz?ClubID=${userData?.ClubID}`,
         {
           title,
           questions: formattedQuestions,
