@@ -1,16 +1,11 @@
 "use client";
 import ClubCard from "./ClubCard";
 import { useClubs } from "../hooks/useClubs";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 
 export default function Clubs() {
   const isHomePage = window.location.pathname === "/";
   const { data: clubs, error, isLoading } = useClubs();
-  const navigate = useNavigate();
   const displayedClubs = clubs?.slice(0, 6);
-  const { userData } = useAuth(); // Assuming user contains club information
-  const ClubID = userData?.ClubID;
   if (isLoading)
     return (
       <div className="min-h-screen px-6 py-12 bg-white">

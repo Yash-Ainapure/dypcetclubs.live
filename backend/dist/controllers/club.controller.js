@@ -12,11 +12,58 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addClubMember = exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = void 0;
+exports.addClubMember = exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = exports.getClubById = exports.getClubByEmail = void 0;
 const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
 const logger_1 = __importDefault(require("../config/logger"));
+const getClubByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email } = req.body; // Read email from request body
+    if (!email || typeof email !== "string") {
+        return res.status(400).json({ error: "Email body parameter is required." });
+    }
+    try {
+        const club = yield database_config_1.prisma.club.findUnique({
+            where: { Email: email }, // Assuming Email is unique in your club model
+        });
+        if (!club) {
+            logger_1.default.warn(`No club found with email: ${email}`);
+            return res.status(404).json({ error: "Club not found." });
+        }
+        logger_1.default.info(`Fetched club data for email: ${email}`);
+        res.json(club);
+    }
+    catch (error) {
+        logger_1.default.error(`${const_1.MESSAGES.CLUB.ERROR_FETCHING_DATA}: ${error}`);
+        res.status(500).json({ error: const_1.MESSAGES.CLUB.ERROR_FETCHING_DATA });
+    }
+});
+exports.getClubByEmail = getClubByEmail;
+const getClubById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { clubId } = req.params; // Get clubId from request parameters
+    try {
+        const club = yield database_config_1.prisma.club.findUnique({
+            where: { ClubID: Number(clubId) }, // Use the clubId to find the specific club
+            include: {
+                Members: true,
+                Events: true,
+                Announcements: true,
+                ClubImages: true,
+            },
+        });
+        if (!club) {
+            logger_1.default.warn(`Club with ID ${clubId} does not exist.`);
+            return res.status(404).json({ error: const_1.MESSAGES.CLUB.ERROR_FETCHING_DATA });
+        }
+        logger_1.default.info(`Fetched club data for ClubID: ${clubId} successfully.`);
+        res.json(club); // Return the club data
+    }
+    catch (error) {
+        logger_1.default.error(`${const_1.MESSAGES.CLUB.ERROR_FETCHING_DATA}: ${error}`);
+        res.status(500).json({ error: const_1.MESSAGES.CLUB.ERROR_FETCHING_DATA });
+    }
+});
+exports.getClubById = getClubById;
 const getClubData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = yield database_config_1.prisma.club.findMany({
@@ -123,16 +170,15 @@ const getClubMembers = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getClubMembers = getClubMembers;
 const addClubMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { ClubID, FirstName, LastName, Email, Role, JoinDate, ProfileImageURL } = req.body;
+        const { ClubID, FirstName, LastName, Email, Role, JoinDate, ProfileImageURL, } = req.body;
+        console.log("ClubId is ", ClubID);
         console.log(req.body);
-        // Validate required fields
         if (!ClubID || !FirstName || !LastName) {
             logger_1.default.warn("Attempted to add a club member with missing required fields.");
             return res
                 .status(400)
                 .json({ error: "ClubID, FirstName, and LastName are required." });
         }
-        // Create a new member associated with the specified club
         const newMember = yield database_config_1.prisma.clubMember.create({
             data: {
                 FirstName,
@@ -142,11 +188,12 @@ const addClubMember = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 JoinDate,
                 ProfileImageURL,
                 Club: {
-                    connect: { ClubID } // Assuming ClubID is sent in the request body
-                }
+                    connect: { ClubID },
+                },
             },
         });
-        logger_1.default.info(`New member added to ClubID ${ClubID}: ${FirstName} ${LastName}`);
+        logger_1.default.info(`
+  New member added to ClubID ${ClubID}: ${FirstName} ${LastName}`);
         res.status(201).json(newMember);
     }
     catch (error) {

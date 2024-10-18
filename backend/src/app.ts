@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 setupRoutes(app);
 
-const PORT = config.PORT || 5000;
+const PORT = config.PORT || 4000;
  
 async function startServer() {
   try {

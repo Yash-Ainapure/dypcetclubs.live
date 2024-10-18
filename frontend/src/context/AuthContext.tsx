@@ -1,10 +1,20 @@
 import axios from "../appComponents/axiosInstance";
 import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
 
+interface Club {
+  ClubID: number;
+  ClubName: string;
+  Description?: string;
+  FoundedDate?: string;
+  Email: string;
+  LogoURL?: string;
+}
+
 interface UserData {
   Email: string;
   ClubName: string; 
-  ClubID: number;  // Add clubId to the userData
+  ClubID: number; 
+  Club: Club;
 }
 
 interface AuthContextType {
@@ -46,7 +56,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUserData({ 
           Email: club.Email, 
           ClubName: club.ClubName, 
-          ClubID: club.ClubID
+          ClubID: club.ClubID,
+          Club:club 
         });  // Store both clubName and clubId
         setIsLoggedIn(true);
 
@@ -54,7 +65,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         localStorage.setItem("userData", JSON.stringify({ 
           Email: club.Email, 
           ClubName: club.ClubName, 
-          ClubID: club.ClubID
+          ClubID: club.ClubID,
+          Club: club,
         }));
         
         return true;
