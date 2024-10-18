@@ -256,6 +256,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/Dhruv-pahuja">
+                    <img src="https://avatars.githubusercontent.com/u/100836518?v=4" width="100;" alt="Dhruv-pahuja"/>
+                    <br />
+                    <sub><b>Dhruv Pahuja</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/jainaryan04">
                     <img src="https://avatars.githubusercontent.com/u/138214350?v=4" width="100;" alt="jainaryan04"/>
                     <br />
