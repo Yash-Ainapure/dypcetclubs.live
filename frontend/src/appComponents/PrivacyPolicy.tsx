@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Footer from "./Footer";
-import { Navigation } from "./Navbar";
 
 const PrivacyPolicy = () => {
   return (
@@ -12,14 +11,12 @@ const PrivacyPolicy = () => {
           <h1 className="text-5xl font-extrabold mb-4">Privacy Policy</h1>
           <p className="text-xl mb-8">Your privacy is important to us.</p>
           <a href="clubboard">
-          <Button className="bg-white text-gray-900 hover:bg-gray-200">
-            Back to Clubs
-          </Button>
+            <Button className="bg-white text-gray-900 hover:bg-gray-200">
+              Back to Clubs
+            </Button>
           </a>
         </div>
       </div>
-
-      <Navigation />
 
       <div className="container mx-auto p-6">
         <h2 className="text-2xl font-bold mt-6 mb-4">1. Introduction</h2>
@@ -76,7 +73,7 @@ const PrivacyPolicy = () => {
         <p>
           If you have any questions about this Privacy Policy, please contact us:
           <ul className="list-disc ml-6">
-            <li><strong>Email:</strong> [DYCETCLUBS@gmail.com]</li>
+            <li><strong>Email:</strong> ainapureyash2@gmail.com</li>
             <li><strong>Website:</strong> <a href="https://dypcetclubs-live.vercel.app/" className="text-blue-500">dypcetclubs.live</a></li>
           </ul>
         </p>

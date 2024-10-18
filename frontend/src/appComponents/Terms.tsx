@@ -12,9 +12,9 @@ const Terms = () => {
           <h1 className="text-5xl font-extrabold mb-4">Terms and Conditions</h1>
           <p className="text-xl mb-8">Please read these terms carefully.</p>
           <a href="clubboard">
-          <Button className="bg-white text-gray-900 hover:bg-gray-200">
-            Back to Clubs
-          </Button>
+            <Button className="bg-white text-gray-900 hover:bg-gray-200">
+              Back to Clubs
+            </Button>
           </a>
         </div>
       </div>
@@ -54,14 +54,14 @@ const Terms = () => {
 
         <h2 className="text-2xl font-bold mt-6 mb-4">7. Governing Law</h2>
         <p>
-          These terms shall be governed by and construed in accordance with the laws of [Your Country/State]. Any legal action or proceeding arising under these terms will be brought exclusively in the courts located in [Your Jurisdiction].
+          These terms shall be governed by and construed in accordance with the laws of India. Any legal action or proceeding arising under these terms will be brought exclusively in the courts located in [Your Jurisdiction].
         </p>
 
         <h2 className="text-2xl font-bold mt-6 mb-4">8. Contact Us</h2>
         <p>
           If you have any questions about these Terms and Conditions, please contact us:
           <ul className="list-disc ml-6">
-            <li><strong>Email:</strong> [DYCETCLUBS@gmail.com]</li>
+            <li><strong>Email:</strong> ainapureyash2@gmail.com</li>
             <li><strong>Website:</strong> <a href="https://dypcetclubs-live.vercel.app/" className="text-blue-500">dypcetclubs.live</a></li>
           </ul>
         </p>
