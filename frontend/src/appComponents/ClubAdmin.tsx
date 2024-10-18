@@ -16,12 +16,17 @@ import QuizCreation from "./QuizCreation";
 import AdminResults from "./AdminResults";
 import EventCreation from "./EventCreation";
 import ViewEvent from "./ViewEvent";
+import AddClubMembers from "./AddClubMembers";
 
-export function ClubAdmin() {
+export function ClubAdmin({ setShowNavbar }:any) {
   const { isLoggedIn, userData } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(window.location.pathname.startsWith("/clubAdmin")){
+      setShowNavbar(false);
+    }
+
     if (!isLoggedIn) {
       console.log("Not logged in");
       navigate("/");
@@ -117,6 +122,7 @@ export function ClubAdmin() {
         <Route path="/create-quiz" element={<QuizCreation />} />
         <Route path="/results/:id" element={<AdminResults />} />
         <Route path="/hiring" element={<Dashboard />} />
+        <Route path="/addMember" element={<AddClubMembers />} />
       </Routes>
     </div>
   );

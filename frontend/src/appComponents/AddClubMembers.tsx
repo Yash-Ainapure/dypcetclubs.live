@@ -16,7 +16,7 @@ const AddClubMembers = () => {
 
   const { userData } = useAuth(); // Assuming user contains club information
   const ClubID = userData?.ClubID;
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
@@ -49,11 +49,11 @@ const AddClubMembers = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-black text-white">
+    <div className="min-h-screen w-full text-white rounded-tl-2xl">
       <div className="relative z-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 animate-gradient"></div>
       </div>
-      <div className="min-h-screen px-6 py-12 bg-black">
+      <div className="min-h-screen px-6 py-12 bg-black rounded-tl-2xl">
         <div className="max-w-xl mx-auto mt-10 p-6 bg-gray-800 rounded-lg shadow-lg border border-gray-600">
           <h2 className="text-3xl font-bold mb-4 text-center">Add Club Member</h2>
           {error && <div className="text-red-400 mb-4 text-center">{error}</div>}

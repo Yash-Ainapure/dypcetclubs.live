@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import { Navigation } from "./appComponents/Navbar";
 
@@ -12,40 +12,44 @@ import ClubRegistration from "./appComponents/ClubRegistration";
 import ClubLogin from "./appComponents/ClubLogin";
 import { ClubAdmin } from "./appComponents/ClubAdmin";
 import "./App.css";
-import QuizPage from "./appComponents/QuizPage";
 import About from "./appComponents/About";
 import Footer from "./appComponents/Footer.tsx";
 import ClubsPage from "./appComponents/ClubsPage.tsx";
 import EventsPage from "./appComponents/EventsPage.tsx";
-import HiringPage from "./appComponents/HiringPage.tsx";
 import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
-import { useAuth } from "./context/AuthContext"; // Import the Auth context
 import ClubDetails from "./appComponents/ClubDetails.tsx";
-import AddClubMembers from "./appComponents/AddClubMembers.tsx";
 
 function App() {
-  const { isLoggedIn } = useAuth(); // Access the authentication state
   const [showPopup, setShowPopup] = useState(true);
   const [showLoginPage, setShowLoginPage] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
 
   const handleClose = () => {
     setShowPopup(false);
   };
 
+  useEffect(() => {
+    if (!window.location.pathname.startsWith("/clubAdmin") && showNavbar === false) {
+      console.log("setting navbar to true");
+      setShowNavbar(true);
+    }
+  }, [])
+
   const numberOfMeteors = window.innerWidth >= 768 ? 70 : 10;
 
   return (
     <Router>
-      <div className="bg-black font-popins">
-        
-        <Routes>
-          {/* Public routes */}
-          <Route
-            path="/"
-            element={
-              <>
-              <Navigation setShowLoginPage={setShowLoginPage} />
+      {showPopup && <Popup onClose={handleClose} />}
+      {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
+      {
+        showNavbar && <Navigation setShowLoginPage={setShowLoginPage} />
+      }
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
               <div className="bg-black font-popins">
                 <div className="relative overflow-hidden">
                   <Meteors number={numberOfMeteors} />
@@ -60,32 +64,20 @@ function App() {
                   <Clubs />
                   <Events />
                   <Footer />
-                  {showPopup && <Popup onClose={handleClose} />}
-                  {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
                 </div>
               </div>
-              </>
-            }
-          />
-          <Route path="registerClub" element={<ClubRegistration />} />
-          <Route path="/clubboard" element={<ClubsPage />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/clubs/:clubId" element={<ClubDetails />} />
-
-          {/* Routes accessible only to logged-in users */}
-          {isLoggedIn && (
-            <>
-              <Route path="/clubAdmin/*" element={<ClubAdmin />} />
-              <Route path="/quiz/:id" element={<QuizPage />} />
-              <Route path="/events" element={<EventsPage />} />
-              <Route path="/clubAdmin/hiring" element={<HiringPage />} />
-              <Route path="/clubAdmin/addMember" element={<AddClubMembers/>}/>
             </>
-          )}
-        </Routes>
-      </div>
+          }
+        />
+        <Route path="/clubAdmin/*" element={<ClubAdmin setShowNavbar={setShowNavbar} />} />
+        <Route path="/registerClub" element={<ClubRegistration />} />
+        <Route path="/clubboard" element={<ClubsPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/clubs/:clubId" element={<ClubDetails />} />
+      </Routes>
     </Router>
   );
 }

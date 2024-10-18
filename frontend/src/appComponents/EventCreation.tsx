@@ -175,7 +175,7 @@ const EventCreation: React.FC = () => {
 
   return (
     <>
-    <div className="w-full bg-black min-h-screen ">
+    <div className="rounded-tl-2xl w-full bg-black min-h-screen ">
     <div className=" items-center justify-center min-h-screen  ">
     <div className="flex justify-center mt-10">
     <button className="p-2 font-semibold text-black bg-white rounded-md w-36"
