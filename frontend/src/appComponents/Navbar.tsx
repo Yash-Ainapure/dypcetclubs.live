@@ -25,7 +25,7 @@ const Navigation = ({ setShowLoginPage }: any) => {
           className="w-10 h-8 transition-all duration-500 transform cursor-pointer md:h-16 md:w-16 hover:scale-110"
         />
         <h2 className="text-xl font-bold transition-all duration-500 text-white transform cursor-pointer hover:text-white hover:scale-105">
-          dypcetclubs.livegaition
+          dypcetclubs.live
         </h2>
       </div>
 
