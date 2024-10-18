@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
-import { Navbar } from "./appComponents/Navbar";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import { Navigation } from "./appComponents/Navbar";
 
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
@@ -22,6 +22,7 @@ import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
 import { useAuth } from "./context/AuthContext"; // Import the Auth context
 import ClubDetails from "./appComponents/ClubDetails.tsx";
+import AddClubMembers from "./appComponents/AddClubMembers.tsx";
 
 function App() {
   const { isLoggedIn } = useAuth(); // Access the authentication state
@@ -37,11 +38,14 @@ function App() {
   return (
     <Router>
       <div className="bg-black font-popins">
-        <Navigation setShowLoginPage={setShowLoginPage} />
+        
         <Routes>
+          {/* Public routes */}
           <Route
             path="/"
             element={
+              <>
+              <Navigation setShowLoginPage={setShowLoginPage} />
               <div className="bg-black font-popins">
                 <div className="relative overflow-hidden">
                   <Meteors number={numberOfMeteors} />
@@ -60,36 +64,28 @@ function App() {
                   {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
                 </div>
               </div>
-              <Features />
-              <Clubs />
-              <Events />
-              <Footer />
-              {showPopup && <Popup onClose={handleClose} />}
-              {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
-            </div>
-          }
-        >
+              </>
+            }
+          />
           <Route path="registerClub" element={<ClubRegistration />} />
-        </Route>
+          <Route path="/clubboard" element={<ClubsPage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/clubs/:clubId" element={<ClubDetails />} />
 
-        {/* Routes accessible only to logged-in users */}
-        {isLoggedIn && (
-          <>
-            <Route path="/clubAdmin/*" element={<ClubAdmin/>}/>
-            <Route path="/quiz/:id" element={<QuizPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/clubAdmin/hiring" element={<HiringPage/>} />
-          </>
-        )}
-
-        {/* Public routes */}
-        <Route path="/clubboard" element={<ClubsPage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/clubs/:clubId" element={ <ClubDetails/>} />
-      </Routes>
-
+          {/* Routes accessible only to logged-in users */}
+          {isLoggedIn && (
+            <>
+              <Route path="/clubAdmin/*" element={<ClubAdmin />} />
+              <Route path="/quiz/:id" element={<QuizPage />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/clubAdmin/hiring" element={<HiringPage />} />
+              <Route path="/clubAdmin/addMember" element={<AddClubMembers/>}/>
+            </>
+          )}
+        </Routes>
+      </div>
     </Router>
   );
 }

@@ -77,7 +77,7 @@ export function ClubAdmin() {
     <div
       className={cn(
         "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden",
-        "h-screen", // for your use case, use `h-screen` instead of `h-[60vh]`
+        "h-screen" // for your use case, use `h-screen` instead of `h-[60vh]`
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -149,28 +149,44 @@ export const LogoIcon = () => {
   );
 };
 
-// Dummy dashboard component with content
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const handleAddMember = () => {
+    navigate("/clubAdmin/addMember");
+    console.log("Add new club member");
+  };
+
   return (
     <div className="flex flex-1">
       <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 border bg-slate-500 md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
+        {/* Placeholder for skeleton loading */}
         <div className="flex gap-2">
-          {[...new Array(4)].map((i) => (
+          {[...new Array(4)].map((_, index) => (
             <div
-            key={`first-array-${i}`}
+              key={`first-array-${index}`}
               className="w-full h-20 bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"
             ></div>
           ))}
         </div>
         <div className="flex flex-1 gap-2">
-          {[...new Array(2)].map((i) => (
+          {[...new Array(2)].map((_, index) => (
             <div
-            key={`second-array-${i}`}
+              key={`second-array-${index}`}
               className="w-full h-full bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"
             ></div>
           ))}
         </div>
+
+        {/* Button to add a new club member */}
+        <button
+          onClick={handleAddMember}
+          className="mt-4 p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+        >
+          Add New Club Member
+        </button>
       </div>
     </div>
   );
 };
+
+export default Dashboard;
