@@ -6,6 +6,7 @@ import { Navigation } from "./Navbar"; // Ensure Navigation is imported correctl
 import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
 
+
 const HiringPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -63,8 +64,6 @@ const HiringPage = () => {
           </Button>
         </div>
       </div>
-
-      <Navigation />
       <div className="min-h-screen px-6 py-12 bg-white">
         <div className="pb-10 text-center">
           <h1 className="pb-4 text-3xl font-semibold">Current Openings</h1>
@@ -133,9 +132,9 @@ const HiringPage = () => {
               Add Member
             </Button>
           </form>
+
         </div>
       </div>
-
       <Footer />
     </div>
   );

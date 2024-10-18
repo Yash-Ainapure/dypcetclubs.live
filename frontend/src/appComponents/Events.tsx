@@ -7,57 +7,6 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const isHomePage = window.location.pathname === "/";
 
-  // function convertDateTime(eventStartDateTime) {
-  //   // Convert the string to Date object
-  //   let dt = new Date(eventStartDateTime);
-
-  //   // Array of month names
-  //   let monthNames = [
-  //     "January",
-  //     "February",
-  //     "March",
-  //     "April",
-  //     "May",
-  //     "June",
-  //     "July",
-  //     "August",
-  //     "September",
-  //     "October",
-  //     "November",
-  //     "December",
-  //   ];
-
-  //   // Get the day, month, year, hours and minutes
-  //   let day = dt.getDate();
-  //   let month = monthNames[dt.getMonth()];
-  //   let year = dt.getFullYear();
-  //   let hours = dt.getHours();
-  //   let minutes = dt.getMinutes();
-
-  //   // Convert hours from 24-hour format to 12-hour format
-  //   let period = hours >= 12 ? "PM" : "AM";
-  //   hours = hours % 12;
-  //   hours = hours ? hours : 12; // the hour '0' should be '12'
-
-  //   // Pad minutes with a zero if needed
-  //   minutes = minutes < 10 ? "0" + minutes : minutes;
-
-  //   // Return the formatted date and time
-  //   return (
-  //     month +
-  //     " " +
-  //     day +
-  //     ", " +
-  //     year +
-  //     " " +
-  //     hours +
-  //     ":" +
-  //     minutes +
-  //     " " +
-  //     period
-  //   );
-  // }
-
   const formatTimeRange = (startDateTime: any, endDateTime: any) => {
     // Convert the strings to Date objects
     let start = new Date(startDateTime);
@@ -126,10 +75,6 @@ const Events = () => {
     const getAllEvents = async () => {
       const response = await axios.get("/api/events/getAllEventData");
       setEvents(response.data);
-      // const startDateTime = "2024-09-11T16:00";
-      // const endDateTime = "2024-09-11T19:00";
-      // const timeRange = formatTimeRange(startDateTime, endDateTime);
-      // console.log(timeRange);
     };
     getAllEvents();
   }, []);
@@ -147,7 +92,7 @@ const Events = () => {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-8 px-6 mt-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 mt-8 sm:grid-cols-2 lg:grid-cols-3 px-10">
         {events.map((event: any) => (
           <EventCard
             key={event.EventID}

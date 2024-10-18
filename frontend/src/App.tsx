@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
 import { Navbar } from "./appComponents/Navbar";
+
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -16,7 +17,6 @@ import About from "./appComponents/About";
 import Footer from "./appComponents/Footer.tsx";
 import ClubsPage from "./appComponents/ClubsPage.tsx";
 import EventsPage from "./appComponents/EventsPage.tsx";
-import Features from "./appComponents/Features.js";
 import HiringPage from "./appComponents/HiringPage.tsx";
 import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
@@ -36,23 +36,29 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div className="bg-black font-popins">
-              <Outlet />
-              <div className="relative overflow-hidden">
-                <Meteors number={numberOfMeteors} />
-                <Particles
-                  className="absolute inset-0"
-                  quantity={400}
-                  ease={40}
-                  color={"#ffffff"}
-                  refresh
-                />
-                <Navbar setShowLoginPage={setShowLoginPage} />
-                <Hero />
+      <div className="bg-black font-popins">
+        <Navigation setShowLoginPage={setShowLoginPage} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div className="bg-black font-popins">
+                <div className="relative overflow-hidden">
+                  <Meteors number={numberOfMeteors} />
+                  <Particles
+                    className="absolute inset-0"
+                    quantity={400}
+                    ease={40}
+                    color={"#ffffff"}
+                    refresh
+                  />
+                  <Hero />
+                  <Clubs />
+                  <Events />
+                  <Footer />
+                  {showPopup && <Popup onClose={handleClose} />}
+                  {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
+                </div>
               </div>
               <Features />
               <Clubs />
@@ -83,6 +89,7 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/clubs/:clubId" element={ <ClubDetails/>} />
       </Routes>
+
     </Router>
   );
 }
