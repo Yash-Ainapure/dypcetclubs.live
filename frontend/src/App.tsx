@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Route, Routes, BrowserRouter as Router, Outlet } from "react-router-dom";
-import { Navbar } from "./appComponents/Navbar"; // Clean import
+import { Navbar } from "./appComponents/Navbar";
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -20,8 +20,11 @@ import Features from "./appComponents/Features.js";
 import HiringPage from "./appComponents/HiringPage.tsx";
 import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
+import { useAuth } from "./context/AuthContext"; // Import the Auth context
+import ClubDetails from "./appComponents/ClubDetails.tsx";
 
 function App() {
+  const { isLoggedIn } = useAuth(); // Access the authentication state
   const [showPopup, setShowPopup] = useState(true);
   const [showLoginPage, setShowLoginPage] = useState(false);
 
@@ -62,14 +65,23 @@ function App() {
         >
           <Route path="registerClub" element={<ClubRegistration />} />
         </Route>
-        <Route path="/clubAdmin/*" element={<ClubAdmin />} />
-        <Route path="/quiz/:id" element={<QuizPage />} />
-        <Route path="/about" element={<About />} />
+
+        {/* Routes accessible only to logged-in users */}
+        {isLoggedIn && (
+          <>
+            <Route path="/clubAdmin/*" element={<ClubAdmin/>}/>
+            <Route path="/quiz/:id" element={<QuizPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/clubAdmin/hiring" element={<HiringPage/>} />
+          </>
+        )}
+
+        {/* Public routes */}
         <Route path="/clubboard" element={<ClubsPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/hirimaineng" element={<HiringPage />} />
+        <Route path="/about" element={<About />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/clubs/:clubId" element={ <ClubDetails/>} />
       </Routes>
     </Router>
   );

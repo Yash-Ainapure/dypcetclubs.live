@@ -9,6 +9,7 @@ const rateLimiter_1 = __importDefault(require("../middlewares/rateLimiter"));
 const router = (0, express_1.Router)();
 router.get("/getClubData", club_controller_1.getClubData);
 router.post("/addClub", club_controller_1.addClub);
+router.post("/addMember", club_controller_1.addClubMember);
 router.post("/login", rateLimiter_1.default, club_controller_1.login);
 router.get("/getClubMembers", club_controller_1.getClubMembers);
 exports.default = router;

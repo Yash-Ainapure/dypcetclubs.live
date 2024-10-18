@@ -133,7 +133,7 @@ export const Logo = ({ userData }: any) => {
         animate={{ opacity: 1 }}
         className="font-medium text-black whitespace-pre dark:text-white"
       >
-        {userData.club.ClubName}
+        {userData.ClubName}
       </motion.span>
     </Link>
   );
@@ -157,7 +157,7 @@ const Dashboard = () => {
         <div className="flex gap-2">
           {[...new Array(4)].map((i) => (
             <div
-              key={"first-array" + i}
+            key={`first-array-${i}`}
               className="w-full h-20 bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"
             ></div>
           ))}
@@ -165,7 +165,7 @@ const Dashboard = () => {
         <div className="flex flex-1 gap-2">
           {[...new Array(2)].map((i) => (
             <div
-              key={"second-array" + i}
+            key={`second-array-${i}`}
               className="w-full h-full bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"
             ></div>
           ))}

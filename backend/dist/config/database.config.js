@@ -35,7 +35,7 @@ function testDatabaseConnection() {
         }
     });
 }
-// Function to close the database connection
+// Function to close the database connection 
 function closeDatabaseConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         yield exports.prisma.$disconnect();

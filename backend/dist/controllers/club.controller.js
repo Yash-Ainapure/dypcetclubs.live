@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = void 0;
+exports.addClubMember = exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = void 0;
 const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
@@ -41,7 +41,9 @@ const addClub = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { ClubName, Description, FoundedDate, Email, Password, LogoURL } = req.body;
         if (!ClubName || !Email || !Password) {
             logger_1.default.warn("Attempted to add a club with missing required fields.");
-            return res.status(400).json({ error: const_1.MESSAGES.CLUB.CLUB_NAME_EMAIL_PASSWORD_REQUIRED });
+            return res
+                .status(400)
+                .json({ error: const_1.MESSAGES.CLUB.CLUB_NAME_EMAIL_PASSWORD_REQUIRED });
         }
         const hashedPassword = yield bcrypt_1.default.hash(Password, 10);
         const newClub = yield database_config_1.prisma.club.create({
@@ -51,7 +53,7 @@ const addClub = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 FoundedDate,
                 Email,
                 Password: hashedPassword,
-                LogoURL: 'https://img.icons8.com/ios-filled/50/test-account.png',
+                LogoURL: "https://img.icons8.com/ios-filled/50/test-account.png",
             },
         });
         logger_1.default.info(`New club added: ${ClubName}`);
@@ -67,7 +69,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     if (!email || !password) {
         logger_1.default.warn("Login attempt with missing email or password.");
-        return res.status(400).json({ error: const_1.MESSAGES.CLUB.CLUB_NAME_EMAIL_PASSWORD_REQUIRED });
+        return res
+            .status(400)
+            .json({ error: const_1.MESSAGES.CLUB.CLUB_NAME_EMAIL_PASSWORD_REQUIRED });
     }
     try {
         const club = yield database_config_1.prisma.club.findUnique({
@@ -80,7 +84,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const passwordMatch = yield bcrypt_1.default.compare(password, club.Password);
         if (!passwordMatch) {
             logger_1.default.warn(`Invalid login attempt for email: ${email}`);
-            return res.status(401).json({ error: const_1.MESSAGES.CLUB.INVALID_EMAIL_OR_PASSWORD });
+            return res
+                .status(401)
+                .json({ error: const_1.MESSAGES.CLUB.INVALID_EMAIL_OR_PASSWORD });
         }
         logger_1.default.info(`Login successful for email: ${email}`);
         club.Password = "encrypted";
@@ -109,7 +115,43 @@ const getClubMembers = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     catch (error) {
         logger_1.default.error(`Error fetching club members: ${error}`);
-        res.status(500).json({ error: "An error occurred while fetching club members." });
+        res
+            .status(500)
+            .json({ error: "An error occurred while fetching club members." });
     }
 });
 exports.getClubMembers = getClubMembers;
+const addClubMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { ClubID, FirstName, LastName, Email, Role, JoinDate, ProfileImageURL } = req.body;
+        console.log(req.body);
+        // Validate required fields
+        if (!ClubID || !FirstName || !LastName) {
+            logger_1.default.warn("Attempted to add a club member with missing required fields.");
+            return res
+                .status(400)
+                .json({ error: "ClubID, FirstName, and LastName are required." });
+        }
+        // Create a new member associated with the specified club
+        const newMember = yield database_config_1.prisma.clubMember.create({
+            data: {
+                FirstName,
+                LastName,
+                Email,
+                Role,
+                JoinDate,
+                ProfileImageURL,
+                Club: {
+                    connect: { ClubID } // Assuming ClubID is sent in the request body
+                }
+            },
+        });
+        logger_1.default.info(`New member added to ClubID ${ClubID}: ${FirstName} ${LastName}`);
+        res.status(201).json(newMember);
+    }
+    catch (error) {
+        logger_1.default.error(`Error adding club member: ${error}`);
+        res.status(500).json({ error: "Error adding club member" });
+    }
+});
+exports.addClubMember = addClubMember;

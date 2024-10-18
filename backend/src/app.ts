@@ -9,14 +9,16 @@ import {
 
 const app = express();
 
-app.use(express.json());
-app.use(cors());
+app.use(express.json()); 
+ 
+// Apply CORS middleware
+app.use(cors());  
 
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({ extended: true }));
 setupRoutes(app);
 
-const PORT = config.PORT || 4000;
-
+const PORT = config.PORT || 5000;
+ 
 async function startServer() {
   try {
     await testDatabaseConnection();
@@ -40,6 +42,6 @@ process.on("SIGINT", async () => {
 
 // export default app;
 // module.exports = app;
-module.exports = (req:any, res:any) => {
+module.exports = (req: any, res: any) => {
   app(req, res);
 };
