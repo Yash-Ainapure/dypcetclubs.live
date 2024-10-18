@@ -1,14 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Dock, DockIcon } from "@/components/magicui/dock";
 import cross from "../assets/cross-icon.svg";
 import burger from "../assets/burger-menu.svg";
-import { useNavigate } from "react-router-dom";
 
 const Hero: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const route= useNavigate()
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
 
@@ -16,7 +13,7 @@ const Hero: React.FC = () => {
 
   return (
     <div className="relative z-10 flex flex-col w-full overflow-hidden text-white bg-background md:shadow-xl">
-      <div className="flex flex-col items-center justify-start py-24">
+      <div className="flex flex-col items-center justify-start py-40">
         <h1 className="px-4 text-4xl lg:text-6xl font-semibold leading-none text-center">
           Welcome to dypcetclubs.live
         </h1>
@@ -39,7 +36,7 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      
+{/*       
       <div className="z-20 transform transition-all duration-500 fixed top-8 hover:left-[34%] left-[35%] w-[550px] hover:w-[600px]">
         <Dock
           direction="middle"
@@ -69,12 +66,12 @@ const Hero: React.FC = () => {
           </DockIcon>
           <DockIcon >
             <p className="flex items-center font-semibold transition-all duration-300 transform size-full" onClick={()=>route('/about')}>
-              About
+              Aboutss
             </p>
           </DockIcon>
 
         </Dock>
-      </div>
+      </div> */}
 
       <div className="z-20 transform transition-all duration-500 fixed top-4 right-4 md:hidden">
         <button onClick={toggleMenu}>

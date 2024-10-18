@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
-import { Navbar } from "./appComponents/Navbar"; 
+import { Navigation } from "./appComponents/Navbar";
 import Hero from "./appComponents/Herosection";
 import Clubs from "./appComponents/Clubs";
 import Particles from "@/components/magicui/particles";
@@ -16,7 +16,6 @@ import About from "./appComponents/About";
 import Footer from "./appComponents/Footer.tsx";
 import ClubsPage from "./appComponents/ClubsPage.tsx";
 import EventsPage from "./appComponents/EventsPage.tsx";
-import Features from "./appComponents/Features.js";
 import HiringPage from "./appComponents/HiringPage.tsx";
 import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
@@ -34,7 +33,7 @@ function App() {
   return (
     <Router>
       <div className="bg-black font-popins">
-        <Navbar setShowLoginPage={setShowLoginPage} />
+        <Navigation setShowLoginPage={setShowLoginPage} />
         <Routes>
           <Route
             path="/"
@@ -50,7 +49,6 @@ function App() {
                     refresh
                   />
                   <Hero />
-                  <Features />
                   <Clubs />
                   <Events />
                   <Footer />

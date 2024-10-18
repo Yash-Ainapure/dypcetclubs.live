@@ -1,8 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import Footer from "./Footer"; // Make sure the Footer component is in the correct path
-import { Navigation } from "./Navbar"; // Ensure Navigation is imported correctly
-
+import Footer from "./Footer";
 const HiringPage = () => {
   return (
     <div className="min-h-screen w-full bg-gray-50 text-gray-800">
@@ -16,21 +14,15 @@ const HiringPage = () => {
           </Button>
         </div>
       </div>
-
-      <Navigation />
       <div className="min-h-screen px-6 py-12 bg-white">
         <div className="pb-10 text-center">
           <h1 className="pb-4 text-3xl font-semibold">Current Openings</h1>
           <p className="text-base text-slate-600">
-          Check out our latest job postings below:
+            Check out our latest job postings below:
           </p>
-{/* list the positions for hiring in the card format same as clubs and events*/}
+          {/* list the positions for hiring in the card format same as clubs and events*/}
         </div>
-        
-        
-        
       </div>
-
       <Footer />
     </div>
   );
