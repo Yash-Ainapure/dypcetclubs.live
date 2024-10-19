@@ -24,6 +24,8 @@ const QuizCreation: React.FC = () => {
     if (userData) {
       setClubInfo(userData?.Club);
       fetchQuizzes();
+      console.log(clubInfo);
+      console.log(quizzes);
     }
   }, [userData]);
 
