@@ -21,6 +21,7 @@ import Terms from "./appComponents/Terms.tsx";
 import ErrorPage from "./appComponents/Error.tsx";
 import ClubDetails from "./appComponents/ClubDetails.tsx";
 import QuizPage from "./appComponents/QuizPage.tsx";
+import HiringPage from "./appComponents/HiringPage.tsx";
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -79,6 +80,7 @@ function App() {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/hiring" element={<HiringPage />} />
         <Route path="/*" element={<ErrorPage />} />
         <Route path="/clubs/:clubId" element={<ClubDetails />} />
       </Routes>
