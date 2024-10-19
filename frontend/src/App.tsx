@@ -18,6 +18,7 @@ import ClubsPage from "./appComponents/ClubsPage.tsx";
 import EventsPage from "./appComponents/EventsPage.tsx";
 import PrivacyPolicy from "./appComponents/PrivacyPolicy.tsx";
 import Terms from "./appComponents/Terms.tsx";
+import ErrorPage from "./appComponents/Error.tsx";
 import ClubDetails from "./appComponents/ClubDetails.tsx";
 import QuizPage from "./appComponents/QuizPage.tsx";
 
@@ -78,6 +79,7 @@ function App() {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/*" element={<ErrorPage />} />
         <Route path="/clubs/:clubId" element={<ClubDetails />} />
       </Routes>
     </Router>
