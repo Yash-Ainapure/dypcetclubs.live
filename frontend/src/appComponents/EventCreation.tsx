@@ -120,7 +120,7 @@ const EventCreation: React.FC = () => {
       console.log("fetching event data..")
       axios
         .get(
-          `/api/events/getClubEventData?ClubID=${userData.club.ClubID}`,
+          `/api/events/getClubEventData?ClubID=${userData?.ClubID}`,
         )
         .then((response) => {
           console.log(response.data);
@@ -131,7 +131,7 @@ const EventCreation: React.FC = () => {
         });
     };
     if (userData) {
-      setClubInfo(userData.club);
+      setClubInfo(userData?.Club);
       getEventsData();
     } else {
       console.log("userData not set");
@@ -175,7 +175,7 @@ const EventCreation: React.FC = () => {
 
   return (
     <>
-    <div className="w-full bg-black min-h-screen ">
+    <div className="rounded-tl-2xl w-full bg-black min-h-screen ">
     <div className=" items-center justify-center min-h-screen  ">
     <div className="flex justify-center mt-10">
     <button className="p-2 font-semibold text-black bg-white rounded-md w-36"

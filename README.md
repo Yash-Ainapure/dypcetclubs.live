@@ -145,12 +145,21 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/Laxmi01345">
+                    <img src="https://avatars.githubusercontent.com/u/122423386?v=4" width="100;" alt="Laxmi01345"/>
+                    <br />
+                    <sub><b>Laxmi Ray</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/rishyym0927">
                     <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
                     <br />
                     <sub><b>RISHIRAJ MUKHERJEE</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/varma-101">
                     <img src="https://avatars.githubusercontent.com/u/138625491?v=4" width="100;" alt="varma-101"/>
@@ -158,8 +167,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>SAGI VENKATA NAGA GOPAL VARMA</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/prateek2102">
                     <img src="https://avatars.githubusercontent.com/u/130992856?v=4" width="100;" alt="prateek2102"/>
@@ -195,6 +202,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Vivek Rawat</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/vedhcet-07">
                     <img src="https://avatars.githubusercontent.com/u/176995332?v=4" width="100;" alt="vedhcet-07"/>
@@ -202,8 +211,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Vishwas M D</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/VinayLodhi1712">
                     <img src="https://avatars.githubusercontent.com/u/135756009?v=4" width="100;" alt="VinayLodhi1712"/>
@@ -230,13 +237,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
                     <br />
                     <sub><b>MANI </b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/Laxmi01345">
-                    <img src="https://avatars.githubusercontent.com/u/122423386?v=4" width="100;" alt="Laxmi01345"/>
-                    <br />
-                    <sub><b>Laxmi Ray</b></sub>
                 </a>
             </td>
             <td align="center">

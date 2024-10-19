@@ -3,11 +3,9 @@ import ClubCard from "./ClubCard";
 import { useClubs } from "../hooks/useClubs";
 
 export default function Clubs() {
-  const isHomePage = window.location.pathname === '/'; 
+  const isHomePage = window.location.pathname === "/";
   const { data: clubs, error, isLoading } = useClubs();
-
   const displayedClubs = clubs?.slice(0, 6);
-
   if (isLoading)
     return (
       <div className="min-h-screen px-6 py-12 bg-white">
@@ -57,14 +55,19 @@ export default function Clubs() {
             memberCount={club.Members.length}
             name={club.ClubName}
             description={club.Description}
+            email={club.Email}
           />
         ))}
       </div>
       {isHomePage && (
         <div className="flex justify-center mt-4">
-        <p className="mt-4 text-base text-slate-600">
-          Want to Explore more? Visit our Dedicated&nbsp;<a href="/clubboard"><b>Clubs</b></a>&nbsp;Page.
-        </p>
+          <p className="mt-4 text-base text-slate-600">
+            Want to Explore more? Visit our Dedicated&nbsp;
+            <a href="/clubboard">
+              <b>Clubs</b>
+            </a>
+            &nbsp;Page.
+          </p>
         </div>
       )}
     </div>

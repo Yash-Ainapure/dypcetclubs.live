@@ -6,7 +6,7 @@ import { config } from "./env.config";
 const libsql = createClient({
   url: `${config.TURSO_DATABASE_URL}`,
   authToken: `${config.TURSO_AUTH_TOKEN}`,
-});
+}); 
 
 const adapter = new PrismaLibSQL(libsql);
 export const prisma = new PrismaClient({ adapter });
@@ -22,7 +22,7 @@ export async function testDatabaseConnection() {
   }
 }
 
-// Function to close the database connection
+// Function to close the database connection 
 export async function closeDatabaseConnection() {
   await prisma.$disconnect();
   console.log("Database connection closed");
