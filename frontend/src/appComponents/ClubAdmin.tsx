@@ -133,7 +133,6 @@ export function ClubAdmin({ setShowNavbar }: any) {
         <Route path="/settings" element={<QuizCreation />} />
         <Route path="/results/:id" element={<AdminResults />} />
         <Route path="/hiring" element={<Dashboard />} />
-        <Route path="/addMember" element={<AddClubMembers />} />
       </Routes>
     </div>
   );
@@ -167,13 +166,14 @@ export const LogoIcon = () => {
 };
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [clubMembers, setClubMembers] = useState([]);
   const [displayClubModal, setDisplayClubModal] = useState(false);
-  const handleAddMember = () => {
-    navigate("/clubAdmin/addMember");
-    console.log("Add new club member");
-  };
+  const [addMemberModal, setAddMemberModal] = useState(true);
+  // const handleAddMember = () => {
+  //   navigate("/clubAdmin/addMember");
+  //   console.log("Add new club member");
+  // };
 
   const { userData } = useAuth();
   useEffect(() => {
@@ -198,11 +198,14 @@ const Dashboard = () => {
   return (
     <div className="flex flex-1">
       {
+        addMemberModal && <AddClubMembers setAddMemberModal={setAddMemberModal} />
+      }
+      {
         displayClubModal && <ClubMembers clubMembers={clubMembers} setDisplayClubModal={setDisplayClubModal} />
       }
       <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 border bg-slate-500 md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
         {/* Placeholder for skeleton loading */}
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           {[...new Array(4)].map((_, index) => (
             <div
               key={`first-array-${index}`}
@@ -217,13 +220,15 @@ const Dashboard = () => {
               className="w-full h-full bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"
             ></div>
           ))}
-        </div>
+        </div> */}
 
         <button onClick={() => {
           setDisplayClubModal(true);
         }} className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors">Display Club Members</button>
         <button
-          onClick={handleAddMember}
+          onClick={() => {
+            setAddMemberModal(true);
+          }}
           className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
         >
           Add New Club Member
@@ -233,16 +238,19 @@ const Dashboard = () => {
   );
 };
 
+
+
+
 const ClubMembers = ({ clubMembers, setDisplayClubModal }: any) => {
   return (
-    <div className=" w-[60%] h-[70%] bg-white p-2 absolute z-50 rounded-md left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-scroll pt-12 flex flex-col gap-2">
-      <p className="font-semibold text-lg underline absolute top-0 left-[40%] pt-2">Club Members List</p>
+    <div className="w-[90%] md:w-[60%] h-[70%] bg-white p-2 absolute z-50 rounded-md left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-scroll pt-12 flex flex-col gap-2">
+      <p className="font-semibold text-xl underline text-center">Club Members List</p>
       <p onClick={() => {
         setDisplayClubModal(false);
       }} className="absolute top-2 right-2 hover:text-red-500 font-semibold cursor-pointer text-lg">X</p>
       {
         clubMembers.map((member: any, index: any) => (
-          <div key={index} className="flex flex-col gap-2 p-2 bg-slate-400 rounded-sm">
+          <div key={index} className="flex flex-col gap-2 p-2 bg-slate-400 rounded-md">
             <div className="flex justify-between">
               <img src={member.ProfileImageURL} alt="profile" className="w-20 h-20 rounded-full" />
               <div className="flex gap-2">
