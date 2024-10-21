@@ -1,0 +1,141 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Club {
+  ClubID        Int            @id @default(autoincrement())
+  ClubName      String
+  Description   String?
+  FoundedDate   String?
+  Email         String         @unique
+  Password      String
+  LogoURL       String?
+  Announcements Announcement[]
+  ClubImages    ClubImage[]
+  Members       ClubMember[]
+  Events        Event[]
+  Quizzes       Quiz[]
+}
+
+model ClubMember {
+  MemberID        Int     @id @default(autoincrement())
+  ClubID          Int
+  FirstName       String
+  LastName        String
+  Email           String?
+  Role            String?
+  JoinDate        String?
+  ProfileImageURL String?
+  Club            Club    @relation(fields: [ClubID], references: [ClubID])
+}
+
+model Event {
+  EventID       Int          @id @default(autoincrement())
+  ClubID        Int
+  EventName     String
+  Description   String?
+  StartDateTime String?
+  EndDateTime   String?
+  Location      String?
+  Club          Club         @relation(fields: [ClubID], references: [ClubID])
+  Images        EventImage[]
+  Tags          EventTag[]
+}
+
+model EventImage {
+  ImageID  Int     @id @default(autoincrement())
+  EventID  Int
+  ImageURL String
+  Caption  String?
+  Event    Event   @relation(fields: [EventID], references: [EventID])
+}
+
+model Announcement {
+  AnnouncementID Int               @id @default(autoincrement())
+  ClubID         Int
+  Title          String
+  Content        String?
+  PostDate       String?
+  Club           Club              @relation(fields: [ClubID], references: [ClubID])
+  Tags           AnnouncementTag[]
+}
+
+model ClubImage {
+  ImageID  Int     @id @default(autoincrement())
+  ClubID   Int
+  ImageURL String
+  Caption  String?
+  Club     Club    @relation(fields: [ClubID], references: [ClubID])
+}
+
+model Tag {
+  TagID            Int               @id @default(autoincrement())
+  TagName          String            @unique
+  AnnouncementTags AnnouncementTag[]
+  EventTags        EventTag[]
+}
+
+model EventTag {
+  EventID Int
+  TagID   Int
+  Tag     Tag   @relation(fields: [TagID], references: [TagID])
+  Event   Event @relation(fields: [EventID], references: [EventID])
+
+  @@id([EventID, TagID])
+}
+
+model AnnouncementTag {
+  AnnouncementID Int
+  TagID          Int
+  Tag            Tag          @relation(fields: [TagID], references: [TagID])
+  Announcement   Announcement @relation(fields: [AnnouncementID], references: [AnnouncementID])
+
+  @@id([AnnouncementID, TagID])
+}
+
+
+model Quiz {
+  id         Int       @id @default(autoincrement())
+  title      String
+  secretCode String
+  questions  Question[]
+  results    Result[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+   club       Club      @relation(fields: [clubId], references: [ClubID])
+  clubId     Int
+}
+
+model Question {
+  id            Int      @id @default(autoincrement())
+  question      String
+  options       String   // Store options as a delimited string
+  correctAnswer String
+  quiz          Quiz     @relation(fields: [quizId], references: [id])
+  quizId        Int
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  name     String
+  rollNo   String
+  year     Int
+  results  Result[]
+}
+
+model Result {
+  id        Int      @id @default(autoincrement())
+  score     Float
+  answers   String   // Store answers as a JSON string
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+  quizId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+}
