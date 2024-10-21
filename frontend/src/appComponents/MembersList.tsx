@@ -1,5 +1,4 @@
 import { Icon12Hours } from '@tabler/icons-react'
-import React from 'react'
 
 function MembersList() {
     return (

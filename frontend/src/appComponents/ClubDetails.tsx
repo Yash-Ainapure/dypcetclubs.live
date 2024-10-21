@@ -24,10 +24,14 @@ interface Club {
   Members: Member[];
 }
 
+interface FilteredMembers {
+  [role: string]: Member[];
+}
+
 const ClubDetails: React.FC = () => {
   const { clubId } = useParams<{ clubId: string }>();
   const [club, setClub] = useState<Club | null>(null);
-  const [filteredMembers, setFilteredMembers] = useState<unknown | null>(null);
+  const [filteredMembers, setFilteredMembers] = useState<FilteredMembers>({});
 
   useEffect(() => {
     const fetchClubDetails = async () => {
@@ -38,22 +42,29 @@ const ClubDetails: React.FC = () => {
         console.error("Error fetching club details:", error);
       }
     };
-    const filteredMembers1: unknown = {};
-    const result = club?.Members.map((member: Member) => {
-      if (!filteredMembers1[member.Role]) filteredMembers1[member.Role] = [member];
-      else filteredMembers1[member.Role].push(member);
-    })
-    setFilteredMembers(filteredMembers1);
-    // console.log(filteredMembers1);
 
     fetchClubDetails();
   }, [clubId]);
 
+  useEffect(() => {
+    if (club?.Members) {
+      const filteredMembers1: FilteredMembers = {};
+      club.Members.forEach((member) => {
+        if (!filteredMembers1[member.Role]) {
+          filteredMembers1[member.Role] = [member];
+        } else {
+          filteredMembers1[member.Role].push(member);
+        }
+      });
+      setFilteredMembers(filteredMembers1);
+    }
+  }, [club?.Members]);
+
   if (!club) return <div className="text-center">Loading...</div>;
 
   return (
-    <div className="min-h-screen  bg-gray-50 w-full">
-      <div className="mx-auto bg-white rounded-lg shadow-lg ">
+    <div className="min-h-screen bg-gray-50 w-full">
+      <div className="mx-auto bg-white rounded-lg shadow-lg">
         <div className="flex flex-col items-center mb-6 h-[60vh] bg-black">
           <img
             src={club.LogoURL}
@@ -66,10 +77,10 @@ const ClubDetails: React.FC = () => {
           <p className="text-sm text-white">Contact: <a href={`mailto:${club.Email}`} className="text-blue-500">{club.Email}</a></p>
         </div>
         {
-          Object.entries(filteredMembers).map((ele) => {
-            const name = ele[0][0].toUpperCase() + ele[0].slice(1)
+          Object.entries(filteredMembers).map(([role, members]) => {
+            const name = role[0].toUpperCase() + role.slice(1);
             return (
-              <div className="p-6">
+              <div className="p-6" key={role}>
                 <div className="text-center mb-16">
                   <p className="mt-4 text-sm leading-7 text-gray-500 font-regular">
                     {name} TEAM
@@ -79,8 +90,8 @@ const ClubDetails: React.FC = () => {
                   </h3>
                 </div>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {ele[1]?.length > 0 ? (
-                    ele[1].map((member) => (  // Use the Member type here
+                  {members.length > 0 ? (
+                    members.map((member) => (
                       <div key={member.MemberID} className="bg-gray-100 p-4 rounded-lg shadow-md">
                         <img
                           src={member.ProfileImageURL}
@@ -97,10 +108,9 @@ const ClubDetails: React.FC = () => {
                   )}
                 </div>
               </div>
-            )
+            );
           })
         }
-
       </div>
     </div>
   );
