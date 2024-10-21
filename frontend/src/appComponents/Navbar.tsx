@@ -30,7 +30,7 @@ const Navigation = ({ setShowLoginPage, isLoggedIn }: any) => {
       </div>
 
       {/* Dock for larger screens */}
-      <div className="z-20 transform transition-all duration-500 fixed top-8 hover:left-[34%] left-[35%] w-[550px] hover:w-[600px]">
+      <div className="z-20 transform transition-all duration-500 fixed top-8 hover:left-[36%] left-[37%] w-[550px] hover:w-[600px]">
         <Dock
           direction="middle"
           magnification={60}
