@@ -27,6 +27,7 @@ interface Club {
 const ClubDetails: React.FC = () => {
   const { clubId } = useParams<{ clubId: string }>();
   const [club, setClub] = useState<Club | null>(null);
+  const [filteredMembers, setFilteredMembers] = useState<unknown | null>(null);
 
   useEffect(() => {
     const fetchClubDetails = async () => {
@@ -37,6 +38,13 @@ const ClubDetails: React.FC = () => {
         console.error("Error fetching club details:", error);
       }
     };
+    const filteredMembers1: unknown = {};
+    const result = club?.Members.map((member: Member) => {
+      if (!filteredMembers1[member.Role]) filteredMembers1[member.Role] = [member];
+      else filteredMembers1[member.Role].push(member);
+    })
+    setFilteredMembers(filteredMembers1);
+    // console.log(filteredMembers1);
 
     fetchClubDetails();
   }, [clubId]);
@@ -57,35 +65,41 @@ const ClubDetails: React.FC = () => {
           <p className="text-sm text-white">Founded on: {new Date(club.FoundedDate).toLocaleDateString()}</p>
           <p className="text-sm text-white">Contact: <a href={`mailto:${club.Email}`} className="text-blue-500">{club.Email}</a></p>
         </div>
-        <div className="p-6">
-          <div className="text-center mb-16">
-            <p className="mt-4 text-sm leading-7 text-gray-500 font-regular">
-              TECH TEAM
-            </p>
-            <h3 className="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
-              Meet Our <span className="text-indigo-600">Team</span>
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {club.Members.length > 0 ? (
-              club.Members.map((member: Member) => (  // Use the Member type here
-                <div key={member.MemberID} className="bg-gray-100 p-4 rounded-lg shadow-md">
-                  <img
-                    src={member.ProfileImageURL}
-                    alt={`${member.FirstName} ${member.LastName}`}
-                    className="w-16 h-16 rounded-full mb-2"
-                  />
-                  <h3 className="text-lg font-bold">{`${member.FirstName} ${member.LastName}`}</h3>
-                  <p className="text-sm text-gray-500">{member.Role}</p>
-                  <p className="text-sm text-gray-500">Joined on: {new Date(member.JoinDate).toLocaleDateString()}</p>
+        {
+          Object.entries(filteredMembers).map((ele) => {
+            const name = ele[0][0].toUpperCase() + ele[0].slice(1)
+            return (
+              <div className="p-6">
+                <div className="text-center mb-16">
+                  <p className="mt-4 text-sm leading-7 text-gray-500 font-regular">
+                    {name} TEAM
+                  </p>
+                  <h3 className="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
+                    Meet Our <span className="text-indigo-600">Team</span>
+                  </h3>
                 </div>
-              ))
-            ) : (
-              <p className="text-gray-600">No members yet.</p>
-            )}
-          </div>
-        </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {ele[1]?.length > 0 ? (
+                    ele[1].map((member) => (  // Use the Member type here
+                      <div key={member.MemberID} className="bg-gray-100 p-4 rounded-lg shadow-md">
+                        <img
+                          src={member.ProfileImageURL}
+                          alt={`${member.FirstName} ${member.LastName}`}
+                          className="w-16 h-16 rounded-full mb-2"
+                        />
+                        <h3 className="text-lg font-bold">{`${member.FirstName} ${member.LastName}`}</h3>
+                        <p className="text-sm text-gray-500">{member.Role}</p>
+                        <p className="text-sm text-gray-500">Joined on: {new Date(member.JoinDate).toLocaleDateString()}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-600">No members yet.</p>
+                  )}
+                </div>
+              </div>
+            )
+          })
+        }
 
       </div>
     </div>

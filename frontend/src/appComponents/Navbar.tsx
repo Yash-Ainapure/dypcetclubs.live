@@ -35,7 +35,7 @@ const Navigation = ({ setShowLoginPage, isLoggedIn }: any) => {
           direction="middle"
           magnification={60}
           distance={100}
-          className="hidden lg:flex items-center w-full text-base border rounded-lg shadow-xl bg-white/10 backdrop-blur-sm border-white/20"
+          className="hidden lg:flex items-center w-full text-base border rounded-lg shadow-xl bg-black/10 backdrop-blur-sm border-white/20"
         >
           <DockIcon>
             <p className="flex items-center text-white font-semibold transition-all duration-300 transform size-full cursor-pointer" onClick={() => navigate("/")}>
