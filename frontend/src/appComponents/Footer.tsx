@@ -58,13 +58,16 @@ const Footer = () => {
                         <div className="space-y-4">
                             <Link to="/" className="flex items-center gap-2 group transition-all duration-300 ease-in-out transform hover:scale-105">
                                 <img src={playstore} className="bg-black h-20 w-20 transition-transform duration-300 group-hover:rotate-12" alt="DYPCETCLUBS.LIVE Logo" />
-                                <span className="text-xl font-semibold bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-400 group-hover:to-purple-800 transition-all duration-300">
+                               
+                            </Link>
+
+                            <span className="text-xl font-semibold bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-400 group-hover:to-purple-800 transition-all duration-300 ">
                                     DYPCETCLUBS.LIVE
                                 </span>
-                            </Link>
                             <p className="text-sm leading-relaxed max-w-xs hover:scale-105 transition-transform">
                                 <b>dypcetclubs.live</b> is a robust web application designed to simplify the management of college clubs.
                             </p>
+
                         </div>
 
                         {/* Company Links */}
