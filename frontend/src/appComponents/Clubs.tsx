@@ -1,11 +1,11 @@
+"use client";
 import ClubCard from "./ClubCard";
 import { useClubs } from "../hooks/useClubs";
 
 export default function Clubs() {
+  const isHomePage = window.location.pathname === "/";
   const { data: clubs, error, isLoading } = useClubs();
-
   const displayedClubs = clubs?.slice(0, 6);
-
   if (isLoading)
     return (
       <div className="min-h-screen px-6 py-12 bg-white">
@@ -48,16 +48,28 @@ export default function Clubs() {
         </p>
       </div>
       {/* Clubs Grid */}
-      <div className="z-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 px-8">
         {displayedClubs?.map((club, index) => (
           <ClubCard
             key={index}
             memberCount={club.Members.length}
             name={club.ClubName}
             description={club.Description}
+            email={club.Email}
           />
         ))}
       </div>
+      {isHomePage && (
+        <div className="flex justify-center mt-4">
+          <p className="mt-4 text-base text-slate-600">
+            Want to Explore more? Visit our Dedicated&nbsp;
+            <a href="/clubboard">
+              <b>Clubs</b>
+            </a>
+            &nbsp;Page.
+          </p>
+        </div>
+      )}
     </div>
   );
 }

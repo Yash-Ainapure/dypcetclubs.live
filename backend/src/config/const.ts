@@ -20,6 +20,7 @@ export const MESSAGES = {
     ERROR_CREATING_EVENT: "An error occurred while creating the event.",
     FETCH_EVENTS_SUCCESS: "Events fetched successfully.",
     UPDATE_EVENT_SUCCESS: "Event updated successfully.",
+    ERROR_FETCHING_EVENT: "An error occurred while fetching the single event.",
   },
   GENERIC: {
     INTERNAL_SERVER_ERROR: "Internal Server Error",

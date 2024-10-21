@@ -23,6 +23,7 @@ exports.MESSAGES = {
         ERROR_CREATING_EVENT: "An error occurred while creating the event.",
         FETCH_EVENTS_SUCCESS: "Events fetched successfully.",
         UPDATE_EVENT_SUCCESS: "Event updated successfully.",
+        ERROR_FETCHING_EVENT: "An error occurred while fetching the single event.",
     },
     GENERIC: {
         INTERNAL_SERVER_ERROR: "Internal Server Error",
@@ -40,5 +41,7 @@ exports.MESSAGES = {
         ERROR_SUBMITTING_QUIZ_RESULT: "Failed to submit quiz result.",
         ACCESS_DENIED: "Access denied to this quiz.",
         ERROR_FETCHING_QUIZ_RESULTS: "Failed to retrieve quiz results.",
+        ERROR_DELETING_QUIZ: "Failed to delete quiz.",
+        QUIZ_DELETED: "Quiz deleted successfully.",
     },
 };

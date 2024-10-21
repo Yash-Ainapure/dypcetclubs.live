@@ -150,3 +150,21 @@ export const createQuiz = async (req: Request, res: Response) => {
     res.status(500).json({ error: MESSAGES.QUIZ.ERROR_CREATING_QUIZ });
   }
 };
+
+export const getSingleEventData = async (req: Request, res: Response) => {
+  const eventId = Number(req.query.EventID);
+  try {
+    const event = await prisma.event.findUnique({
+      where: { EventID: eventId },
+    });
+    if (!event) {
+      logger.warn(`Event not found for EventID: ${eventId}`);
+      return res.status(404).json({ error: MESSAGES.EVENT.EVENT_NOT_FOUND });
+    }
+    logger.info(`Fetched event data for EventID: ${eventId}`);
+    res.json(event);
+  } catch (error) {
+    logger.error(`${MESSAGES.EVENT.ERROR_FETCHING_EVENT}: ${error}`);
+    res.status(500).json({ error: MESSAGES.EVENT.ERROR_FETCHING_EVENT });
+  }
+}
