@@ -6,6 +6,7 @@ import {
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
+  IconQuestionMark,
 } from "@tabler/icons-react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -15,6 +16,7 @@ import { Routes, Route } from "react-router-dom";
 import QuizCreation from "./QuizCreation";
 import AdminResults from "./AdminResults";
 import EventCreation from "./EventCreation";
+// import SettingsPa
 import ViewEvent from "./ViewEvent";
 import AddClubMembers from "./AddClubMembers";
 import axiosInstance from "./axiosInstance";
@@ -59,6 +61,13 @@ export function ClubAdmin({ setShowNavbar }: any) {
     {
       label: "Quiz-Creation",
       href: "/clubAdmin/create-quiz",
+      icon: (
+        <IconQuestionMark className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Settings",
+      href: "/clubAdmin/settings",
       icon: (
         <IconSettings className="flex-shrink-0 w-5 h-5 text-neutral-700 dark:text-neutral-200" />
       ),
@@ -121,6 +130,7 @@ export function ClubAdmin({ setShowNavbar }: any) {
         <Route path="/events" element={<EventCreation />} />
         <Route path="/event/:id" element={<ViewEvent />} />
         <Route path="/create-quiz" element={<QuizCreation />} />
+        <Route path="/settings" element={<QuizCreation />} />
         <Route path="/results/:id" element={<AdminResults />} />
         <Route path="/hiring" element={<Dashboard />} />
         <Route path="/addMember" element={<AddClubMembers />} />
