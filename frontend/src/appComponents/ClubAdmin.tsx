@@ -20,6 +20,8 @@ import EventCreation from "./EventCreation";
 import ViewEvent from "./ViewEvent";
 import AddClubMembers from "./AddClubMembers";
 import axiosInstance from "./axiosInstance";
+import AddHiringSession from "./AddHiringSession";
+import HiringSessions from "./HiringSessions";
 
 export function ClubAdmin({ setShowNavbar }: any) {
   const { isLoggedIn, userData } = useAuth();
@@ -169,7 +171,9 @@ const Dashboard = () => {
   // const navigate = useNavigate();
   const [clubMembers, setClubMembers] = useState([]);
   const [displayClubModal, setDisplayClubModal] = useState(false);
-  const [addMemberModal, setAddMemberModal] = useState(true);
+  const [addMemberModal, setAddMemberModal] = useState(false);
+  const [displaySessionModal, setDisplaySessionModal] = useState(false);
+  const [addSessionModal, setAddSessionModal] = useState(false);
   // const handleAddMember = () => {
   //   navigate("/clubAdmin/addMember");
   //   console.log("Add new club member");
@@ -180,29 +184,32 @@ const Dashboard = () => {
     const getClubData = async () => {
       try {
         if (userData != null) {
-          await axiosInstance.get(`/api/clubs/getClubMembers?ClubID=${userData?.ClubID}`)
+          await axiosInstance
+            .get(`/api/clubs/getClubMembers?ClubID=${userData?.ClubID}`)
             .then((res) => {
               setClubMembers(res.data);
-            })
+            });
         } else {
           console.log("User data is null");
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
       }
-    }
+    };
     getClubData();
   }, [userData]);
 
   return (
-    <div className="flex flex-1">
-      {
-        addMemberModal && <AddClubMembers setAddMemberModal={setAddMemberModal} />
-      }
-      {
-        displayClubModal && <ClubMembers clubMembers={clubMembers} setDisplayClubModal={setDisplayClubModal} />
-      }
+    <div className="flex flex-1 flex-col">
+      {addMemberModal && (
+        <AddClubMembers setAddMemberModal={setAddMemberModal} />
+      )}
+      {displayClubModal && (
+        <ClubMembers
+          clubMembers={clubMembers}
+          setDisplayClubModal={setDisplayClubModal}
+        />
+      )}
       <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 border bg-slate-500 md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
         {/* Placeholder for skeleton loading */}
         {/* <div className="flex gap-2">
@@ -222,9 +229,14 @@ const Dashboard = () => {
           ))}
         </div> */}
 
-        <button onClick={() => {
-          setDisplayClubModal(true);
-        }} className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors">Display Club Members</button>
+        <button
+          onClick={() => {
+            setDisplayClubModal(true);
+          }}
+          className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+        >
+          Display Club Members
+        </button>
         <button
           onClick={() => {
             setAddMemberModal(true);
@@ -234,43 +246,105 @@ const Dashboard = () => {
           Add New Club Member
         </button>
       </div>
+
+      {addSessionModal && (
+        <AddHiringSession setAddSessionModal={setAddSessionModal} />
+      )}
+
+      {displaySessionModal && (
+        <HiringSessions
+          setDisplaySessionModal={setDisplaySessionModal}
+        />
+      )}
+
+      <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 border bg-slate-500 md:p-10 rounded-tl-2xl border-neutral-200 dark:border-neutral-700 dark:bg-neutral-900">
+        <button
+          onClick={() => {
+            setDisplaySessionModal(true);
+          }}
+          className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+        >
+          Display Previous Sessions 
+        </button>
+        <button
+          onClick={() => {
+            setAddSessionModal(true);
+          }}
+          className="p-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors"
+        >
+          Add New Hiring Session
+        </button>
+      </div>
     </div>
   );
 };
 
-
-
-
 const ClubMembers = ({ clubMembers, setDisplayClubModal }: any) => {
   return (
     <div className="w-[90%] md:w-[60%] h-[70%] bg-white p-2 absolute z-50 rounded-md left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-scroll pt-12 flex flex-col gap-2">
-      <p className="font-semibold text-xl underline text-center">Club Members List</p>
-      <p onClick={() => {
-        setDisplayClubModal(false);
-      }} className="absolute top-2 right-2 hover:text-red-500 font-semibold cursor-pointer text-lg">X</p>
-      {
-        clubMembers.map((member: any, index: any) => (
-          <div key={index} className="flex flex-col gap-2 p-2 bg-slate-400 rounded-md">
-            <div className="flex justify-between">
-              <img src={member.ProfileImageURL} alt="profile" className="w-20 h-20 rounded-full" />
-              <div className="flex gap-2">
-                <svg className="hover:text-red-700 w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6 hover:text-green-700">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232a3 3 0 114.243 4.243L7.5 21H3v-4.5L15.232 5.232z" />
-                </svg>
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className="text-lg font-semibold">{member.FirstName} {member.LastName} - {member.Role}</span>
-              <span className="text-sm font-normal">{member.Email}</span>
+      <p className="font-semibold text-xl underline text-center">
+        Club Members List
+      </p>
+      <p
+        onClick={() => {
+          setDisplayClubModal(false);
+        }}
+        className="absolute top-2 right-2 hover:text-red-500 font-semibold cursor-pointer text-lg"
+      >
+        X
+      </p>
+      {clubMembers.map((member: any, index: any) => (
+        <div
+          key={index}
+          className="flex flex-col gap-2 p-2 bg-slate-400 rounded-md"
+        >
+          <div className="flex justify-between">
+            <img
+              src={member.ProfileImageURL}
+              alt="profile"
+              className="w-20 h-20 rounded-full"
+            />
+            <div className="flex gap-2">
+              <svg
+                className="hover:text-red-700 w-6 h-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-6 h-6 hover:text-green-700"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15.232 5.232a3 3 0 114.243 4.243L7.5 21H3v-4.5L15.232 5.232z"
+                />
+              </svg>
             </div>
           </div>
-        ))
-      }
+          <div className="flex flex-col gap-1">
+            <span className="text-lg font-semibold">
+              {member.FirstName} {member.LastName} - {member.Role}
+            </span>
+            <span className="text-sm font-normal">{member.Email}</span>
+          </div>
+        </div>
+      ))}
     </div>
-  )
-}
+  );
+};
 
 export default Dashboard;

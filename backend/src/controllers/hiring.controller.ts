@@ -9,9 +9,10 @@ export const CreateHiringSession = async (req: Request, res: Response) => {
     return res.status(400).json({ error: "Invalid or missing ClubID" });
   }
   const { title, description, startDate, endDate } = req.body;
+  console.log(req.body);
   // Create date strings in ISO-8601 format
-  const startDateISO = `${startDate}T00:00:00Z`;
-  const endDateISO = `${endDate}T00:00:00Z`;
+  const startDateISO = `${startDate}`;
+  const endDateISO = `${endDate}`;
 
   try {
     const club = await prisma.club.findUnique({
@@ -42,6 +43,34 @@ export const CreateHiringSession = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error(`Error creating hiring session: ${error}`);
     res.status(500).json({ error: "Error creating hiring session" });
+  }
+};
+
+export const GetHiringSessions = async (req: Request, res: Response) => {
+  const { ClubID } = req.query;
+
+  if (!ClubID || isNaN(parseInt(ClubID as string))) {
+    return res.status(400).json({ error: "Invalid or missing ClubID" });
+  }
+
+  try {
+    const hiringSessions = await prisma.hiringSession.findMany({
+      where: {
+        ClubID: parseInt(ClubID as string),
+      },
+      include: {
+        Positions: true, 
+      },
+    });
+
+    if (hiringSessions.length === 0) {
+      return res.status(404).json({ message: "No hiring sessions found for this club." });
+    }
+
+    res.status(200).json(hiringSessions);
+  } catch (error) {
+    console.error(`Error fetching hiring sessions: ${error}`);
+    res.status(500).json({ error: "Error fetching hiring sessions" });
   }
 };
 
