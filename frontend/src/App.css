@@ -21,30 +21,5 @@
  }
 
  
-html {
-  overflow-y: scroll;
-  scrollbar-width: none; 
-}
 
-body {
-  overflow-y: scroll; 
-  height: 100vh; 
-  margin: 0;
-  scrollbar-width: none; 
-  -ms-overflow-style: none;
-}
-
-html::-webkit-scrollbar, 
-body::-webkit-scrollbar {
-  width: 0;
-  display: none; 
-}
-
-.scrollable-element {
-  overflow-y: scroll;
-  scrollbar-width: none; 
-}
-
-.scrollable-element::-webkit-scrollbar {
-  width: 0; 
-}
+ 
