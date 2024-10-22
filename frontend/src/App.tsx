@@ -13,7 +13,7 @@ import { ClubAdmin } from "./appComponents/ClubAdmin";
 import "./App.css";
 import QuizPage from "./appComponents/QuizPage";
 import About from "./appComponents/About";
-import HiringPage from "./appComponents/Hirring";
+
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -60,7 +60,6 @@ function App() {
         <Route path="/clubs" element={<Clubs/>}/>
         <Route path="/about"  element={<About />} />
         <Route path="/event" element={<Events/>}/>
-        <Route path="/hiring" element={<HiringPage/>}/>
       </Routes>
     </Router>
   );
