@@ -24,7 +24,7 @@ export default function AdminResults() {
     setLoading(true);
     try {
       const response = await axios.get(
-        `/api/quizzes/${id}/results?ClubID=${userData?.ClubID}`,
+        `/api/quizzes/${id}/results?ClubID=${userData.club.ClubID}`,
       );
       if (response.status === 200) {
         setResults(response.data);
@@ -43,7 +43,7 @@ export default function AdminResults() {
     try {
       try {
         const response = await axios.get(
-          `/api/quizzes/getClubQuizzes?ClubID=${userData?.ClubID}`,
+          `/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`,
         );
         if (response.status === 200) {
           setQuizzes(response.data);

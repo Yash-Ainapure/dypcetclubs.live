@@ -3,12 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import type { FieldApi } from "@tanstack/react-form";
 import { useAuth } from "../context/AuthContext";
 import axios from "./axiosInstance";
-import { useNavigate } from "react-router-dom";
-import { ImCross } from "react-icons/im";
-import { useRef } from "react";
-import { MdDelete } from "react-icons/md";
-import { GrUpdate } from "react-icons/gr";
-import { CgMoreO } from "react-icons/cg";
+
 // interface Event {
 //   ClubID: string;
 //   EventName: string;
@@ -36,10 +31,6 @@ const EventCreation: React.FC = () => {
   const [loading, setLoading] = useState({ state: false, id: null });
   const [updateOrSubmitState, setUpdateOrSubmitState] = useState(false);
   const [eventId, setEventId] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const formRef = useRef<HTMLFormElement>(null); // Create a reference to the form
-
-  const navigate =useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -93,7 +84,6 @@ const EventCreation: React.FC = () => {
           if (response.status == 200) {
             // setEventData([...eventData, response.data]);
             form.reset();
-            setShowForm(false);
 
             // Find the event in the eventData array and replace it with the updated event
             const updatedEventData = eventData.map((event: any) => {
@@ -117,13 +107,11 @@ const EventCreation: React.FC = () => {
 
   useEffect(() => {
     const getEventsData = async () => {
-      console.log("fetching event data..")
       axios
         .get(
-          `/api/events/getClubEventData?ClubID=${userData?.ClubID}`,
+          `/api/events/getClubEventData?ClubID=${userData.club.ClubID}`,
         )
         .then((response) => {
-          console.log(response.data);
           setEventData(response.data);
         })
         .catch((error) => {
@@ -131,7 +119,7 @@ const EventCreation: React.FC = () => {
         });
     };
     if (userData) {
-      setClubInfo(userData?.Club);
+      setClubInfo(userData.club);
       getEventsData();
     } else {
       console.log("userData not set");
@@ -164,273 +152,237 @@ const EventCreation: React.FC = () => {
       return;
     }
   };
-  const handleCreateEventClick = () => {
-    setShowForm(true);
-    setTimeout(() => {
-      formRef.current?.scrollIntoView({ behavior: "smooth" });
-      formRef.current?.classList.add("highlight");
-      setTimeout(() => formRef.current?.classList.remove("highlight"), 2000); // Remove highlight after 2 seconds
-    }, 100);
-  };
 
   return (
-    <>
-    <div className="rounded-tl-2xl w-full bg-black min-h-screen ">
-    <div className=" items-center justify-center min-h-screen  ">
-    <div className="flex justify-center mt-10">
-    <button className="p-2 font-semibold text-black bg-white rounded-md w-36"
-        onClick={handleCreateEventClick} >
-              {" "}
-              Create new Event{" "}
-    </button>
-    </div>
-    <div className="fixed w-full h-86 mt-10 overflow-auto justify-center flex">
-
-      {showForm && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="w-full h-full bg-slate-500 rounded-tl-2xl p-2">
+      <div className="flex justify-around items-center flex-col gap-4 min-h-screen">
         <form
-        className="flex justify-center flex-col  items-center gap-4 p-4 border border-black rounded-xl w-fit bg-[#6284eb]"
-        onSubmit={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          form.handleSubmit();
-        }}
-        ref={formRef} 
-      >
-        <div className="">
-          {/* A type-safe field component*/}
-          <form.Field
-            name="EventName"
-            validators={{
-              onChange: ({ value }) =>
-                !value ? "EventName is required" : undefined,
-              onChangeAsyncDebounceMs: 500,
-              onChangeAsync: async ({ value }) => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
+          className="flex flex-col gap-4 p-4 border border-black rounded-xl items-center w-fit bg-slate-400"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <div>
+            {/* A type-safe field component*/}
+            <form.Field
+              name="EventName"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "EventName is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  return (
+                    value.includes("error") && 'No "error" allowed in EventName'
+                  );
+                },
+              }}
+              children={(field) => {
+                // Avoid hasty abstractions. Render props are great!
                 return (
-                  value.includes("error") && 'No "error" allowed in EventName'
-                );
-              },
-            }}
-            children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
-              return (
-                <>
-                  <div className=" p-2 mb-4 " >
-                    <span className="flex justify-end cursor-pointer" onClick={(()=>{setShowForm(false)})}><ImCross/></span>
-                    <span className="text-center justify-center flex text-2xl font-extrabold">New Event</span>
+                  <>
+                    <label htmlFor={field.name}>EventName:</label>
+                    <input
+                      className="mx-2 border rounded-md"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <div className="text-red-600">
+                      <FieldInfo field={field} />
                     </div>
-                  <label htmlFor={field.name}>EventName:</label>
-                
-                  <input
-                    className="mx-2 border rounded-md"
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  <div className="text-red-600">
-                    <FieldInfo field={field} />
-                  </div>
-                </>
-              );
-            }}
-          />
-        </div>
-        <div>
-          {/* A type-safe field component*/}
-          <form.Field
-            name="Description"
-            validators={{
-              onChange: ({ value }) =>
-                !value ? "Description is required" : undefined,
-              onChangeAsyncDebounceMs: 500,
-              onChangeAsync: async ({ value }) => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-                return (
-                  value.includes("error") &&
-                  'No "error" allowed in Description'
+                  </>
                 );
-              },
-            }}
-            children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
-              return (
-                <>
-                  <label htmlFor={field.name}>Description:</label>
-                  <input
-                    className="mx-2 border rounded-md"
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  <div className="text-red-600">
-                    <FieldInfo field={field} />
-                  </div>
-                </>
-              );
-            }}
-          />
-        </div>
-        <div>
-          {/* A type-safe field component*/}
-          <form.Field
-            name="StartDateTime"
-            validators={{
-              onChange: ({ value }) =>
-                !value ? "StartDateTime is required" : undefined,
-              onChangeAsyncDebounceMs: 500,
-              onChangeAsync: async ({ value }) => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
+              }}
+            />
+          </div>
+          <div>
+            {/* A type-safe field component*/}
+            <form.Field
+              name="Description"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "Description is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  return (
+                    value.includes("error") &&
+                    'No "error" allowed in Description'
+                  );
+                },
+              }}
+              children={(field) => {
+                // Avoid hasty abstractions. Render props are great!
                 return (
-                  value.includes("error") &&
-                  'No "error" allowed in StartDateTime'
+                  <>
+                    <label htmlFor={field.name}>Description:</label>
+                    <input
+                      className="mx-2 border rounded-md"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <div className="text-red-600">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
                 );
-              },
-            }}
-            children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
-              return (
-                <>
-                  <label htmlFor={field.name}>StartDate:</label>
-                  <input
-                    className="mx-2 border rounded-md"
-                    type="datetime-local"
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  <div className="text-red-600">
-                    <FieldInfo field={field} />
-                  </div>
-                </>
-              );
-            }}
-          />
-        </div>
-        <div>
-          {/* A type-safe field component*/}
-          <form.Field
-            name="EndDateTime"
-            validators={{
-              onChange: ({ value }) =>
-                !value ? "EndDateTime is required" : undefined,
-              onChangeAsyncDebounceMs: 500,
-              onChangeAsync: async ({ value }) => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
+              }}
+            />
+          </div>
+          <div>
+            {/* A type-safe field component*/}
+            <form.Field
+              name="StartDateTime"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "StartDateTime is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  return (
+                    value.includes("error") &&
+                    'No "error" allowed in StartDateTime'
+                  );
+                },
+              }}
+              children={(field) => {
+                // Avoid hasty abstractions. Render props are great!
                 return (
-                  value.includes("error") &&
-                  'No "error" allowed in EndDateTime'
+                  <>
+                    <label htmlFor={field.name}>StartDate:</label>
+                    <input
+                      className="mx-2 border rounded-md"
+                      type="datetime-local"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <div className="text-red-600">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
                 );
-              },
-            }}
-            children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
-              return (
-                <>
-                  <label htmlFor={field.name}>EndDate:</label>
-                  <input
-                    className="mx-2 border rounded-md"
-                    type="datetime-local"
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  <div className="text-red-600">
-                    <FieldInfo field={field} />
-                  </div>
-                </>
-              );
-            }}
-          />
-        </div>
-        <div>
-          {/* A type-safe field component*/}
-          <form.Field
-            name="Location"
-            validators={{
-              onChange: ({ value }) =>
-                !value ? "Location is required" : undefined,
-              onChangeAsyncDebounceMs: 500,
-              onChangeAsync: async ({ value }) => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
+              }}
+            />
+          </div>
+          <div>
+            {/* A type-safe field component*/}
+            <form.Field
+              name="EndDateTime"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "EndDateTime is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  return (
+                    value.includes("error") &&
+                    'No "error" allowed in EndDateTime'
+                  );
+                },
+              }}
+              children={(field) => {
+                // Avoid hasty abstractions. Render props are great!
                 return (
-                  value.includes("error") && 'No "error" allowed in Location'
+                  <>
+                    <label htmlFor={field.name}>EndDate:</label>
+                    <input
+                      className="mx-2 border rounded-md"
+                      type="datetime-local"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <div className="text-red-600">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
                 );
-              },
-            }}
-            children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
-              return (
-                <>
-                  <label htmlFor={field.name}>Location:</label>
-                  <input
-                    className="mx-2 border rounded-md"
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  <div className="text-red-600">
-                    <FieldInfo field={field} />
-                  </div>
-                </>
-              );
-            }}
+              }}
+            />
+          </div>
+          <div>
+            {/* A type-safe field component*/}
+            <form.Field
+              name="Location"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "Location is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  return (
+                    value.includes("error") && 'No "error" allowed in Location'
+                  );
+                },
+              }}
+              children={(field) => {
+                // Avoid hasty abstractions. Render props are great!
+                return (
+                  <>
+                    <label htmlFor={field.name}>Location:</label>
+                    <input
+                      className="mx-2 border rounded-md"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <div className="text-red-600">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
+                );
+              }}
+            />
+          </div>
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+            children={([canSubmit, isSubmitting]) => (
+              <button
+                className="px-4 py-2 font-semibold text-white bg-black rounded-md"
+                type="submit"
+                disabled={!canSubmit}
+              >
+                {updateOrSubmitState
+                  ? isSubmitting
+                    ? "Updating..."
+                    : "Update"
+                  : isSubmitting
+                    ? "Submiting..."
+                    : "Submit"}
+              </button>
+            )}
           />
-        </div>
-        <form.Subscribe
-          selector={(state) => [state.canSubmit, state.isSubmitting]}
-          children={([canSubmit, isSubmitting]) => (
-            <button
-              className="px-4 py-2 font-semibold text-white bg-black rounded-md"
-              type="submit"
-              
-              
-              disabled={!canSubmit}
-             
-            >
-              {updateOrSubmitState
-                ? isSubmitting
-                  ? "Updating..."
-                  : "Update"
-                : isSubmitting
-                  ? "Submiting..."
-                  : "Submit"}
-            </button>
-          )}
-        />
-      </form>
-      </div>
-      )}
-
-        
-
-    </div>
-     <div className="flex flex-col items-center gap-4 mt-2 justify-center  mx-10">
-          <p className="self-start  text-lg font-semibold text-white ">
+        </form>
+        <div className="flex flex-col gap-4 items-end">
+          <p className="text-white font-semibold text-lg pl-4 self-start">
             Events Created by you:{" "}
           </p>
-          <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left text-gray-200 dark:text-gray-100">
-            <thead className="text-xm text-black uppercase bg-gray-50 dark:bg-gray-400 dark:text-gray-100">
+          <table>
+            <thead>
               <tr>
-                <th className="px-6 py-3">
-                  Event Name
+                <th className="bg-gray-300 py-2 pl-8 pr-2 rounded-tl-2xl">
+                  EventName
                 </th>
-                <th className="px-6 py-3 ">Description</th>
-                <th className="px-6 py-3">StartDate Time</th>
-                <th className="px-6 py-3">EndDate Time</th>
-                <th className="px-6 py-3">Location</th>
-                <th className="px-6 py-3">
+                <th className="bg-gray-300 p-2">Description</th>
+                <th className="bg-gray-300 p-2">StartDateTime</th>
+                <th className="bg-gray-300 p-2">EndDateTime</th>
+                <th className="bg-gray-300 p-2">Location</th>
+                <th className="bg-gray-300 py-2 pr-8 pl-2 rounded-tr-2xl">
                   Operations
                 </th>
               </tr>
@@ -438,17 +390,17 @@ const EventCreation: React.FC = () => {
             <tbody>
               {eventData?.map((event: any) => (
                 <tr
-                  className="border-b-2 bg-[#41589d] text-white"
+                  className="border-b-2 bg-[#121b22] text-white"
                   key={event.id}
                 >
-                  <td className="px-2 py-2 border-r">{event.EventName}</td>
+                  <td className="px-2 border-r py-2">{event.EventName}</td>
                   <td className="px-2 border-r">{event.Description}</td>
                   <td className="px-2 border-r">{event.StartDateTime}</td>
                   <td className="px-2 border-r">{event.EndDateTime}</td>
                   <td className="px-2 border-r">{event.Location}</td>
                   <td className="flex gap-2 px-2 py-2">
                     <button
-                      className="text-red-700 cursor-pointer bg-white rounded-md px-2"
+                      className="text-red-500 cursor-pointer"
                       onClick={() => {
                         if (
                           confirm("Are you sure you want to delete this event?")
@@ -459,11 +411,9 @@ const EventCreation: React.FC = () => {
                     >
                       {loading.state && loading.id == event.EventID
                         ? "deleting..."
-                        : <MdDelete size={20} aria-label="Delete Event" /> } 
-                         
+                        : "Delete"}
                     </button>
                     <button
-                    className="bg-white rounded-md text-black p-2"
                       onClick={(e) => {
                         e.preventDefault();
                         form.setFieldValue("EventName", event.EventName);
@@ -480,23 +430,20 @@ const EventCreation: React.FC = () => {
                         setUpdateOrSubmitState(true);
                       }}
                     >
-                      <GrUpdate size={20} aria-label="Update Event" />
+                      Update
                     </button>
-                    <button className="bg-white rounded-md text-black px-2" onClick={()=>{
-                      navigate(`/clubAdmin/event/${event.EventID}`)
-                    }}><CgMoreO size={20} aria-label="View Event Details" /></button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <button className="bg-black text-white font-semibold rounded-md p-1 w-36">
+            {" "}
+            Create new Event{" "}
+          </button>
         </div>
-        </div>
-
       </div>
     </div>
-    
-    </>
   );
 };
 export default EventCreation;

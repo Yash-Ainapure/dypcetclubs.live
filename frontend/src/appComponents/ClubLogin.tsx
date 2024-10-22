@@ -35,7 +35,6 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
         setTimeout(() => {
           navigate("/clubAdmin");
         }, 1000);
-        onClose(false);
       } else {
         setErrorMessage("Email or password is incorrect.");
       }

@@ -11,6 +11,7 @@ interface Question {
 
 const QuizCreation: React.FC = () => {
   const [title, setTitle] = useState<string>("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [quizzes, setQuizzes] = useState([]);
   const [questions, setQuestions] = useState<Question[]>([
     { question: "", options: ["", "", "", ""], correctAnswer: "" },
@@ -22,20 +23,32 @@ const QuizCreation: React.FC = () => {
 
   useEffect(() => {
     if (userData) {
-      setClubInfo(userData?.Club);
-      fetchQuizzes();
+      setClubInfo(userData.club);
       console.log(clubInfo);
-      console.log(quizzes);
+      fetchQuizzes();
+    } else {
+      console.log("userData");
+      console.log(userData);
+      console.log("not authenticated..");
     }
   }, [userData]);
 
+  //to get all club quizzes
   const fetchQuizzes = async () => {
     try {
-      const response = await axios.get(
-        `/api/quizzes/getClubQuizzes?ClubID=${userData?.ClubID}`
-      );
-      if (response.status === 200) {
-        setQuizzes(response.data);
+      try {
+        const response = await axios.get(
+          `/api/quizzes/getClubQuizzes?ClubID=${userData.club.ClubID}`
+        );
+        if (response.status === 200) {
+          const data = response.data;
+          setQuizzes(data);
+          console.log(quizzes);
+        } else {
+          console.error("Failed to fetch quizzes");
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes", error);
       }
     } catch (error) {
       console.error("Error fetching quizzes", error);
@@ -50,22 +63,22 @@ const QuizCreation: React.FC = () => {
   };
 
   const handleQuestionChange = (
-    index: number,
-    field: keyof Question,
-    value: string
-  ) => {
-    const newQuestions = [...questions];
-    newQuestions[index] = {
-      ...newQuestions[index],
-      [field]: value,
+      index: number,
+      field: keyof Question,
+      value: string,
+    ) => {
+      const newQuestions = [...questions];
+      newQuestions[index] = {
+        ...newQuestions[index],
+        [field]: value,
+      };
+      setQuestions(newQuestions);
     };
-    setQuestions(newQuestions);
-  };
 
   const handleOptionChange = (
     questionIndex: number,
     optionIndex: number,
-    value: string
+    value: string,
   ) => {
     const newQuestions = [...questions];
     newQuestions[questionIndex].options[optionIndex] = value;
@@ -75,18 +88,20 @@ const QuizCreation: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      // Convert options array into a string
       const formattedQuestions = questions.map((q) => ({
         ...q,
         options: q.options.join(","),
       }));
 
+      //to create a new quiz
       const response = await axios.post(
-        `/api/quizzes/createQuiz?ClubID=${userData?.ClubID}`,
+        `/api/quizzes/createQuiz?ClubID=${userData.club.ClubID}`,
         {
           title,
           questions: formattedQuestions,
           secretCode,
-        }
+        },
       );
       navigate(`/quiz/${response.data.quizId}`);
     } catch (error) {
@@ -95,82 +110,79 @@ const QuizCreation: React.FC = () => {
   };
 
   return (
-    <div className="bg-black w-full overflow-scroll">
-      <div className="mx-auto mt-3 mb-8 p-6 bg-[#6284eb] shadow-lg rounded-lg w-full max-w-2xl">
-        <h1 className="text-3xl text-white font-bold mb-6  text-center">Create New Quiz</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Quiz Title"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-            required
-          />
-          {questions.map((q, qIndex) => (
-            <div key={qIndex} className="space-y-2">
+    <div
+      className="mx-auto p-4 overflow-scroll bg-slate-500 rounded-tl-2xl w-full"
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+    >
+      <h1 className="text-2xl font-bold mb-4 text-white">Create New Quiz</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Quiz Title"
+          className="w-full p-2 border rounded"
+          required
+        />
+        {questions.map((q, qIndex) => (
+          <div key={qIndex} className="space-y-2">
+            <input
+              type="text"
+              value={q.question}
+              onChange={(e) =>
+                handleQuestionChange(qIndex, "question", e.target.value)
+              }
+              placeholder={`Question ${qIndex + 1}`}
+              className="w-full p-2 border rounded"
+              required
+            />
+            {q.options.map((option, oIndex) => (
               <input
+                key={oIndex}
                 type="text"
-                value={q.question}
+                value={option}
                 onChange={(e) =>
-                  handleQuestionChange(qIndex, "question", e.target.value)
+                  handleOptionChange(qIndex, oIndex, e.target.value)
                 }
-                placeholder={`Question ${qIndex + 1}`}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                placeholder={`Option ${oIndex + 1}`}
+                className="w-full p-2 border rounded"
                 required
               />
-              {q.options.map((option, oIndex) => (
-                <input
-                  key={oIndex}
-                  type="text"
-                  value={option}
-                  onChange={(e) =>
-                    handleOptionChange(qIndex, oIndex, e.target.value)
-                  }
-                  placeholder={`Option ${oIndex + 1}`}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                  required
-                />
-              ))}
-              <input
-                type="text"
-                value={q.correctAnswer}
-                onChange={(e) =>
-                  handleQuestionChange(qIndex, "correctAnswer", e.target.value)
-                }
-                placeholder="Correct Answer"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                required
-              />
-            </div>
-          ))}
-          <div className="mx-40">
-          <button
-            type="button"
-            onClick={handleAddQuestion}
-            className="w-full bg-black text-white px-4 py-2  rounded-lg transition duration-200 hover:bg-gray-800"
-          >
-            Add Question
-          </button>
+            ))}
+            <input
+              type="text"
+              value={q.correctAnswer}
+              onChange={(e) =>
+                handleQuestionChange(qIndex, "correctAnswer", e.target.value)
+              }
+              placeholder="Correct Answer"
+              className="w-full p-2 border rounded"
+              required
+            />
           </div>
-          <input
-            type="text"
-            value={secretCode}
-            onChange={(e) => setSecretCode(e.target.value)}
-            placeholder="Secret Code"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-            required
-          />
-          <div className="mx-40">
-          <button
-            type="submit"
-            className="w-full bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 hover:bg-green-700"
-          >
-            Create Quiz
-          </button>
-          </div>
-        </form>
-      </div>
+        ))}
+        <button
+          type="button"
+          onClick={handleAddQuestion}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Add Question
+        </button>
+        <input
+          type="text"
+          value={secretCode}
+          onChange={(e) => setSecretCode(e.target.value)}
+          placeholder="Secret Code"
+          className="w-full p-2 border rounded"
+          required
+        />
+        <button
+          type="submit"
+          className="bg-green-500 text-white px-4 py-2 rounded"
+        >
+          Create Quiz
+        </button>
+      </form>
     </div>
   );
 };
