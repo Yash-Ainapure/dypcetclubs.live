@@ -50,7 +50,7 @@ const Footer = () => {
     };
 
     return (
-        <footer className='bg-white pt-8 text-black border-t-2'>
+        <footer className='bg-slate-900 pt-8 text-white border-t-2'>
             <div className='px-4 py-4 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'>
                 <div className='container mx-auto'>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
@@ -58,13 +58,16 @@ const Footer = () => {
                         <div className="space-y-4">
                             <Link to="/" className="flex items-center gap-2 group transition-all duration-300 ease-in-out transform hover:scale-105">
                                 <img src={playstore} className="bg-black h-20 w-20 transition-transform duration-300 group-hover:rotate-12" alt="DYPCETCLUBS.LIVE Logo" />
-                                <span className="text-xl font-semibold bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-400 group-hover:to-purple-800 transition-all duration-300">
+                               
+                            </Link>
+
+                            <span className="text-xl font-semibold bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-400 group-hover:to-purple-800 transition-all duration-300 ">
                                     DYPCETCLUBS.LIVE
                                 </span>
-                            </Link>
                             <p className="text-sm leading-relaxed max-w-xs hover:scale-105 transition-transform">
                                 <b>dypcetclubs.live</b> is a robust web application designed to simplify the management of college clubs.
                             </p>
+
                         </div>
 
                         {/* Company Links */}
