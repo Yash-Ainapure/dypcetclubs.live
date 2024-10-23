@@ -175,6 +175,13 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/sps234">
+                    <img src="https://avatars.githubusercontent.com/u/141764206?v=4" width="100;" alt="sps234"/>
+                    <br />
+                    <sub><b>Saumya Pratap Singh</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/Sourabh782">
                     <img src="https://avatars.githubusercontent.com/u/103349890?v=4" width="100;" alt="Sourabh782"/>
                     <br />
@@ -195,6 +202,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Swetabh Shreyam</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/VinayLodhi1712">
                     <img src="https://avatars.githubusercontent.com/u/135756009?v=4" width="100;" alt="VinayLodhi1712"/>
@@ -202,8 +211,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Vinay Anand Lodhi</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/vedhcet-07">
                     <img src="https://avatars.githubusercontent.com/u/176995332?v=4" width="100;" alt="vedhcet-07"/>
@@ -239,6 +246,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Radhey patil</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/devxMani">
                     <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
@@ -246,8 +255,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>MANI </b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/KrishChothani">
                     <img src="https://avatars.githubusercontent.com/u/143370415?v=4" width="100;" alt="KrishChothani"/>
@@ -270,12 +277,21 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/ChetanSingh14">
+                    <img src="https://avatars.githubusercontent.com/u/153702696?v=4" width="100;" alt="ChetanSingh14"/>
+                    <br />
+                    <sub><b>Chetan SIngh</b></sub>
+                </a>
+            </td>
+            <td align="center">
                 <a href="https://github.com/jainaryan04">
                     <img src="https://avatars.githubusercontent.com/u/138214350?v=4" width="100;" alt="jainaryan04"/>
                     <br />
                     <sub><b>Aryan Ramesh Jain</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/NK-Works">
                     <img src="https://avatars.githubusercontent.com/u/132702983?v=4" width="100;" alt="NK-Works"/>
@@ -290,8 +306,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Aditya Shukla</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/AasthaSingh28">
                     <img src="https://avatars.githubusercontent.com/u/138100998?v=4" width="100;" alt="AasthaSingh28"/>
