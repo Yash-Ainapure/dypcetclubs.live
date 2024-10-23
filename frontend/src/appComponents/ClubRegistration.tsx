@@ -5,7 +5,7 @@ import type { FieldApi } from "@tanstack/react-form";
 import { useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
 import { autoGrow } from "@/lib/utils";
-
+import {Eye, EyeOff} from "lucide-react"
 // Define a TypeScript interface for the club
 interface Club {
   ClubName: string;
@@ -41,6 +41,8 @@ const addClub = async (newClub: Club): Promise<Club> => {
 const ClubRegistration: React.FC = () => {
   const navigate = useNavigate();
   const [displayModal, setDisplayModal] = useState(false);
+  const [hidden, setHidden] = useState(true);
+
   const form = useForm({
     defaultValues: {
       ClubName: "",
@@ -92,6 +94,10 @@ const ClubRegistration: React.FC = () => {
         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
       });
     }, 250);
+  };
+
+  const togglePasswordVisibility = () => {
+    setHidden( !hidden );
   };
 
   return (
@@ -310,9 +316,10 @@ const ClubRegistration: React.FC = () => {
                 return (
                   <>
                     {/* <label htmlFor={field.name}>Password:</label> */}
+                    <div className="relative">
                     <input
                       className="p-2 glass shadow-xl border border-gray-300  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
-                      type="password"
+                      type={ hidden ? "password" : "text"}
                       id={field.name}
                       placeholder="Password"
                       name={field.name}
@@ -320,8 +327,17 @@ const ClubRegistration: React.FC = () => {
                       onBlur={field.handleBlur}
                       onChange={(e) => field.handleChange(e.target.value)}
                     />
+                    <button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs"                    
+                    > 
+                    { hidden ? <EyeOff size={17} /> : <Eye size={17}/>}
+                    </button>
+                    </div>
+                    
                     <div className="text-red-600 text-sm ml-2">
-                      <FieldInfo field={field} />
+                                <FieldInfo field={field} />
                     </div>
                   </>
                 );
