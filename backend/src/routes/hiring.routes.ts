@@ -7,7 +7,8 @@ import {
   DeleteHiringPosition,
   UpdateHiringPosition,
   CreateApplicant,
-  GetHiringSessions
+  GetHiringSessions,
+  GetPositionsBySession
 } from "../controllers/hiring.controller";
 
 const router = Router();
@@ -33,7 +34,7 @@ router.get("/hiringSessions",GetHiringSessions);
 router.post("/addHiringPosition", AddHiringPosition);
 router.delete("/DeleteHiringPosition", DeleteHiringPosition);
 router.put("/updateHiringPosition", UpdateHiringPosition);
-
+router.get("/getPositions",GetPositionsBySession)
 router.post("/applyForPosition", CreateApplicant);
 
 export default router;
