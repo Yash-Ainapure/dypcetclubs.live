@@ -7,6 +7,7 @@ import {
   DeleteHiringPosition,
   UpdateHiringPosition,
   CreateApplicant,
+  GetHiringSessions
 } from "../controllers/hiring.controller";
 
 const router = Router();
@@ -27,6 +28,7 @@ const router = Router();
 router.post("/createHiringSession", CreateHiringSession);
 router.delete("/deleteHiringSession", DeleteHiringSession);
 router.put("/updateHiringSession", UpdateHiringSession);
+router.get("/hiringSessions",GetHiringSessions);
 
 router.post("/addHiringPosition", AddHiringPosition);
 router.delete("/DeleteHiringPosition", DeleteHiringPosition);
