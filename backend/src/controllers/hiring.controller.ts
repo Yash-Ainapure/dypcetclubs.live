@@ -212,6 +212,33 @@ export const AddHiringPosition = async (req: Request, res: Response) => {
   }
 };
 
+export const GetPositionsBySession = async (req: Request, res: Response) => {
+  const { SessionID } = req.query;
+
+  if (!SessionID || isNaN(parseInt(SessionID as string))) {
+    return res.status(400).json({ error: "Invalid or missing SessionID" });
+  }
+
+  try {
+    const positions = await prisma.hiringPosition.findMany({
+      where: {
+        HiringSession: {
+          SessionID: parseInt(SessionID as string),
+        },
+      },
+    });
+
+    if (!positions.length) {
+      return res.status(404).json({ error: "No positions found for this session." });
+    }
+
+    res.status(200).json(positions);
+  } catch (error) {
+    console.error(`Error retrieving positions: ${error}`);
+    res.status(500).json({ error: "Error retrieving positions" });
+  }
+};
+
 export const DeleteHiringPosition = async (req: Request, res: Response) => {
   const { PositionID } = req.query;
   if (!PositionID || isNaN(parseInt(PositionID as string))) {
