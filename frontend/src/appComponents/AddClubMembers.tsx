@@ -49,7 +49,7 @@ const AddClubMembers = ({ setAddMemberModal }:any) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-1/2 w-[90%]">
+    <div className="p-6 bg-white rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-[75%]">
       <p onClick={()=>{
         setAddMemberModal(false)
       }} className="text-red-600 cursor-pointer absolute top-4 right-4">X</p>

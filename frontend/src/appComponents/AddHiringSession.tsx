@@ -24,10 +24,10 @@ const AddHiringSession = ({ setAddSessionModal }: any) => {
       const response = await axios.post(
         `/api/hiring/createHiringSession/?ClubID=${ClubID}`,
         {
-            title: title,
-            description: description,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
+          title: title,
+          description: description,
+          startDate: new Date(startDate),
+          endDate: new Date(endDate),
         }
       );
       console.log(response);
@@ -44,7 +44,7 @@ const AddHiringSession = ({ setAddSessionModal }: any) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-1/2 w-[90%]">
+    <div className="p-6 bg-green-500 rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-[75%]">
       <p
         onClick={() => setAddSessionModal(false)}
         className="text-red-600 cursor-pointer absolute top-4 right-4"

@@ -22,6 +22,7 @@ import AddClubMembers from "./AddClubMembers";
 import axiosInstance from "./axiosInstance";
 import AddHiringSession from "./AddHiringSession";
 import HiringSessions from "./HiringSessions";
+import { ViewSession } from "./ViewSession";
 
 export function ClubAdmin({ setShowNavbar }: any) {
   const { isLoggedIn, userData } = useAuth();
@@ -135,6 +136,8 @@ export function ClubAdmin({ setShowNavbar }: any) {
         <Route path="/settings" element={<QuizCreation />} />
         <Route path="/results/:id" element={<AdminResults />} />
         <Route path="/hiring" element={<Dashboard />} />
+        <Route path="/hiring/:id" element={<ViewSession />} />
+
       </Routes>
     </div>
   );
@@ -281,7 +284,7 @@ const Dashboard = () => {
 
 const ClubMembers = ({ clubMembers, setDisplayClubModal }: any) => {
   return (
-    <div className="w-[90%] md:w-[60%] h-[70%] bg-white p-2 absolute z-50 rounded-md left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-scroll pt-12 flex flex-col gap-2">
+    <div className="w-[90%] md:w-[75%] h-[70%] bg-slate-300 p-2 absolute z-50 rounded-md left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-scroll pt-12 flex flex-col gap-2">
       <p className="font-semibold text-xl underline text-center">
         Club Members List
       </p>
