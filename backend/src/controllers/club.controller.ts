@@ -8,6 +8,11 @@ import {
   uploads,
 } from "../services/cloudnary";
 import logger from "../config/logger";
+import jwt from "jsonwebtoken";
+
+interface CustomRequest extends Request {
+  user?: any;
+}
 
 export const getClubByEmail = async (req: Request, res: Response) => {
   const { email } = req.body; // Read email from request body
@@ -138,6 +143,14 @@ export const login = async (req: Request, res: Response) => {
 
     logger.info(`Login successful for email: ${email}`);
     club.Password = "encrypted";
+
+    //adding cookie token
+    const token = jwt.sign({ club }, "yash123", { expiresIn: "1h" });
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    });
+
     res.status(200).json({ message: MESSAGES.CLUB.LOGIN_SUCCESSFUL, club });
   } catch (error) {
     logger.error(`${MESSAGES.CLUB.LOGIN_ERROR}: ${error}`);
@@ -176,12 +189,23 @@ export const addClubMember = async (req: Request, res: Response) => {
       FirstName,
       LastName,
       Email,
-      Role,
       JoinDate,
       ProfileImageURL,
+      Role,
     } = req.body;
-    console.log("ClubId is ", ClubID);
-    console.log(req.body);
+
+    const user = (req as CustomRequest).user;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    //authenticate if the user is of the same club and not trying to add member to other club
+    if(user.club.ClubID !== ClubID){
+      return res.status(401).json({ error: "Unauthorized,  HAHA Caught you" });
+    }else{
+      console.log("the user is safeee......")
+    }
+
     if (!ClubID || !FirstName || !LastName) {
       logger.warn(
         "Attempted to add a club member with missing required fields."
