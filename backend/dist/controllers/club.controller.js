@@ -17,6 +17,7 @@ const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
 const logger_1 = __importDefault(require("../config/logger"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getClubByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.body; // Read email from request body
     if (!email || typeof email !== "string") {
@@ -137,6 +138,12 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         logger_1.default.info(`Login successful for email: ${email}`);
         club.Password = "encrypted";
+        //adding cookie token
+        const token = jsonwebtoken_1.default.sign({ club }, "yash123", { expiresIn: "1h" });
+        res.cookie("auth_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+        });
         res.status(200).json({ message: const_1.MESSAGES.CLUB.LOGIN_SUCCESSFUL, club });
     }
     catch (error) {
@@ -170,9 +177,18 @@ const getClubMembers = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getClubMembers = getClubMembers;
 const addClubMember = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { ClubID, FirstName, LastName, Email, Role, JoinDate, ProfileImageURL, } = req.body;
-        console.log("ClubId is ", ClubID);
-        console.log(req.body);
+        const { ClubID, FirstName, LastName, Email, JoinDate, ProfileImageURL, Role, } = req.body;
+        const user = req.user;
+        if (!user) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        //authenticate if the user is of the same club and not trying to add member to other club
+        if (user.club.ClubID !== ClubID) {
+            return res.status(401).json({ error: "Unauthorized,  HAHA Caught you" });
+        }
+        else {
+            console.log("the user is safeee......");
+        }
         if (!ClubID || !FirstName || !LastName) {
             logger_1.default.warn("Attempted to add a club member with missing required fields.");
             return res

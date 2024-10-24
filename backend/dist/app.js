@@ -14,13 +14,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const env_config_1 = require("./config/env.config");
 const index_1 = require("./routes/index");
 const database_config_1 = require("./config/database.config");
 const app = (0, express_1.default)();
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://dypcetclubs-live.vercel.app",
+];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.indexOf(origin || "") !== -1 || !origin) {
+            callback(null, origin);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+};
 app.use(express_1.default.json());
-// Apply CORS middleware
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)(corsOptions));
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
 (0, index_1.setupRoutes)(app);
 const PORT = env_config_1.config.PORT || 4000;
