@@ -150,7 +150,11 @@ export const login = async (req: Request, res: Response) => {
     res.cookie("auth_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
     });
+
+    console.log("secure??: ", process.env.NODE_ENV === "production");
+    console.log(process.env.NODE_ENV);
 
     res.status(200).json({ message: MESSAGES.CLUB.LOGIN_SUCCESSFUL, club });
   } catch (error) {
