@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node dist/app.js",
+    "clean": "rm -rf dist",
     "build": "npm run clean && tsc",
+    "start": "node dist/app.js",
     "start:dev": "nodemon",
     "check-types": "tsc --noEmit",
     "check-build": "npm run check-types && npm run build"
