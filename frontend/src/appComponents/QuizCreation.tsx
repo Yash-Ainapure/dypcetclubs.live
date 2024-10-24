@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
+import axiosInstance from "./axiosInstance";
 
 interface Question {
   question: string;
@@ -19,13 +20,15 @@ const QuizCreation: React.FC = () => {
   const [clubInfo, setClubInfo] = useState<any>("");
   const navigate = useNavigate();
   const { userData } = useAuth();
+  // const [AIQuizModal, setAIQuizModal] = useState(true);
+  const [AIQuizModalVisible, setAIQuizModalVisible] = useState<boolean>(false);
+  const [quiz, setQuiz] = useState([]);
+
 
   useEffect(() => {
     if (userData) {
       setClubInfo(userData?.Club);
       fetchQuizzes();
-      console.log(clubInfo);
-      console.log(quizzes);
     }
   }, [userData]);
 
@@ -83,7 +86,7 @@ const QuizCreation: React.FC = () => {
       const response = await axios.post(
         `/api/quizzes/createQuiz?ClubID=${userData?.ClubID}`,
         {
-          title,
+          title,  
           questions: formattedQuestions,
           secretCode,
         }
@@ -96,6 +99,14 @@ const QuizCreation: React.FC = () => {
 
   return (
     <div className="bg-black w-full overflow-scroll">
+      {/* {
+       
+      } */}
+      <button className="bg-white text-black p-2 rounded-md absolute top-4 right-8"
+      onClick={() => setAIQuizModalVisible(true)}
+      >Generate Quiz with AI</button>
+            {AIQuizModalVisible && <AiQuizCreationModal setQuiz={setQuiz} setQuestions={setQuestions} />}
+
       <div className="mx-auto mt-3 mb-8 p-6 bg-[#6284eb] shadow-lg rounded-lg w-full max-w-2xl">
         <h1 className="text-3xl text-white font-bold mb-6  text-center">Create New Quiz</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -145,13 +156,15 @@ const QuizCreation: React.FC = () => {
             </div>
           ))}
           <div className="mx-40">
-          <button
-            type="button"
-            onClick={handleAddQuestion}
-            className="w-full bg-black text-white px-4 py-2  rounded-lg transition duration-200 hover:bg-gray-800"
-          >
-            Add Question
-          </button>
+            <button
+              type="button"
+              onClick={() => {
+                handleAddQuestion();
+              }}
+              className="w-full bg-black text-white px-4 py-2  rounded-lg transition duration-200 hover:bg-gray-800"
+            >
+              Add Question
+            </button>
           </div>
           <input
             type="text"
@@ -162,17 +175,92 @@ const QuizCreation: React.FC = () => {
             required
           />
           <div className="mx-40">
-          <button
-            type="submit"
-            className="w-full bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 hover:bg-green-700"
-          >
-            Create Quiz
-          </button>
+            <button
+              type="submit"
+              className="w-full bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 hover:bg-green-700"
+            >
+              Create Quiz
+            </button>
           </div>
         </form>
+
       </div>
     </div>
   );
 };
 
+const AiQuizCreationModal = ({ setQuiz ,setQuestions}) => {
+
+
+
+  const [topic, setTopic] = useState<any>();
+  const [level, setLevel] = useState<any>();
+  const [numberOfQuestions, setNumberOfQuestions] = useState<any>();
+  // const handleQuiz=();
+  const handleQuiz = async () => {
+    // Create the payload with the user's input
+    const payload = {
+      topic,
+      level,
+      numberOfQuestions,
+    };
+
+    console.log("Payload:", payload);
+
+    try {
+
+      const response = await axios.post("/api/quizzes/generateQuiz", payload);
+      let data=JSON.parse(response.data?.data?.choices[0]?.message?.content)
+      if (data?.questions) {
+        setQuiz(data.questions); 
+        const formattedQuestions = data.questions.map((q: any) => ({
+          question: q.question,
+          options: q.options,
+          correctAnswer: q.answer,
+        }));
+
+        setQuestions(formattedQuestions);
+      }
+    } catch (error) {
+  console.error("Error generating quiz:", error);
+}
+  };
+
+
+return (
+  <div className="flex flex-col gap-2 bg-white bg-opacity-70 mx-auto mt-3 mb-8 p-6 w-full max-w-lg">
+    <input
+      placeholder="Topic name"
+      className="p-2 border rounded"
+      value={topic}
+      onChange={(e) => setTopic(e.target.value)} // Store topic input
+    />
+    <select
+      className="p-2 border rounded"
+      value={level}
+      onChange={(e) => setLevel(e.target.value)} // Store selected level
+    >
+      <option value="easy">easy</option>
+      <option value="medium">medium</option>
+      <option value="hard">hard</option>
+    </select>
+    <input
+
+      placeholder="Number of questions"
+      className="p-2 border rounded"
+      value={numberOfQuestions}
+      onChange={(e) => setNumberOfQuestions(e.target.value)} // Store number of questions input
+    />
+    <button
+      className="p-2 bg-blue-500 text-white rounded"
+      onClick={() => {
+        console.log("clicked")
+        handleQuiz()
+      }} // Trigger quiz generation on click
+    >
+      Generate
+    </button>
+  </div>
+)
+}
 export default QuizCreation;

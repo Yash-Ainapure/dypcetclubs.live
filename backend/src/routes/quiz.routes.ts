@@ -6,7 +6,8 @@ import {
   createQuizUser,
   submitQuiz,
   getQuizResults,
-  deleteQuiz
+  deleteQuiz,
+  generateQuiz
 } from "../controllers/quiz.controller";
 
 const router = Router();
@@ -26,6 +27,8 @@ router.post("/:id/submit", submitQuiz);
 //get results for a quiz only for that club admin access
 router.get("/:id/results", getQuizResults);
 
-router.delete("/:id",deleteQuiz);
+router.delete("/:id", deleteQuiz);
+
+router.post("/:generateQuiz", generateQuiz)
 
 export default router;
