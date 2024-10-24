@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
-import axiosInstance from "./axiosInstance";
 
 interface Question {
   question: string;
@@ -26,6 +25,7 @@ const QuizCreation: React.FC = () => {
 
 
   useEffect(() => {
+    console.log(quizzes,clubInfo,quiz)
     if (userData) {
       setClubInfo(userData?.Club);
       fetchQuizzes();
@@ -189,7 +189,7 @@ const QuizCreation: React.FC = () => {
   );
 };
 
-const AiQuizCreationModal = ({ setQuiz ,setQuestions}) => {
+const AiQuizCreationModal = ({ setQuiz ,setQuestions}:any) => {
 
 
 
