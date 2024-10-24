@@ -7,7 +7,7 @@ import Meteors from "@/components/magicui/meteors";
 
 const EventsPage = () => {
   return (
-    <div className="min-h-screen w-full bg-gray-50 text-gray-800">
+    <div className="min-h-screen w-full bg-gray-400 text-gray-800">
       <div className="relative z-10  bg-black  text-white py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 animate-gradient"></div>
         <div className="relative z-10 max-w-4xl mx-auto text-center pt-20">
@@ -18,7 +18,7 @@ const EventsPage = () => {
         </div>
       </div>
 
-      <div className="relative flex flex-col items-center justify-center w-full py-8 overflow-hidden text-black md:shadow-xl">
+      <div className="relative flex flex-col items-center justify-center w-full pt-8 overflow-hidden text-black md:shadow-xl">
         <Meteors number={10} />
         <div className="pt-10 pb-16 text-center">
           <h1 className="pb-4 text-3xl font-bold">Upcoming Events</h1>

@@ -8,7 +8,7 @@ export default function Clubs() {
   const displayedClubs = clubs?.slice(0, 6);
   if (isLoading)
     return (
-      <div className="min-h-screen px-6 py-12 bg-white">
+      <div className="min-h-screen px-6 py-8 bg-white">
         <div className="pb-10 text-center">
           <h1 className="pb-4 text-3xl font-semibold">Our Clubs</h1>
           <p className="text-base text-slate-600">

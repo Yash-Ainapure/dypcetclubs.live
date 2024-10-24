@@ -44,7 +44,7 @@ function App() {
   return (
     <Router>
       {showPopup && <Popup onClose={handleClose} />}
-      {showLoginPage && <ClubLogin onClose={setShowLoginPage} />}
+      {showLoginPage && <ClubLogin onClose={setShowLoginPage} handleClosePopup={handleClose}/>}
       {
         showNavbar && <Navigation setShowLoginPage={setShowLoginPage} />
       }
@@ -77,6 +77,7 @@ function App() {
         <Route path="/clubboard" element={<ClubsPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/quiz" element={<QuizPage/>}/>
+        <Route path="/quiz/:id" element={<QuizPage/>}/>
         <Route path="/events" element={<EventsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />

@@ -29,6 +29,6 @@ router.get("/:id/results", getQuizResults);
 
 router.delete("/:id", deleteQuiz);
 
-router.post("/:generateQuiz", generateQuiz)
+router.post("/generateQuiz", generateQuiz)
 
 export default router;

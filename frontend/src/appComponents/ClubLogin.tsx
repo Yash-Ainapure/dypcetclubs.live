@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import user_icon from "../assets/user_icon.png";
 import password_icon from "../assets/password_icon.png";
 import { useAuth } from "../context/AuthContext";
-import {Eye, EyeOff} from "lucide-react"
+import { Eye, EyeOff } from "lucide-react"
 import ClipLoader from "react-spinners/ClipLoader";
 
-const ClubLogin: React.FC<any> = ({ onClose }) => {
+const ClubLogin: React.FC<any> = ({ onClose, handleClosePopup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -44,6 +44,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
       setErrorMessage("An error occurred. Please try again.");
     } finally {
       setLoading(false);
+      handleClosePopup();
     }
   };
 
@@ -81,7 +82,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="absolute right-4" onClick={()=>setHidden(!hidden)}>
+          <button className="absolute right-4" onClick={() => setHidden(!hidden)}>
             {
               hidden ? <EyeOff /> : <Eye />
             }

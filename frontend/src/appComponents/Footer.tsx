@@ -50,8 +50,8 @@ const Footer = () => {
     };
 
     return (
-        <footer className='bg-slate-900 pt-8 text-white border-t-2'>
-            <div className='px-4 py-4 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'>
+        <footer className='bg-slate-900 pt-8 text-white border-t-[1px] border-[#bababa] w-full'>
+            <div className='px-4 py-4 w-full shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'>
                 <div className='container mx-auto'>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
                         {/* Company Section */}

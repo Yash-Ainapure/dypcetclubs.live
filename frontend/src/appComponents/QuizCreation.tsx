@@ -25,7 +25,7 @@ const QuizCreation: React.FC = () => {
 
 
   useEffect(() => {
-    console.log(quizzes,clubInfo,quiz)
+    console.log(quizzes, clubInfo, quiz)
     if (userData) {
       setClubInfo(userData?.Club);
       fetchQuizzes();
@@ -86,7 +86,7 @@ const QuizCreation: React.FC = () => {
       const response = await axios.post(
         `/api/quizzes/createQuiz?ClubID=${userData?.ClubID}`,
         {
-          title,  
+          title,
           questions: formattedQuestions,
           secretCode,
         }
@@ -103,9 +103,9 @@ const QuizCreation: React.FC = () => {
        
       } */}
       <button className="bg-white text-black p-2 rounded-md absolute top-4 right-8"
-      onClick={() => setAIQuizModalVisible(true)}
+        onClick={() => setAIQuizModalVisible(true)}
       >Generate Quiz with AI</button>
-            {AIQuizModalVisible && <AiQuizCreationModal setQuiz={setQuiz} setQuestions={setQuestions} />}
+      {AIQuizModalVisible && <AiQuizCreationModal setQuiz={setQuiz} setQuestions={setQuestions} />}
 
       <div className="mx-auto mt-3 mb-8 p-6 bg-[#6284eb] shadow-lg rounded-lg w-full max-w-2xl">
         <h1 className="text-3xl text-white font-bold mb-6  text-center">Create New Quiz</h1>
@@ -115,44 +115,52 @@ const QuizCreation: React.FC = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Quiz Title"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            className="w-full p-3 border border-gray-300  rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             required
           />
           {questions.map((q, qIndex) => (
-            <div key={qIndex} className="space-y-2">
-              <input
-                type="text"
-                value={q.question}
-                onChange={(e) =>
-                  handleQuestionChange(qIndex, "question", e.target.value)
-                }
-                placeholder={`Question ${qIndex + 1}`}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                required
-              />
-              {q.options.map((option, oIndex) => (
-                <input
-                  key={oIndex}
-                  type="text"
-                  value={option}
+            <div key={qIndex} className="space-y-2 bg-blue-100 p-2 rounded-md">
+              <div className="p-2 rounded-md">
+                <p className="font-bold">Question: </p>
+                <textarea
+                  value={q.question}
                   onChange={(e) =>
-                    handleOptionChange(qIndex, oIndex, e.target.value)
+                    handleQuestionChange(qIndex, "question", e.target.value)
                   }
-                  placeholder={`Option ${oIndex + 1}`}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                  placeholder={`Question ${qIndex + 1}`}
+                  className="w-full p-3 border font-semibold border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                   required
                 />
-              ))}
-              <input
-                type="text"
-                value={q.correctAnswer}
-                onChange={(e) =>
-                  handleQuestionChange(qIndex, "correctAnswer", e.target.value)
-                }
-                placeholder="Correct Answer"
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-                required
-              />
+              </div>
+              <div className="flex flex-col gap-2 p-2 rounded-md">
+                <p className="font-semibold">options: </p>
+                {q.options.map((option, oIndex) => (
+                  <input
+                    key={oIndex}
+                    type="text"
+                    value={option}
+                    onChange={(e) =>
+                      handleOptionChange(qIndex, oIndex, e.target.value)
+                    }a
+                    placeholder={`Option ${oIndex + 1}`}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                    required
+                  />
+                ))}
+              </div>
+              <div className="flex gap-2 justify-center items-center bg-white rounded-md pl-2 bg-green-400">
+                <p className="font-semibold rounded-md">Answer: </p>
+                <input
+                  type="text"
+                  value={q.correctAnswer}
+                  onChange={(e) =>
+                    handleQuestionChange(qIndex, "correctAnswer", e.target.value)
+                  }
+                  placeholder="Correct Answer"
+                  className="w-full p-3 focus:outline-none focus:ring focus:ring-blue-300"
+                  required
+                />
+              </div>
             </div>
           ))}
           <div className="mx-40">
@@ -189,15 +197,17 @@ const QuizCreation: React.FC = () => {
   );
 };
 
-const AiQuizCreationModal = ({ setQuiz ,setQuestions}:any) => {
+const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
 
 
 
   const [topic, setTopic] = useState<any>();
   const [level, setLevel] = useState<any>();
   const [numberOfQuestions, setNumberOfQuestions] = useState<any>();
+  const [loading,setLoading]=useState(false);
   // const handleQuiz=();
   const handleQuiz = async () => {
+    setLoading(true);
     // Create the payload with the user's input
     const payload = {
       topic,
@@ -210,9 +220,9 @@ const AiQuizCreationModal = ({ setQuiz ,setQuestions}:any) => {
     try {
 
       const response = await axios.post("/api/quizzes/generateQuiz", payload);
-      let data=JSON.parse(response.data?.data?.choices[0]?.message?.content)
+      let data = JSON.parse(response.data?.data?.choices[0]?.message?.content)
       if (data?.questions) {
-        setQuiz(data.questions); 
+        setQuiz(data.questions);
         const formattedQuestions = data.questions.map((q: any) => ({
           question: q.question,
           options: q.options,
@@ -222,45 +232,48 @@ const AiQuizCreationModal = ({ setQuiz ,setQuestions}:any) => {
         setQuestions(formattedQuestions);
       }
     } catch (error) {
-  console.error("Error generating quiz:", error);
-}
+      console.error("Error generating quiz:", error);
+    }finally{
+      setLoading(false);
+    }
   };
 
 
-return (
-  <div className="flex flex-col gap-2 bg-white bg-opacity-70 mx-auto mt-3 mb-8 p-6 w-full max-w-lg">
-    <input
-      placeholder="Topic name"
-      className="p-2 border rounded"
-      value={topic}
-      onChange={(e) => setTopic(e.target.value)} // Store topic input
-    />
-    <select
-      className="p-2 border rounded"
-      value={level}
-      onChange={(e) => setLevel(e.target.value)} // Store selected level
-    >
-      <option value="easy">easy</option>
-      <option value="medium">medium</option>
-      <option value="hard">hard</option>
-    </select>
-    <input
+  return (
+    <div className="flex flex-col gap-2 bg-white bg-opacity-70 mx-auto mt-3 mb-8 p-6 w-full max-w-lg">
+      <input
+        placeholder="Topic name"
+        className="p-2 border rounded"
+        value={topic}
+        onChange={(e) => setTopic(e.target.value)} // Store topic input
+      />
+      <select
+        className="p-2 border rounded"
+        value={level}
+        onChange={(e) => setLevel(e.target.value)} // Store selected level
+      >
+        <option value="easy">easy</option>
+        <option value="medium">medium</option>
+        <option value="hard">hard</option>
+      </select>
+      <input
 
-      placeholder="Number of questions"
-      className="p-2 border rounded"
-      value={numberOfQuestions}
-      onChange={(e) => setNumberOfQuestions(e.target.value)} // Store number of questions input
-    />
-    <button
-      className="p-2 bg-blue-500 text-white rounded"
-      onClick={() => {
-        console.log("clicked")
-        handleQuiz()
-      }} // Trigger quiz generation on click
-    >
-      Generate
-    </button>
-  </div>
-)
+        placeholder="Number of questions"
+        className="p-2 border rounded"
+        value={numberOfQuestions}
+        onChange={(e) => setNumberOfQuestions(e.target.value)} // Store number of questions input
+      />
+      <button
+        className="p-2 bg-blue-500 text-white rounded"
+        onClick={() => {
+          handleQuiz()
+        }} // Trigger quiz generation on click
+      >
+        {
+          loading ? "Generating..." : "Generate Quiz"
+        }
+      </button>
+    </div>
+  )
 }
 export default QuizCreation;
