@@ -45,13 +45,14 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 setupRoutes(app);
 
-const PORT = config.PORT || 4000;
+const PORT = 4000;
 
 async function startServer() {
   try {
     await testDatabaseConnection();
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
+      console.log("groq api key: ", config.GROQ_API_KEY);
     });
   } catch (error) {
     console.error("Failed to start server:", error);
