@@ -141,7 +141,7 @@ const QuizCreation: React.FC = () => {
                     value={option}
                     onChange={(e) =>
                       handleOptionChange(qIndex, oIndex, e.target.value)
-                    }a
+                    }
                     placeholder={`Option ${oIndex + 1}`}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
                     required
