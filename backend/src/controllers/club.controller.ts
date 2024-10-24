@@ -8,6 +8,7 @@ import {
   uploads,
 } from "../services/cloudnary";
 import logger from "../config/logger";
+// @ts-ignore
 import jwt from "jsonwebtoken";
 
 interface CustomRequest extends Request {

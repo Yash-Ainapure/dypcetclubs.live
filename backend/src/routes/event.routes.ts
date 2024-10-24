@@ -1,5 +1,7 @@
 import { NextFunction, Router, Request, Response } from "express";
+// @ts-ignore
 import jwt from "jsonwebtoken";
+// @ts-ignore
 import cookieParser from "cookie-parser";
 
 import {

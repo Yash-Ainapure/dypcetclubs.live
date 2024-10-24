@@ -9,7 +9,9 @@ import {
   getClubByEmail,
 } from "../controllers/club.controller";
 import rateLimiter from "../middlewares/rateLimiter";
+// @ts-ignore
 import jwt from "jsonwebtoken";
+// @ts-ignore
 import cookieParser from "cookie-parser";
 const router = Router();
 router.use(cookieParser());

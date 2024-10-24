@@ -10,7 +10,9 @@ import {
   deleteQuiz,
   generateQuiz,
 } from "../controllers/quiz.controller";
+// @ts-ignore
 import jwt from "jsonwebtoken";
+// @ts-ignore
 import cookieParser from "cookie-parser";
 
 const router = Router();

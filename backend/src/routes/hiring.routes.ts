@@ -11,7 +11,9 @@ import {
   GetHiringSessions,
   GetPositionsBySession,
 } from "../controllers/hiring.controller";
+// @ts-ignore
 import jwt from "jsonwebtoken";
+// @ts-ignore
 import cookieParser from "cookie-parser";
 
 const router = Router();

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+// @ts-ignore
 import cookieParser from "cookie-parser";
 import { config } from "./config/env.config";
 import { setupRoutes } from "./routes/index";
