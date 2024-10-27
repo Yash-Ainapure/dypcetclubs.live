@@ -16,7 +16,6 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 // @ts-ignore
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const env_config_1 = require("./config/env.config");
 const index_1 = require("./routes/index");
 const database_config_1 = require("./config/database.config");
 const app = (0, express_1.default)();
