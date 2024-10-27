@@ -48,7 +48,7 @@ export default function Clubs() {
         </p>
       </div>
       {/* Clubs Grid */}
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 px-8">
+      <div className="grid grid-cols-1 gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 px-2 md:px-8">
         {displayedClubs?.map((club, index) => (
           <ClubCard
             key={index}
@@ -61,9 +61,9 @@ export default function Clubs() {
       </div>
       {isHomePage && (
         <div className="flex justify-center mt-4">
-          <p className="mt-4 text-base text-slate-600">
+          <p className="mt-2 text-sm md:text-base text-slate-600 text-center">
             Want to Explore more? Visit our Dedicated&nbsp;
-            <a href="/clubboard">
+            <a className="text-blue-500 underline" href="/clubboard">
               <b>Clubs</b>
             </a>
             &nbsp;Page.

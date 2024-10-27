@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addClubMember = exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = exports.getClubById = exports.getClubByEmail = void 0;
+exports.getCronJob = exports.addClubMember = exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = exports.getClubById = exports.getClubByEmail = void 0;
 const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
@@ -222,3 +222,7 @@ const addClubMember = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.addClubMember = addClubMember;
+const getCronJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.json({ message: "Cron job running" });
+});
+exports.getCronJob = getCronJob;

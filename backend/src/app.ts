@@ -30,7 +30,7 @@ const corsOptions: CorsOptions = {
     callback: (err: Error | null, origin?: string) => void
   ) => {
     if (allowedOrigins.indexOf(origin || "") !== -1 || !origin) {
-      callback(null, origin); 
+      callback(null, origin);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
@@ -52,7 +52,6 @@ async function startServer() {
     await testDatabaseConnection();
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
-      console.log("groq api key: ", config.GROQ_API_KEY);
     });
   } catch (error) {
     console.error("Failed to start server:", error);

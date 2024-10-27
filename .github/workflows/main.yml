@@ -1,0 +1,14 @@
+name: Keep Backend Alive
+
+on:
+  schedule:
+    # Runs every 1 minute
+    - cron: '*/5 * * * *'
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send ping to backend
+        run: |
+          curl -X GET "https://dypcetclubs-live.onrender.com/api/clubs/getcron"

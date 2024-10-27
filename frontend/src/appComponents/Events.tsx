@@ -79,7 +79,7 @@ const Events = () => {
     getAllEvents();
   }, []);
   return (
-    <div className="relative flex flex-col items-center justify-center w-full pb-4 overflow-hidden text-white md:shadow-xl">
+    <div className="relative flex flex-col items-center justify-center w-full py-8 overflow-hidden text-white md:shadow-xl">
       {isHomePage && (
         <div>
           <Meteors number={10} />
@@ -92,7 +92,7 @@ const Events = () => {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-8 mt-8 mb-4 sm:grid-cols-2 lg:grid-cols-3 px-10">
+      <div className="grid grid-cols-1 gap-6 md:gap-10 sm:grid-cols-2 lg:grid-cols-3 px-6 md:px-10">
         {events.map((event: any) => (
           <EventCard
             key={event.EventID}
@@ -104,10 +104,10 @@ const Events = () => {
       </div>
       {isHomePage && (
         <div className="flex justify-center mt-4">
-          <p className="mt-4 text-base text-white">
+          <p className="px-4 text-sm md:text-base mt-2 text-white text-center">
             Want to know about more Events? Visit our Dedicated&nbsp;
-            <a href="/events">
-              <b>Events</b>
+            <a className="text-blue-500 underline" href="/events">
+              <b>Events</b> 
             </a>
             &nbsp;Page.
           </p>
@@ -118,3 +118,4 @@ const Events = () => {
 };
 
 export default Events;
+

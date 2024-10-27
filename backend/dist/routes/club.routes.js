@@ -29,6 +29,7 @@ const checkAuth = (req, res, next) => {
         return res.status(401).json({ message: "Invalid token" });
     }
 };
+router.get("/getcron", club_controller_1.getCronJob);
 router.get("/getClubData", club_controller_1.getClubData);
 router.post("/addClub", club_controller_1.addClub);
 router.post("/addMember", checkAuth, club_controller_1.addClubMember);

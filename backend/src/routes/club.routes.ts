@@ -7,6 +7,7 @@ import {
   addClubMember,
   getClubById,
   getClubByEmail,
+  getCronJob,
 } from "../controllers/club.controller";
 import rateLimiter from "../middlewares/rateLimiter";
 // @ts-ignore
@@ -36,7 +37,7 @@ const checkAuth = (
     const decoded = jwt.verify(token, "yash123");
     req.user = decoded;
     console.log("decoded", decoded);
-    console.log("authenticated user success")
+    console.log("authenticated user success");
 
     next();
   } catch (error) {
@@ -44,6 +45,7 @@ const checkAuth = (
   }
 };
 
+router.get("/getcron", getCronJob);
 router.get("/getClubData", getClubData);
 router.post("/addClub", addClub);
 router.post("/addMember", checkAuth, addClubMember);
