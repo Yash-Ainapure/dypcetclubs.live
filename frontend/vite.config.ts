@@ -24,9 +24,12 @@ export default defineConfig({
     outDir: "dist",
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: {
+          vendor: ['react', 'react-dom'], // Split out common dependencies
+        },
       },
     },
+    
   },
   resolve: {
     alias: {
