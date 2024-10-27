@@ -27,7 +27,6 @@ type SessionType = {
 const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
   name,
   description,
-  memberCount,
   email,
 }) => {
   const [sessions, setSessions] = useState<SessionType[]>([]);
