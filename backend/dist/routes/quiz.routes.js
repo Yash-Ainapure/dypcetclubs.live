@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const quiz_controller_1 = require("../controllers/quiz.controller");
+// @ts-ignore
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// @ts-ignore
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const router = (0, express_1.Router)();
 router.use((0, cookie_parser_1.default)());
