@@ -3,10 +3,30 @@ import { Button } from "@/components/ui/button";
 import Footer from "./Footer";
 import HiringSessionClubCard from "./HiringSessionClubCard";
 import { useClubs } from "../hooks/useClubs";
+import { useHiringSessions } from "../hooks/useHiringSessions";
 
 const HiringPage = () => {
   const { data: clubs } = useClubs();
+  const { data: hiringSessions } = useHiringSessions();
 
+  const sessionsByClubId =
+    hiringSessions?.reduce((acc, session) => {
+      if (!acc[session.ClubID]) {
+        acc[session.ClubID] = [];
+      }
+      acc[session.ClubID].push(session);
+      return acc;
+    }, {} as Record<number, typeof hiringSessions>) || {};
+
+  console.log("sessions are");
+  console.log(sessionsByClubId);
+
+  const clubsWithSessions = clubs?.filter((club) => {
+    const hasSessions = sessionsByClubId[club.ClubID]?.length > 0;
+    console.log(`Club: ${club.ClubID}, Has Sessions: ${hasSessions}`);
+    return hasSessions;
+  });
+  console.log(clubsWithSessions);
   return (
     <div className="min-h-screen w-full bg-gray-50 text-gray-800">
       <div className="relative z-10 bg-black text-white py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -25,17 +45,22 @@ const HiringPage = () => {
           <p className="text-base text-slate-600">
             Check out our latest job postings below:
           </p>
-          {/* Display clubs in a list format */}
           <div className="space-y-8 px-8 mt-5">
-            {clubs?.map((club, index) => (
-              <HiringSessionClubCard
-                key={index}
-                memberCount={club.Members.length}
-                name={club.ClubName}
-                description={club.Description}
-                email={club.Email}
-              />
-            ))}
+            {clubsWithSessions && clubsWithSessions.length > 0 ? (
+              clubsWithSessions.map((club) => (
+                <HiringSessionClubCard
+                  key={club.ClubID}
+                  memberCount={club.Members.length}
+                  name={club.ClubName}
+                  description={club.Description}
+                  email={club.Email}
+                />
+              ))
+            ) : (
+              <p className="text-gray-500 text-center">
+                No clubs with active hiring sessions available at the moment.
+              </p>
+            )}
           </div>
         </div>
       </div>

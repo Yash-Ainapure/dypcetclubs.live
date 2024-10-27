@@ -3,22 +3,44 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "../appComponents/axiosInstance";
 
 interface Club {
-  ClubId: number;
+  ClubID: number;
   ClubName: string;
   Description: string;
   Email:string,
   Members: Member[];
+  HiringSession :HiringSession[]
 }
 
 interface Member {
-  ClubId: number;
-  Email: string; // Optional, use '?' for optional fields
+  ClubID: number;
+  Email: string; 
   FirstName: string;
   LastName: string;
   Role?: string;
-  JoinDate?: string; // You can use Date if you prefer to handle date as a Date object
+  JoinDate?: string; 
   ProfileImageURL?: string;
 }
+
+interface HiringSession {
+  SessionID: number;
+  ClubID: number;
+  Title: string;
+  Description?: string;
+  StartDate: Date;
+  EndDate: Date;
+  Club: Club; 
+  Positions: HiringPosition[]; 
+}
+
+interface HiringPosition {
+  PositionID: number;
+  SessionID: number;
+  Title: string;
+  Description?: string;
+  Spots: number;
+  HiringSession: HiringSession; 
+}
+
 
 const fetchUsers = async (): Promise<Club[]> => {
   const { data } = await axios.get(
