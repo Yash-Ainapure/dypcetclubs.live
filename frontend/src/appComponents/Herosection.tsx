@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import cross from "../assets/cross-icon.svg";
-import burger from "../assets/burger-menu.svg";
 
 const Hero: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
