@@ -18,7 +18,9 @@ const EventCard: React.FC<EventCardProps> = ({ name, description, time }) => {
           <FontAwesomeIcon icon={faCalendarAlt} className="mr-2" />
           <p className="text-sm font-bold text-gray-600">{time}</p>
         </div>
-        <button className="px-4 py-2 text-sm font-bold text-white transition duration-300 bg-black rounded-md hover:bg-gray-800">
+        <button onClick={()=>{
+          window.location.href = "https://forms.gle/u9s7BXa2onvAoVkr9";
+        }} className="px-4 py-2 text-sm font-bold text-white transition duration-300 bg-black rounded-md hover:bg-gray-800">
           Register
         </button>
       </div>
