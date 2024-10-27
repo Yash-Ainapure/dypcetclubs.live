@@ -110,8 +110,7 @@ export default function AdminResults() {
         sortedResults.sort((a, b) => b.score - a.score);
         break;
       case "Year":
-        sortedResults.sort((a, b) => a.user.year.localeCompare(b.user.year));
-        break;
+        sortedResults.sort((a, b) => parseInt(a.user.year, 10) - parseInt(b.user.year, 10));        break;
       case "Rollno":
         sortedResults.sort((a, b) => parseInt(a.user.rollNo, 10) - parseInt(b.user.rollNo, 10));
         break;
