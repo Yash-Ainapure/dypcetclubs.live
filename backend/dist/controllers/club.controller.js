@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addClubMember = exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = exports.getClubById = exports.getClubByEmail = void 0;
+exports.getCronJob = exports.addClubMember = exports.getClubMembers = exports.login = exports.addClub = exports.getClubData = exports.getClubById = exports.getClubByEmail = void 0;
 const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
 const logger_1 = __importDefault(require("../config/logger"));
+// @ts-ignore
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const getClubByEmail = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.body; // Read email from request body
@@ -143,7 +144,10 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.cookie("auth_token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
         });
+        console.log("secure??: ", process.env.NODE_ENV === "production");
+        console.log(process.env.NODE_ENV);
         res.status(200).json({ message: const_1.MESSAGES.CLUB.LOGIN_SUCCESSFUL, club });
     }
     catch (error) {
@@ -218,3 +222,7 @@ const addClubMember = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.addClubMember = addClubMember;
+const getCronJob = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.json({ message: "Cron job running" });
+});
+exports.getCronJob = getCronJob;

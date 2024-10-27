@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const club_controller_1 = require("../controllers/club.controller");
+// @ts-ignore
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// @ts-ignore
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const router = (0, express_1.Router)();
 router.use((0, cookie_parser_1.default)());
@@ -27,6 +29,7 @@ const checkAuth = (req, res, next) => {
         return res.status(401).json({ message: "Invalid token" });
     }
 };
+router.get("/getcron", club_controller_1.getCronJob);
 router.get("/getClubData", club_controller_1.getClubData);
 router.post("/addClub", club_controller_1.addClub);
 router.post("/addMember", checkAuth, club_controller_1.addClubMember);
