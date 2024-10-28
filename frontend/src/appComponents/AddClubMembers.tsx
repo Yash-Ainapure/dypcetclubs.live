@@ -1,10 +1,9 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
 
-const AddClubMembers = ({ setAddMemberModal }:any) => {
+const AddClubMembers = ({ setAddMemberModal }: any) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -49,13 +48,20 @@ const AddClubMembers = ({ setAddMemberModal }:any) => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-[75%]">
-      <p onClick={()=>{
-        setAddMemberModal(false)
-      }} className="text-red-600 cursor-pointer absolute top-4 right-4">X</p>
-      <h2 className="text-3xl font-bold mb-4 text-center pt-4">Add Club Member</h2>
-      {error && <div className="text-red-400 mb-4 text-center">{error}</div>}
-      {success && <div className="text-green-400 mb-4 text-center">{success}</div>}
+    <div className="p-6 bg-gradient-to-b from-white to-gray-200 rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-[75%]">
+      <p
+        onClick={() => {
+          setAddMemberModal(false);
+        }}
+        className="text-red-600 cursor-pointer absolute top-4 right-4 hover:text-red-800 transition-colors"
+      >
+        X
+      </p>
+      <h2 className="text-4xl font-extrabold mb-4 text-center text-blue-700 pt-4">
+        Add Club Member
+      </h2>
+      {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+      {success && <div className="text-green-500 mb-4 text-center">{success}</div>}
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 gap-4">
           <input
@@ -64,7 +70,7 @@ const AddClubMembers = ({ setAddMemberModal }:any) => {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
-            className="p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="text"
@@ -72,7 +78,7 @@ const AddClubMembers = ({ setAddMemberModal }:any) => {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
-            className="p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="email"
@@ -80,7 +86,7 @@ const AddClubMembers = ({ setAddMemberModal }:any) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="text"
@@ -88,7 +94,7 @@ const AddClubMembers = ({ setAddMemberModal }:any) => {
             value={role}
             onChange={(e) => setRole(e.target.value)}
             required
-            className="p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="date"
@@ -96,24 +102,25 @@ const AddClubMembers = ({ setAddMemberModal }:any) => {
             value={joinDate}
             onChange={(e) => setJoinDate(e.target.value)}
             required
-            className="p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="text"
             placeholder="Profile Image URL"
             value={profileImageURL}
             onChange={(e) => setProfileImageURL(e.target.value)}
-            className="p-3 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="p-3 bg-gray-800 text-white border border-gray-600 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <Button
+        <button
           type="submit"
           className="mt-4 bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-3 transition duration-200 shadow-lg"
         >
           Add Member
-        </Button>
+        </button>
       </form>
     </div>
+
   );
 };
 
