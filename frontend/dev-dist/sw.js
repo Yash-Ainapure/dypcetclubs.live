@@ -79,6 +79,7 @@ define(['./workbox-bab94477'], (function (workbox) { 'use strict';
    */
   workbox.precacheAndRoute([{
     "url": "index.html",
+
     "revision": "0.ofedqrsals8"
   }], {});
   workbox.cleanupOutdatedCaches();
