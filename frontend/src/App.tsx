@@ -22,6 +22,8 @@ import ErrorPage from "./appComponents/Error.tsx";
 import ClubDetails from "./appComponents/ClubDetails.tsx";
 import QuizPage from "./appComponents/QuizPage.tsx";
 import HiringPage from "./appComponents/HiringPage.tsx";
+// import PWAPrompt from "./appComponents/PWAPrompt.tsx";
+// import PWADebug from "./appComponents/PWADebug";
 
 function App() {
   const [showPopup, setShowPopup] = useState(true);
@@ -33,21 +35,24 @@ function App() {
   };
 
   useEffect(() => {
-    if (!window.location.pathname.startsWith("/clubAdmin") && showNavbar === false) {
+    if (
+      !window.location.pathname.startsWith("/clubAdmin") &&
+      showNavbar === false
+    ) {
       console.log("setting navbar to true");
       setShowNavbar(true);
     }
-  }, [])
+  }, []);
 
   const numberOfMeteors = window.innerWidth >= 768 ? 70 : 10;
 
   return (
     <Router>
       {showPopup && <Popup onClose={handleClose} />}
-      {showLoginPage && <ClubLogin onClose={setShowLoginPage} handleClosePopup={handleClose}/>}
-      {
-        showNavbar && <Navigation setShowLoginPage={setShowLoginPage} />
-      }
+      {showLoginPage && (
+        <ClubLogin onClose={setShowLoginPage} handleClosePopup={handleClose} />
+      )}
+      {showNavbar && <Navigation setShowLoginPage={setShowLoginPage} />}
       <Routes>
         <Route
           path="/"
@@ -67,17 +72,22 @@ function App() {
                   <Clubs />
                   <Events />
                   <Footer />
+                  {/* <PWAPrompt /> */}
+                  {/* <PWADebug /> */}
                 </div>
               </div>
             </>
           }
         />
-        <Route path="/clubAdmin/*" element={<ClubAdmin setShowNavbar={setShowNavbar} />} />
+        <Route
+          path="/clubAdmin/*"
+          element={<ClubAdmin setShowNavbar={setShowNavbar} />}
+        />
         <Route path="/registerClub" element={<ClubRegistration />} />
         <Route path="/clubboard" element={<ClubsPage />} />
         <Route path="/about" element={<About />} />
-        <Route path="/quiz" element={<QuizPage/>}/>
-        <Route path="/quiz/:id" element={<QuizPage/>}/>
+        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/quiz/:id" element={<QuizPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />

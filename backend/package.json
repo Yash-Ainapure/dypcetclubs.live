@@ -5,6 +5,8 @@
   "main": "app.js",
   "scripts": {
     "clean": "rm -rf dist",
+    "clean2": "rmdir /s /q dist",
+    "build-windows":"npm run clean2 && tsc",
     "build": "npm run clean && tsc",
     "start": "node dist/app.js",
     "start:dev": "nodemon",
@@ -31,6 +33,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/multer": "^1.4.12",
+    "backend": "file:",
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.3",
     "cookie-parser": "^1.4.7",

@@ -184,12 +184,12 @@ const EventCreation: React.FC = () => {
               Create new Event{" "}
     </button>
     </div>
-    <div className="fixed w-full h-86 mt-10 overflow-auto justify-center flex">
+    <div className="fixed w-full h-86 mt-10 overflow-auto justify-center flex ">
 
       {showForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <form
-        className="flex justify-center flex-col  items-center gap-4 p-4 border border-black rounded-xl w-fit bg-[#6284eb]"
+        className="flex justify-center flex-col  items-center gap-4 p-4 border rounded-xl w-fit bg-slate-950 bg-opacity-70 border-2xl border-white text-white"
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -198,7 +198,7 @@ const EventCreation: React.FC = () => {
         ref={formRef} 
       >
         <div className="">
-          {/* A type-safe field component*/}
+     
           <form.Field
             name="EventName"
             validators={{
@@ -213,17 +213,17 @@ const EventCreation: React.FC = () => {
               },
             }}
             children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
+             
               return (
                 <>
                   <div className=" p-2 mb-4 " >
                     <span className="flex justify-end cursor-pointer" onClick={(()=>{setShowForm(false)})}><ImCross/></span>
-                    <span className="text-center justify-center flex text-2xl font-extrabold">New Event</span>
+                    <span className="text-center justify-center flex text-2xl font-extrabold text-white">New Event</span>
                     </div>
                   <label htmlFor={field.name}>EventName:</label>
                 
                   <input
-                    className="mx-2 border rounded-md"
+                    className="mx-2 border rounded-md text-black"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
@@ -239,7 +239,7 @@ const EventCreation: React.FC = () => {
           />
         </div>
         <div>
-          {/* A type-safe field component*/}
+        
           <form.Field
             name="Description"
             validators={{
@@ -255,12 +255,12 @@ const EventCreation: React.FC = () => {
               },
             }}
             children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
+        
               return (
                 <>
                   <label htmlFor={field.name}>Description:</label>
                   <input
-                    className="mx-2 border rounded-md"
+                    className="mx-2 border rounded-md text-black"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
@@ -276,7 +276,7 @@ const EventCreation: React.FC = () => {
           />
         </div>
         <div>
-          {/* A type-safe field component*/}
+
           <form.Field
             name="StartDateTime"
             validators={{
@@ -292,12 +292,12 @@ const EventCreation: React.FC = () => {
               },
             }}
             children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
+       
               return (
                 <>
                   <label htmlFor={field.name}>StartDate:</label>
                   <input
-                    className="mx-2 border rounded-md"
+                    className="ml-5 mx-1 border rounded-md text-black"
                     type="datetime-local"
                     id={field.name}
                     name={field.name}
@@ -314,7 +314,7 @@ const EventCreation: React.FC = () => {
           />
         </div>
         <div>
-          {/* A type-safe field component*/}
+     
           <form.Field
             name="EndDateTime"
             validators={{
@@ -330,12 +330,12 @@ const EventCreation: React.FC = () => {
               },
             }}
             children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
+             
               return (
                 <>
                   <label htmlFor={field.name}>EndDate:</label>
                   <input
-                    className="mx-2 border rounded-md"
+                    className="ml-6 mx-1 border rounded-md text-black"
                     type="datetime-local"
                     id={field.name}
                     name={field.name}
@@ -352,7 +352,7 @@ const EventCreation: React.FC = () => {
           />
         </div>
         <div>
-          {/* A type-safe field component*/}
+  
           <form.Field
             name="Location"
             validators={{
@@ -367,12 +367,12 @@ const EventCreation: React.FC = () => {
               },
             }}
             children={(field) => {
-              // Avoid hasty abstractions. Render props are great!
+           
               return (
                 <>
                   <label htmlFor={field.name}>Location:</label>
                   <input
-                    className="mx-2 border rounded-md"
+                    className="ml-6 mx-1 border rounded-md text-black"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
@@ -415,83 +415,80 @@ const EventCreation: React.FC = () => {
         
 
     </div>
-     <div className="flex flex-col items-center gap-4 mt-2 justify-center  mx-10">
-          <p className="self-start  text-lg font-semibold text-white ">
-            Events Created by you:{" "}
-          </p>
-          <div className="overflow-x-auto">
-          <table className="min-w-full text-sm text-left text-gray-200 dark:text-gray-100">
-            <thead className="text-xm text-black uppercase bg-gray-50 dark:bg-gray-400 dark:text-gray-100">
-              <tr>
-                <th className="px-6 py-3">
-                  Event Name
-                </th>
-                <th className="px-6 py-3 ">Description</th>
-                <th className="px-6 py-3">StartDate Time</th>
-                <th className="px-6 py-3">EndDate Time</th>
-                <th className="px-6 py-3">Location</th>
-                <th className="px-6 py-3">
-                  Operations
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {eventData?.map((event: any) => (
-                <tr
-                  className="border-b-2 bg-[#41589d] text-white"
-                  key={event.id}
-                >
-                  <td className="px-2 py-2 border-r">{event.EventName}</td>
-                  <td className="px-2 border-r">{event.Description}</td>
-                  <td className="px-2 border-r">{event.StartDateTime}</td>
-                  <td className="px-2 border-r">{event.EndDateTime}</td>
-                  <td className="px-2 border-r">{event.Location}</td>
-                  <td className="flex gap-2 px-2 py-2">
-                    <button
-                      className="text-red-700 cursor-pointer bg-white rounded-md px-2"
-                      onClick={() => {
-                        if (
-                          confirm("Are you sure you want to delete this event?")
-                        ) {
-                          deleteEvent(event.EventID);
-                        }
-                      }}
-                    >
-                      {loading.state && loading.id == event.EventID
-                        ? "deleting..."
-                        : <MdDelete size={20} aria-label="Delete Event" /> } 
-                         
-                    </button>
-                    <button
-                    className="bg-white rounded-md text-black p-2"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        form.setFieldValue("EventName", event.EventName);
-                        form.setFieldValue("Description", event.Description);
-                        form.setFieldValue(
-                          "StartDateTime",
-                          event.StartDateTime,
-                        );
-                        form.setFieldValue("EndDateTime", event.EndDateTime);
-                        form.setFieldValue("Location", event.Location);
-                        form.validateAllFields("change");
+<div className="flex flex-col items-center gap-4 mt-2 justify-center mx-10">
+  <p className="self-start text-xl font-bold text-white">
+    Events Created by you:
+  </p>
+  <div className="overflow-x-auto w-full">
+    <table className="min-w-full text-sm text-left text-gray-200 rounded-lg">
+      <thead className="text-base bg-white text-black  border-b border-white">
+        <tr>
+          <th className="px-6 py-3 font-semibold border-b border-white rounded-tl-lg ">Event Name</th>
+          <th className="px-6 py-3 font-semibold border-b border-white">Description</th>
+          <th className="px-6 py-3 font-semibold border-b border-white">Start Date & Time</th>
+          <th className="px-6 py-3 font-semibold border-b border-white">End Date & Time</th>
+          <th className="px-6 py-3 font-semibold border-b border-white">Location</th>
+          <th className="px-6 py-3 font-semibold border-b border-white rounded-tr-lg">Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {eventData?.map((event : any) => (
+          <tr
+            className="bg-black text-white border-b border-white hover:bg-gray-800 transition-colors"
+            key={event.id}
+          >
+            <td className="px-6 py-3 border-r border-white font-medium text-lg">{event.EventName}</td>
+            <td className="px-6 py-3 border-r border-white font-medium">{event.Description}</td>
+            <td className="px-6 py-3 border-r border-white font-medium">{event.StartDateTime}</td>
+            <td className="px-6 py-3 border-r border-white font-medium">{event.EndDateTime}</td>
+            <td className="px-6 py-3 border-r border-white font-medium">{event.Location}</td>
+            <td className="flex gap-3 px-6 py-3">
+              <button
+                className="text-red-600 cursor-pointer bg-white rounded-full p-2 hover:bg-red-700 hover:text-white transition duration-200"
+                onClick={() => {
+                  if (confirm("Are you sure you want to delete this event?")) {
+                    deleteEvent(event.EventID);
+                  }
+                }}
+              >
+                {loading.state && loading.id === event.EventID ? (
+                  "Deleting..."
+                ) : (
+                  <MdDelete size={20} aria-label="Delete Event" />
+                )}
+              </button>
+              <button
+                className="bg-white rounded-full text-blue-600 p-2 hover:bg-blue-700 hover:text-white transition duration-200"
+                onClick={(e) => {
+                  e.preventDefault();
+                  form.setFieldValue("EventName", event.EventName);
+                  form.setFieldValue("Description", event.Description);
+                  form.setFieldValue("StartDateTime", event.StartDateTime);
+                  form.setFieldValue("EndDateTime", event.EndDateTime);
+                  form.setFieldValue("Location", event.Location);
+                  form.validateAllFields("change");
 
-                        setEventId(event.EventID);
-                        setUpdateOrSubmitState(true);
-                      }}
-                    >
-                      <GrUpdate size={20} aria-label="Update Event" />
-                    </button>
-                    <button className="bg-white rounded-md text-black px-2" onClick={()=>{
-                      navigate(`/clubAdmin/event/${event.EventID}`)
-                    }}><CgMoreO size={20} aria-label="View Event Details" /></button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        </div>
+                  setEventId(event.EventID);
+                  setUpdateOrSubmitState(true);
+                }}
+              >
+                <GrUpdate size={20} aria-label="Update Event" />
+              </button>
+              <button
+                className="bg-white rounded-full text-green-600 p-2 hover:bg-green-700 hover:text-white transition duration-200"
+                onClick={() => {
+                  navigate(`/clubAdmin/event/${event.EventID}`);
+                }}
+              >
+                <CgMoreO size={20} aria-label="View Event Details" />
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
 
       </div>
     </div>

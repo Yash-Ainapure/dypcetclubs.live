@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
 import logger from "../config/logger";
-import { create } from "domain";
 
 export const CreateHiringSession = async (req: Request, res: Response) => {
   const { ClubID } = req.query;
@@ -65,6 +64,25 @@ export const GetHiringSessions = async (req: Request, res: Response) => {
 
     if (hiringSessions.length === 0) {
       return res.status(404).json({ message: "No hiring sessions found for this club." });
+    }
+
+    res.status(200).json(hiringSessions);
+  } catch (error) {
+    console.error(`Error fetching hiring sessions: ${error}`);
+    res.status(500).json({ error: "Error fetching hiring sessions" });
+  }
+};
+
+export const GetAllHiringSessions = async (req: Request, res: Response) => {
+  try {
+    const hiringSessions = await prisma.hiringSession.findMany({
+      include: {
+        Positions: true, 
+      },
+    });
+
+    if (hiringSessions.length === 0) {
+      return res.status(404).json({ message: "No hiring sessions found." });
     }
 
     res.status(200).json(hiringSessions);

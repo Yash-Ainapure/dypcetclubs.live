@@ -32,7 +32,7 @@ function HiringSessions({ setDisplaySessionModal }: any) {
   }, [ClubID]);
 
   return (
-    <div className="p-6 bg-green-500 rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-[75%]">
+    <div className="p-6 bg-slate-800 rounded-md shadow-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] md:w-[75%]">
       <div className="relative">
         <p
           onClick={() => {
@@ -43,7 +43,38 @@ function HiringSessions({ setDisplaySessionModal }: any) {
           X
         </p>
       </div>
-      <h2 className="text-2xl font-bold mb-4 text-center">Hiring Sessions</h2>
+      <h2 className="text-3xl font-bold mb-4 text-center text-white">Hiring Sessions</h2>
+      {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+      {loading ? (
+        <div className="text-center text-gray-600">Loading...</div>
+      ) : sessions.length === 0 ? (
+        <div className="text-center text-gray-500">No hiring sessions available.</div>
+      ) : (
+        <ul className="space-y-4">
+          {sessions.map((session) => (
+            <li key={session.SessionID} className="p-4 bg-gray-100 border border-gray-300 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+              <h3 className="text-2xl font-semibold text-blue-600">{session.Title}</h3>
+              <p className="text-gray-700">{session.Description}</p>
+              <p className="text-gray-600">
+                <strong>Start Date:</strong> {new Date(session.StartDate).toLocaleString()}
+              </p>
+              <p className="text-gray-600">
+                <strong>End Date:</strong> {new Date(session.EndDate).toLocaleString()}
+              </p>
+              <div onClick={(e) => {
+                e.preventDefault();
+                navigate(`/clubAdmin/hiring/${session.SessionID}`, { state: { session } });
+              }} className="flex justify-end">
+                <button className="bg-blue-600 text-white rounded-md p-2 font-semibold hover:bg-blue-700 transition duration-200 shadow-lg">
+                  View
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* <h2 className="text-2xl font-bold mb-4 text-center">Hiring Sessions</h2>
       {error && <div className="text-red-400 mb-4 text-center">{error}</div>}
       {loading ? (
         <div className="text-center">Loading...</div>
@@ -65,10 +96,10 @@ function HiringSessions({ setDisplaySessionModal }: any) {
               }} className="flex justify-end">
                 <button className="bg-white rounded-md p-2 font-semibold">View</button>
               </div>
-            </li>
-          ))}
+            </li> */}
+      {/* ))}
         </ul>
-      )}
+      )} */}
     </div>
   );
 }

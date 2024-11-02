@@ -10,6 +10,7 @@ import {
   CreateApplicant,
   GetHiringSessions,
   GetPositionsBySession,
+  GetAllHiringSessions
 } from "../controllers/hiring.controller";
 // @ts-ignore
 import jwt from "jsonwebtoken";
@@ -63,6 +64,7 @@ router.post("/createHiringSession",checkAuth, CreateHiringSession);
 router.delete("/deleteHiringSession",checkAuth, DeleteHiringSession);
 router.put("/updateHiringSession",checkAuth, UpdateHiringSession);
 router.get("/hiringSessions", GetHiringSessions);
+router.get("/hiringSessions/all", GetAllHiringSessions);
 
 router.post("/addHiringPosition",checkAuth, AddHiringPosition);
 router.delete("/DeleteHiringPosition",checkAuth, DeleteHiringPosition);

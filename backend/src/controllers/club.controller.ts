@@ -205,10 +205,10 @@ export const addClubMember = async (req: Request, res: Response) => {
     }
 
     //authenticate if the user is of the same club and not trying to add member to other club
-    if(user.club.ClubID !== ClubID){
+    if (user.club.ClubID !== ClubID) {
       return res.status(401).json({ error: "Unauthorized,  HAHA Caught you" });
-    }else{
-      console.log("the user is safeee......")
+    } else {
+      console.log("the user is safeee......");
     }
 
     if (!ClubID || !FirstName || !LastName) {
@@ -239,4 +239,8 @@ export const addClubMember = async (req: Request, res: Response) => {
     logger.error(`Error adding club member: ${error}`);
     res.status(500).json({ error: "Error adding club member" });
   }
+};
+
+export const getCronJob = async (req: Request, res: Response) => {
+  res.json({ message: "Cron job running" });
 };
