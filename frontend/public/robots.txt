@@ -1,1 +1,5 @@
 
+User-agent: *
+Disallow: /private
+Allow: /
+Sitemap: https://dypcetclubs-live.onrender.com/
