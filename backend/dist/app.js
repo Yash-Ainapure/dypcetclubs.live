@@ -46,6 +46,7 @@ function startServer() {
             yield (0, database_config_1.testDatabaseConnection)();
             app.listen(PORT, () => {
                 console.log(`Server is running on port ${PORT}`);
+                console.log("groq api key: ", env_config_1.config.GROQ_API_KEY);
             });
         }
         catch (error) {
