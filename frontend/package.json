@@ -25,6 +25,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dypcetclubs": "file:",
+    "flowbite-react": "^0.10.2",
     "framer-motion": "^11.11.7",
     "lucide-react": "^0.419.0",
     "radix-ui": "^1.0.1",
