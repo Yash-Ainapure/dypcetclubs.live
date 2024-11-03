@@ -2,7 +2,6 @@ import axios from "./axiosInstance";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Dropdown } from "flowbite-react";
-import { FaArrowCircleDown, FaArrowCircleRight } from "react-icons/fa";
 
 // TypeScript Interfaces
 interface Quiz {
@@ -25,11 +24,12 @@ interface Result {
 export default function AdminResults() {
   const [sortOption, setSortOption] = useState<string>("");
   const [results, setResults] = useState<Result[]>([]);
+  const [Allresults, setAllResults] = useState<Result[]>([]);
   const [id, setId] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const { userData } = useAuth();
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-  const [showQuizzes, setShowQuizzes] = useState(true);
+  
 
   useEffect(() => {
     if (userData) {
@@ -50,6 +50,31 @@ export default function AdminResults() {
     }
   };
 
+  
+
+
+  const fetchResults = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!id) return;
+
+    setLoading(true);
+    console.log("Fetching results for quiz ID:", id, "with ClubID:", userData?.ClubID);
+    
+    try {
+      const response = await axios.get(`/api/quizzes/${id}/results?ClubID=${userData?.ClubID}`);
+      if (response.status === 200) {
+        setResults(response.data);
+        
+      } else {
+        console.error("Failed to fetch results. Status:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching results:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchResultsForAllQuizzes = async () => {
     if (!quizzes.length) return;
 
@@ -61,7 +86,7 @@ export default function AdminResults() {
 
       const resultsResponses = await Promise.all(resultsPromises);
       const allResults = resultsResponses.flatMap((response) => response.data);
-      setResults(allResults);
+      setAllResults(allResults);
     } catch (error) {
       console.error("Error fetching all results", error);
     } finally {
@@ -70,38 +95,14 @@ export default function AdminResults() {
   };
 
   useEffect(() => {
-    if (quizzes.length > 0) {
-      fetchResultsForAllQuizzes();
-    }
-  }, [quizzes]);
-
-  const fetchResults = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!id) return;
-
-    setLoading(true);
-    try {
-      const response = await axios.get(`/api/quizzes/${id}/results?ClubID=${userData?.ClubID}`);
-      if (response.status === 200) {
-        setResults(response.data);
-      } else {
-        console.error("Failed to fetch results");
-      }
-    } catch (error) {
-      console.error("Error fetching results", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
     if (sortOption) {
+      fetchResultsForAllQuizzes();
       sortResults(sortOption);
     }
-  }, [sortOption, results]);
+  }, [sortOption]);
 
   const sortResults = (option: string) => {
-    const sortedResults = [...results];
+    const sortedResults = [...Allresults];
     switch (option) {
       case "Submission Time":
         sortedResults.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
@@ -110,7 +111,8 @@ export default function AdminResults() {
         sortedResults.sort((a, b) => b.score - a.score);
         break;
       case "Year":
-        sortedResults.sort((a, b) => parseInt(a.user.year, 10) - parseInt(b.user.year, 10));        break;
+        sortedResults.sort((a, b) => parseInt(a.user.year, 10) - parseInt(b.user.year, 10));
+        break;
       case "Rollno":
         sortedResults.sort((a, b) => parseInt(a.user.rollNo, 10) - parseInt(b.user.rollNo, 10));
         break;
@@ -120,12 +122,13 @@ export default function AdminResults() {
     setResults(sortedResults);
   };
 
+
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
   };
 
   return (
-    <div className="p-4 bg-slate-400 overflow-y-scroll w-full rounded-tl-2xl border-4 border-black">
+    <div className="p-4 bg-slate-400 overflow-y-scroll w-full rounded-tl-2xl ">
       <h1 className="text-2xl font-bold mb-4">Quiz Results</h1>
       <form className="p-4 flex" onSubmit={fetchResults}>
         <label>
@@ -147,7 +150,7 @@ export default function AdminResults() {
         </button>
         <div className="mx-8 bg-black">
           <Dropdown label="Sort (A-Z)" dismissOnClick={false}>
-            <Dropdown.Item onClick={() => setSortOption("Submission Time")}>By Submission Time</Dropdown.Item>
+            <Dropdown.Item onClick={() => setSortOption("Submission Time")} >By Submission Time</Dropdown.Item>
             <Dropdown.Item onClick={() => setSortOption("Score")}>By Score</Dropdown.Item>
             <Dropdown.Item onClick={() => setSortOption("Year")}>By Year</Dropdown.Item>
             <Dropdown.Item onClick={() => setSortOption("Rollno")}>By Rollno</Dropdown.Item>
@@ -156,13 +159,13 @@ export default function AdminResults() {
       </form>
 
       <div className="mb-4 flex items-center">
-        <button className="text-white font-bold text-lg pl-4" onClick={() => setShowQuizzes(!showQuizzes)}>
-          {showQuizzes ? <FaArrowCircleDown /> : <FaArrowCircleRight />}
+        <button className="text-white font-bold text-lg pl-4" >
+         
         </button>
         <span className="ml-2 font-bold text-2xl">Quizzes created by you:</span>
       </div>
 
-      {showQuizzes && (
+   
         <table className="w-full border-collapse mb-10">
           <thead>
             <tr>
@@ -198,7 +201,7 @@ export default function AdminResults() {
             ))}
           </tbody>
         </table>
-      )}
+    
 
       <h3 className="text-white font-semibold text-lg pl-4">Quiz Results:</h3>
       {loading ? (
@@ -207,7 +210,7 @@ export default function AdminResults() {
         <table className="w-full border-collapse">
           <thead>
             <tr>
-              <th className="p-2 bg-gray-300">User Name</th>
+              <th className="p-2 bg-gray-300 ">User Name</th>
               <th className="p-2 bg-gray-300">Roll No</th>
               <th className="p-2 bg-gray-300">Year</th>
               <th className="p-2 bg-gray-300">Score</th>
