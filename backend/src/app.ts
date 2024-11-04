@@ -22,6 +22,9 @@ interface CorsOptions {
     callback: (err: Error | null, origin?: string) => void
   ) => void;
   credentials: boolean;
+  methods?: string[];
+  allowedHeaders?: string[];
+  exposedHeaders?: string[];
 }
 
 const corsOptions: CorsOptions = {
@@ -36,6 +39,20 @@ const corsOptions: CorsOptions = {
     }
   },
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+  ],
+  exposedHeaders: [
+    "Content-Length",
+    "X-Content-Type-Options",
+    "X-RateLimit-Limit",
+    "X-RateLimit-Remaining",
+  ],
 };
 
 app.use(express.json());
@@ -68,8 +85,6 @@ process.on("SIGINT", async () => {
   process.exit(0);
 });
 
-// export default app;
-// module.exports = app;
 module.exports = (req: any, res: any) => {
   app(req, res);
 };

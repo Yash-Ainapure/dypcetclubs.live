@@ -12,7 +12,10 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const router = (0, express_1.Router)();
 router.use((0, cookie_parser_1.default)());
 const checkAuth = (req, res, next) => {
-    const token = req.cookies.auth_token;
+    var _a, _b;
+    const token = ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.auth_token) ||
+        ((_b = req.header("Authorization")) === null || _b === void 0 ? void 0 : _b.replace("Bearer ", ""));
+    console.log(token);
     if (!token) {
         return res
             .status(403)

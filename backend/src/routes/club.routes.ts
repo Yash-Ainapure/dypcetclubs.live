@@ -27,7 +27,10 @@ const checkAuth = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.cookies.auth_token;
+  const token =
+    req.cookies?.auth_token ||
+    req.header("Authorization")?.replace("Bearer ", "");
+  console.log(token);
   if (!token) {
     return res
       .status(403)

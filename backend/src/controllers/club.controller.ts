@@ -156,7 +156,7 @@ export const login = async (req: Request, res: Response) => {
     console.log("secure??: ", process.env.NODE_ENV === "production");
     console.log(process.env.NODE_ENV);
 
-    res.status(200).json({ message: MESSAGES.CLUB.LOGIN_SUCCESSFUL, club });
+    res.status(200).json({ message: MESSAGES.CLUB.LOGIN_SUCCESSFUL, club,token });
   } catch (error) {
     logger.error(`${MESSAGES.CLUB.LOGIN_ERROR}: ${error}`);
     res.status(500).json({ error: MESSAGES.CLUB.LOGIN_ERROR });
