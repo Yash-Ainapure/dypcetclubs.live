@@ -28,6 +28,7 @@ export default function AdminResults() {
   const [loading, setLoading] = useState(false);
   const { userData } = useAuth();
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   
 
   useEffect(() => {
@@ -120,6 +121,14 @@ export default function AdminResults() {
     }
     setResults(sortedResults);
   };
+  const handleDropdownSelect = (option: string) => {
+    setSortOption(option);
+    setDropdownOpen(false);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
 
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,17 +152,26 @@ export default function AdminResults() {
         <button
           disabled={loading}
           type="submit"
+          
           className="bg-gray-300 p-2 rounded-md text-black font-semibold"
         >
           {loading ? "Fetching..." : "Fetch Results"}
         </button>
-        <div className="mx-8 bg-black">
-          <Dropdown label="Sort (A-Z)" dismissOnClick={false}>
-            <Dropdown.Item onClick={() => setSortOption("Submission Time")} >By Submission Time</Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption("Score")}>By Score</Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption("Year")}>By Year</Dropdown.Item>
-            <Dropdown.Item onClick={() => setSortOption("Rollno")}>By Rollno</Dropdown.Item>
-          </Dropdown>
+        <div className="relative mx-8">
+          <button
+            className="bg-black text-white py-2 px-4 rounded-md"
+            onClick={toggleDropdown}
+          >
+            Sort (A-Z)
+          </button>
+          {dropdownOpen && (
+            <div className="absolute mt-2 w-48 bg-white shadow-md rounded-md z-10">
+              <div onClick={() => handleDropdownSelect("Submission Time")} className="p-2 cursor-pointer hover:bg-gray-200">By Submission Time</div>
+              <div onClick={() => handleDropdownSelect("Score")} className="p-2 cursor-pointer hover:bg-gray-200">By Score</div>
+              <div onClick={() => handleDropdownSelect("Year")} className="p-2 cursor-pointer hover:bg-gray-200">By Year</div>
+              <div onClick={() => handleDropdownSelect("Rollno")} className="p-2 cursor-pointer hover:bg-gray-200">By Rollno</div>
+            </div>
+          )}
         </div>
       </form>
 
