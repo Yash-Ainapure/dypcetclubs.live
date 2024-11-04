@@ -33,6 +33,20 @@ const corsOptions = {
         }
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Accept",
+        "Origin",
+    ],
+    exposedHeaders: [
+        "Content-Length",
+        "X-Content-Type-Options",
+        "X-RateLimit-Limit",
+        "X-RateLimit-Remaining",
+    ],
 };
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(corsOptions));
@@ -46,7 +60,6 @@ function startServer() {
             yield (0, database_config_1.testDatabaseConnection)();
             app.listen(PORT, () => {
                 console.log(`Server is running on port ${PORT}`);
-                console.log("groq api key: ", env_config_1.config.GROQ_API_KEY);
             });
         }
         catch (error) {
@@ -62,8 +75,6 @@ process.on("SIGINT", () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, database_config_1.closeDatabaseConnection)();
     process.exit(0);
 }));
-// export default app;
-// module.exports = app;
 module.exports = (req, res) => {
     app(req, res);
 };

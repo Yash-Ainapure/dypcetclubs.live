@@ -259,6 +259,7 @@ export const GetPositionsBySession = async (req: Request, res: Response) => {
 
 export const DeleteHiringPosition = async (req: Request, res: Response) => {
   const { PositionID } = req.query;
+  console.log(PositionID);
   if (!PositionID || isNaN(parseInt(PositionID as string))) {
     return res.status(400).json({ error: "Invalid or missing PositionID" });
   }
