@@ -1,7 +1,6 @@
 import axios from "./axiosInstance";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Dropdown } from "flowbite-react";
 
 // TypeScript Interfaces
 interface Quiz {
