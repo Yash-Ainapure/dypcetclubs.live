@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ClubRegistration from './ClubRegistration';
 
-function Popup({ onClose }:any) {
+function Popup({ onClose }: any) {
+   const [showRegistrationPage, setShowRegistrationPage] = useState(false);
    const [isOpen, setIsOpen] = useState(false); // Start with the popup closed
    const navigate = useNavigate();
+
    useEffect(() => {
       // Show the popup after 3 seconds (3000 milliseconds)
       const timeout = setTimeout(() => {
@@ -18,18 +21,25 @@ function Popup({ onClose }:any) {
       onClose(); // Optional: Execute a function when closing
    };
 
-   // Close the popup when clicking outside of it
-   const handleOverlayClick = (e:any) => {
+   const handleOverlayClick = (e: any) => {
       if (e.target === e.currentTarget) {
          handleClose();
       }
+   };
+
+   const handleOpenRegistration = () => {
+      setShowRegistrationPage(true);
+   };
+
+   const handleCloseRegistration = () => {
+      setShowRegistrationPage(false);
    };
 
    if (!isOpen) return null;
 
    return (
       <div
-         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-100"
          onClick={handleOverlayClick} // Overlay click handler
       >
          <div className="relative w-4/5 max-w-3xl p-8 mx-auto bg-white rounded-lg shadow-lg">
@@ -64,13 +74,12 @@ function Popup({ onClose }:any) {
 
                <div className="flex items-center justify-center gap-4">
                   <button
-                     onClick={() => {
-                        navigate("/registerClub")
-                     }}
+                     onClick={handleOpenRegistration}
                      className="px-6 py-3 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600"
                   >
                      Register Now
                   </button>
+
                   <button
                      onClick={handleClose}
                      className="px-6 py-3 text-sm font-medium text-gray-700 bg-gray-200 rounded hover:bg-gray-300"
@@ -80,6 +89,11 @@ function Popup({ onClose }:any) {
                </div>
             </div>
          </div>
+
+         {/* Render ClubRegistration only when showRegistrationPage is true */}
+         {showRegistrationPage && (
+            <ClubRegistration onClose={handleCloseRegistration} />
+         )}
       </div>
    );
 }
