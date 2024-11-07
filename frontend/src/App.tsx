@@ -83,7 +83,7 @@ function App() {
           path="/clubAdmin/*"
           element={<ClubAdmin setShowNavbar={setShowNavbar} />}
         />
-        <Route path="/registerClub" element={<ClubRegistration />} />
+        {/* <Route path="/registerClub" element={<ClubRegistration />} /> */}
         <Route path="/clubboard" element={<ClubsPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/quiz" element={<QuizPage />} />
