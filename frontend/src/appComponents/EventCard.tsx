@@ -20,7 +20,7 @@ const EventCard: React.FC<EventCardProps> = ({ name, description, time }) => {
         </div>
         <button onClick={()=>{
           window.location.href = "https://forms.gle/u9s7BXa2onvAoVkr9";
-        }} className="px-4 py-2 text-sm font-bold text-white transition duration-300 bg-black rounded-md hover:bg-gray-800">
+        }} className="px-5 py-2 text-sm font-bold text-white transition duration-300 bg-black rounded-md hover:bg-gray-800 ml-10">
           Register
         </button>
       </div>
