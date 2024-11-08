@@ -32,6 +32,8 @@ export const ViewSession = () => {
   >([]);
   const [isEdit, setIsEdit] = useState(false);
   const [selectedPosition, setSelectedPosition] = useState<any>(null);
+  const [showApplicantsModal, setShowApplicantsModal] = useState(false);
+  const [applicants, setApplicants] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchPositions = async () => {
@@ -145,6 +147,21 @@ export const ViewSession = () => {
     setShowModal(true);
   };
 
+  const handleViewApplicants = async (positionId: number) => {
+    try {
+      const response = await axios.get(
+        `/api/hiring/getApplicantsByPositionId?PositionID=${positionId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setApplicants(response.data);
+      setShowApplicantsModal(true);
+    } catch (error) {
+      console.error("Error fetching applicants", error);
+    }
+  };
+
   return (
     <div
       className="bg-green-500 w-full min-h-screen rounded-tl-2xl p-4 relative"
@@ -196,6 +213,12 @@ export const ViewSession = () => {
                   className="text-red-600"
                 >
                   <FiTrash />
+                </button>
+                <button
+                  onClick={() => handleViewApplicants(position.PositionID)}
+                  className="text-green-600"
+                >
+                  View Applicants
                 </button>
               </div>
             </li>
@@ -278,6 +301,53 @@ export const ViewSession = () => {
                 {isEdit ? "Update Position" : "Add Position"}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showApplicantsModal && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 space-y-4 w-96">
+            <h2 className="text-xl font-bold">Applicants</h2>
+            <p>Total applicants: {applicants.length}</p>
+            <ul className="mt-2 space-y-2">
+              {applicants.map((applicant, index) => (
+                <li key={index} className="border-b border-gray-200 pb-2">
+                  <p>
+                    <strong>Applicant Name:</strong> {applicant.Applicant.Name}
+                  </p>
+                  <p>
+                    <strong>Year of Study:</strong>{" "}
+                    {applicant.Applicant.YearOfStudy}
+                  </p>
+                  <p>
+                    <strong>Department:</strong>{" "}
+                    {applicant.Applicant.Department}
+                  </p>
+                  <p>
+                    <strong>Phone Number:</strong>{" "}
+                    {applicant.Applicant.PhoneNumber}
+                  </p>
+                  <p>
+                    <strong>Resume URL:</strong>{" "}
+                    <a
+                      href={applicant.Applicant.ResumeURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline"
+                    >
+                      {applicant.Applicant.ResumeURL}
+                    </a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={() => setShowApplicantsModal(false)}
+              className="bg-red-600 text-white px-4 py-2 rounded mt-4"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

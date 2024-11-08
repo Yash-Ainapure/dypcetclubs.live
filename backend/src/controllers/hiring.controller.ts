@@ -58,12 +58,14 @@ export const GetHiringSessions = async (req: Request, res: Response) => {
         ClubID: parseInt(ClubID as string),
       },
       include: {
-        Positions: true, 
+        Positions: true,
       },
     });
 
     if (hiringSessions.length === 0) {
-      return res.status(404).json({ message: "No hiring sessions found for this club." });
+      return res
+        .status(404)
+        .json({ message: "No hiring sessions found for this club." });
     }
 
     res.status(200).json(hiringSessions);
@@ -77,7 +79,7 @@ export const GetAllHiringSessions = async (req: Request, res: Response) => {
   try {
     const hiringSessions = await prisma.hiringSession.findMany({
       include: {
-        Positions: true, 
+        Positions: true,
       },
     });
 
@@ -247,7 +249,9 @@ export const GetPositionsBySession = async (req: Request, res: Response) => {
     });
 
     if (!positions.length) {
-      return res.status(404).json({ error: "No positions found for this session." });
+      return res
+        .status(404)
+        .json({ error: "No positions found for this session." });
     }
 
     res.status(200).json(positions);
@@ -345,7 +349,7 @@ export const CreateApplicant = async (req: Request, res: Response) => {
           ResumeURL: resume,
         },
       });
-      if(!applicant){
+      if (!applicant) {
         return res.status(500).json({ error: "Error creating applicant" });
       }
       await prisma.hiringApplication.create({
@@ -372,5 +376,38 @@ export const CreateApplicant = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error(`Error creating applicant: ${error}`);
     res.status(500).json({ error: "Error creating applicant" });
+  }
+};
+
+export const getApplicantsByPositionID = async (
+  req: Request,
+  res: Response
+) => {
+  const { PositionID } = req.query;
+  if (!PositionID || isNaN(parseInt(PositionID as string))) {
+    return res.status(400).json({ error: "Invalid or missing PositionID" });
+  }
+
+  try {
+    const applicants = await prisma.hiringApplication.findMany({
+      where: {
+        Position: {
+          PositionID: parseInt(PositionID as string),
+        },
+      },
+      include: {
+        Applicant: true
+      },
+    });
+    if (!applicants.length) {
+      return res
+        .status(404)
+        .json({ error: "No Applications found for this session." });
+    }
+
+    res.status(200).json(applicants);
+  } catch (error) {
+    console.error(`Error retrieving Applications: ${error}`);
+    res.status(500).json({ error: "Error retrieving Applications" });
   }
 };
