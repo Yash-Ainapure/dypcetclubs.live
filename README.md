@@ -131,17 +131,17 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/Gauravtb2253">
-                    <img src="https://avatars.githubusercontent.com/u/114927759?v=4" width="100;" alt="Gauravtb2253"/>
-                    <br />
-                    <sub><b>Gaurav Bomble</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/Laxmi01345">
                     <img src="https://avatars.githubusercontent.com/u/122423386?v=4" width="100;" alt="Laxmi01345"/>
                     <br />
                     <sub><b>Laxmi Ray</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/Gauravtb2253">
+                    <img src="https://avatars.githubusercontent.com/u/114927759?v=4" width="100;" alt="Gauravtb2253"/>
+                    <br />
+                    <sub><b>Gaurav Bomble</b></sub>
                 </a>
             </td>
             <td align="center">
