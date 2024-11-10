@@ -7,9 +7,8 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const isHomePage = window.location.pathname === "/";
 
-  const formatTimeRange = (startDateTime: any, endDateTime: any) => {
+  const formatTimeRange = ( endDateTime: any) => {
     // Convert the strings to Date objects
-    let start = new Date(startDateTime);
     let end = new Date(endDateTime);
 
     // Array of month names
@@ -99,7 +98,7 @@ const Events = () => {
             key={event.EventID}
             name={event.EventName}
             description={event.Description}
-            time={formatTimeRange(event.StartDateTime, event.EndDateTime)}
+            time={formatTimeRange(event.EndDateTime)}
           />
         ))}
       </div>

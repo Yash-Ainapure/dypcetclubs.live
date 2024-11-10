@@ -40,7 +40,7 @@ const addClub = async (newClub: Club): Promise<Club> => {
   return response.data;
 };
 
-const ClubRegistration: React.FC<any> = ({ onClose, handleClosePopup }) => {
+const ClubRegistration: React.FC<any> = ({ onClose }) => {
   const navigate = useNavigate();
   const [displayModal, setDisplayModal] = useState(false);
   const [hidden, setHidden] = useState(true);

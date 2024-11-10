@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import ClubRegistration from './ClubRegistration';
 
 function Popup({ onClose }: any) {
    const [showRegistrationPage, setShowRegistrationPage] = useState(false);
    const [isOpen, setIsOpen] = useState(false); // Start with the popup closed
-   const navigate = useNavigate();
 
    useEffect(() => {
       // Show the popup after 3 seconds (3000 milliseconds)
