@@ -148,7 +148,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         });
         console.log("secure??: ", process.env.NODE_ENV === "production");
         console.log(process.env.NODE_ENV);
-        res.status(200).json({ message: const_1.MESSAGES.CLUB.LOGIN_SUCCESSFUL, club });
+        res.status(200).json({ message: const_1.MESSAGES.CLUB.LOGIN_SUCCESSFUL, club, token });
     }
     catch (error) {
         logger_1.default.error(`${const_1.MESSAGES.CLUB.LOGIN_ERROR}: ${error}`);

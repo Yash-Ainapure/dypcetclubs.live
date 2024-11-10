@@ -10,7 +10,8 @@ import {
   CreateApplicant,
   GetHiringSessions,
   GetPositionsBySession,
-  GetAllHiringSessions
+  GetAllHiringSessions,
+  getApplicantsByPositionID,
 } from "../controllers/hiring.controller";
 // @ts-ignore
 import jwt from "jsonwebtoken";
@@ -29,7 +30,10 @@ const checkAuth = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = req.cookies.auth_token;
+  const token =
+    req.cookies?.auth_token ||
+    req.header("Authorization")?.replace("Bearer ", "");
+  console.log("Token is ", token);
   if (!token) {
     return res
       .status(403)
@@ -60,16 +64,17 @@ const checkAuth = (
    7.apply for a position * 
 */
 
-router.post("/createHiringSession",checkAuth, CreateHiringSession);
-router.delete("/deleteHiringSession",checkAuth, DeleteHiringSession);
-router.put("/updateHiringSession",checkAuth, UpdateHiringSession);
+router.post("/createHiringSession", checkAuth, CreateHiringSession);
+router.delete("/deleteHiringSession", checkAuth, DeleteHiringSession);
+router.put("/updateHiringSession", checkAuth, UpdateHiringSession);
 router.get("/hiringSessions", GetHiringSessions);
 router.get("/hiringSessions/all", GetAllHiringSessions);
 
-router.post("/addHiringPosition",checkAuth, AddHiringPosition);
-router.delete("/DeleteHiringPosition",checkAuth, DeleteHiringPosition);
-router.put("/updateHiringPosition",checkAuth, UpdateHiringPosition);
+router.post("/addHiringPosition", checkAuth, AddHiringPosition);
+router.delete("/DeleteHiringPosition", checkAuth, DeleteHiringPosition);
+router.put("/updateHiringPosition", checkAuth, UpdateHiringPosition);
 router.get("/getPositions", GetPositionsBySession);
 router.post("/applyForPosition", CreateApplicant);
+router.get("/getApplicantsByPositionId", getApplicantsByPositionID);
 
 export default router;

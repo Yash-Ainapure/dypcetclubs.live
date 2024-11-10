@@ -1,23 +1,46 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "./axiosInstance";
+import { FiEdit, FiTrash } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext.js";
 
 export const ViewSession = () => {
   const location = useLocation();
   const { session } = location.state;
   const navigate = useNavigate();
+  const { token } = useAuth();
 
-  const [positions, setPositions] = useState<{ title: string; description: string; spots: number }[]>([]);
+  const [positions, setPositions] = useState<
+    { title: string; description: string; spots: number }[]
+  >([]);
   const [showModal, setShowModal] = useState(false);
-  const [newPosition, setNewPosition] = useState({ title: "", description: "", spots: 0 });
+  const [newPosition, setNewPosition] = useState({
+    title: "",
+    description: "",
+    spots: 0,
+  });
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
-  const [displayPositions, setDisplayPositions] = useState<{ PositionID: number; SessionID: number; Title: string; Description: string; Spots: number }[]>([]);
+  const [displayPositions, setDisplayPositions] = useState<
+    {
+      PositionID: number;
+      SessionID: number;
+      Title: string;
+      Description: string;
+      Spots: number;
+    }[]
+  >([]);
+  const [isEdit, setIsEdit] = useState(false);
+  const [selectedPosition, setSelectedPosition] = useState<any>(null);
+  const [showApplicantsModal, setShowApplicantsModal] = useState(false);
+  const [applicants, setApplicants] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchPositions = async () => {
       try {
-        const response = await axios.get(`/api/hiring/getPositions?SessionID=${session.SessionID}`);
+        const response = await axios.get(
+          `/api/hiring/getPositions?SessionID=${session.SessionID}`
+        );
         setDisplayPositions(response.data);
       } catch (error) {
         console.error("Error fetching positions", error);
@@ -28,13 +51,26 @@ export const ViewSession = () => {
   }, [session.SessionID]);
 
   const handleAddPosition = async () => {
-    if (newPosition.title.trim() !== "" && newPosition.description.trim() !== "" && newPosition.spots > 0) {
+    if (
+      newPosition.title.trim() !== "" &&
+      newPosition.description.trim() !== "" &&
+      newPosition.spots > 0
+    ) {
       try {
-        const response = await axios.post(`/api/hiring/addHiringPosition?SessionID=${session.SessionID}`, newPosition);
+        setFeedbackMessage("");
+        const response = await axios.post(
+          `/api/hiring/addHiringPosition?SessionID=${session.SessionID}`,
+          newPosition,
+          {
+            withCredentials: true,
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setPositions([...positions, response.data]);
         setNewPosition({ title: "", description: "", spots: 0 });
         setFeedbackMessage("Position added successfully!");
         setIsSuccess(true);
+        setShowModal(false);
       } catch (error) {
         console.error("Error adding position", error);
         setFeedbackMessage("Error adding position. Please try again.");
@@ -46,9 +82,90 @@ export const ViewSession = () => {
     }
   };
 
+  const handleUpdatePosition = async () => {
+    try {
+      setFeedbackMessage("");
+      console.log(token);
+      const response = await axios.put(
+        `/api/hiring/updateHiringPosition?PositionID=${selectedPosition.PositionID}`,
+        newPosition,
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setDisplayPositions(
+        displayPositions.map((position) =>
+          position.PositionID === selectedPosition.PositionID
+            ? response.data
+            : position
+        )
+      );
+      setFeedbackMessage("Position updated successfully!");
+      setIsSuccess(true);
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error updating position", error);
+      setFeedbackMessage("Error updating position. Please try again.");
+      setIsSuccess(false);
+    }
+  };
+
+  const handleDeletePosition = async (positionId: number) => {
+    try {
+      setFeedbackMessage("");
+      console.log(token);
+      await axios.delete(
+        `/api/hiring/DeleteHiringPosition?PositionID=${positionId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+      setDisplayPositions(
+        displayPositions.filter(
+          (position) => position.PositionID !== positionId
+        )
+      );
+      setFeedbackMessage("Position deleted successfully!");
+      setIsSuccess(true);
+    } catch (error) {
+      console.error("Error deleting position", error);
+      setFeedbackMessage("Error deleting position. Please try again.");
+      setIsSuccess(false);
+    }
+  };
+
+  const openEditModal = (position: any) => {
+    setSelectedPosition(position);
+    setNewPosition({
+      title: position.Title,
+      description: position.Description,
+      spots: position.Spots,
+    });
+    setIsEdit(true);
+    setShowModal(true);
+  };
+
+  const handleViewApplicants = async (positionId: number) => {
+    try {
+      const response = await axios.get(
+        `/api/hiring/getApplicantsByPositionId?PositionID=${positionId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setApplicants(response.data);
+      setShowApplicantsModal(true);
+    } catch (error) {
+      console.error("Error fetching applicants", error);
+    }
+  };
+
   return (
-    <div className="bg-green-500 w-full min-h-screen rounded-tl-2xl p-4 relative"
-    style={{overflowY:"auto"}}
+    <div
+      className="bg-green-500 w-full min-h-screen rounded-tl-2xl p-4 relative"
+      style={{ overflowY: "auto" }}
     >
       <button
         onClick={() => {
@@ -61,7 +178,8 @@ export const ViewSession = () => {
       <h1>Title: {session.Title}</h1>
       <p>Description: {session.Description}</p>
       <p>
-        <strong>Start Date:</strong> {new Date(session.StartDate).toLocaleString()}
+        <strong>Start Date:</strong>{" "}
+        {new Date(session.StartDate).toLocaleString()}
       </p>
       <p>
         <strong>End Date:</strong> {new Date(session.EndDate).toLocaleString()}
@@ -71,21 +189,48 @@ export const ViewSession = () => {
         <h2 className="text-2xl font-bold">Positions</h2>
 
         <ul className="mt-4 space-y-2">
-        {displayPositions.map((position) => (
-            <li key={position.PositionID} className="flex justify-between items-center border-b border-gray-200 pb-2">
+          {displayPositions.map((position) => (
+            <li
+              key={position.PositionID}
+              className="flex justify-between items-center border-b border-gray-200 pb-2"
+            >
               <div>
                 <h3 className="font-semibold">{position.Title}</h3>
                 <p className="text-sm">{position.Description}</p>
-                <p className="text-sm text-gray-500">Spots available: {position.Spots}</p>
+                <p className="text-sm text-gray-500">
+                  Spots available: {position.Spots}
+                </p>
               </div>
-              <div className="space-x-2">
+              <div className="space-x-2 flex">
+                <button
+                  onClick={() => openEditModal(position)}
+                  className="text-blue-600"
+                >
+                  <FiEdit />
+                </button>
+                <button
+                  onClick={() => handleDeletePosition(position.PositionID)}
+                  className="text-red-600"
+                >
+                  <FiTrash />
+                </button>
+                <button
+                  onClick={() => handleViewApplicants(position.PositionID)}
+                  className="text-green-600"
+                >
+                  View Applicants
+                </button>
               </div>
             </li>
           ))}
         </ul>
 
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            setShowModal(true);
+            setNewPosition({ title: "", description: "", spots: 0 });
+            setIsEdit(false);
+          }}
           className="bg-blue-600 text-white px-4 py-2 rounded mt-4"
         >
           Add Position
@@ -95,25 +240,36 @@ export const ViewSession = () => {
       {showModal && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 space-y-4 w-96">
-            <h2 className="text-xl font-bold">Add New Position</h2>
+            <h2 className="text-xl font-bold">
+              {isEdit ? "Edit Position" : "Add New Position"}
+            </h2>
             <input
               type="text"
               placeholder="Title"
               value={newPosition.title}
-              onChange={(e) => setNewPosition({ ...newPosition, title: e.target.value })}
+              onChange={(e) =>
+                setNewPosition({ ...newPosition, title: e.target.value })
+              }
               className="p-2 border border-gray-300 rounded w-full"
             />
             <textarea
               placeholder="Description"
               value={newPosition.description}
-              onChange={(e) => setNewPosition({ ...newPosition, description: e.target.value })}
+              onChange={(e) =>
+                setNewPosition({ ...newPosition, description: e.target.value })
+              }
               className="p-2 border border-gray-300 rounded w-full"
             />
             <input
               type="number"
               placeholder="Spots"
               value={newPosition.spots}
-              onChange={(e) => setNewPosition({ ...newPosition, spots: parseInt(e.target.value) })}
+              onChange={(e) =>
+                setNewPosition({
+                  ...newPosition,
+                  spots: parseInt(e.target.value),
+                })
+              }
               className="p-2 border border-gray-300 rounded w-full"
             />
 
@@ -131,19 +287,67 @@ export const ViewSession = () => {
               <button
                 onClick={() => {
                   setShowModal(false);
-                  setFeedbackMessage(null); 
+                  setFeedbackMessage(null);
+                  setSelectedPosition(null);
                 }}
                 className="bg-gray-500 text-white px-4 py-2 rounded"
               >
                 Cancel
               </button>
               <button
-                onClick={handleAddPosition}
+                onClick={isEdit ? handleUpdatePosition : handleAddPosition}
                 className="bg-blue-600 text-white px-4 py-2 rounded"
               >
-                Add Position
+                {isEdit ? "Update Position" : "Add Position"}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {showApplicantsModal && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 space-y-4 w-96">
+            <h2 className="text-xl font-bold">Applicants</h2>
+            <p>Total applicants: {applicants.length}</p>
+            <ul className="mt-2 space-y-2">
+              {applicants.map((applicant, index) => (
+                <li key={index} className="border-b border-gray-200 pb-2">
+                  <p>
+                    <strong>Applicant Name:</strong> {applicant.Applicant.Name}
+                  </p>
+                  <p>
+                    <strong>Year of Study:</strong>{" "}
+                    {applicant.Applicant.YearOfStudy}
+                  </p>
+                  <p>
+                    <strong>Department:</strong>{" "}
+                    {applicant.Applicant.Department}
+                  </p>
+                  <p>
+                    <strong>Phone Number:</strong>{" "}
+                    {applicant.Applicant.PhoneNumber}
+                  </p>
+                  <p>
+                    <strong>Resume URL:</strong>{" "}
+                    <a
+                      href={applicant.Applicant.ResumeURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline"
+                    >
+                      {applicant.Applicant.ResumeURL}
+                    </a>
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <button
+              onClick={() => setShowApplicantsModal(false)}
+              className="bg-red-600 text-white px-4 py-2 rounded mt-4"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

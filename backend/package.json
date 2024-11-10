@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "clean2": "rmdir /s /q dist",
-    "build-windows":"npm run clean2 && tsc",
+    "build-windows": "npm run clean2 && tsc",
     "build": "npm run clean && tsc",
     "start": "node dist/app.js",
     "start:dev": "nodemon",
