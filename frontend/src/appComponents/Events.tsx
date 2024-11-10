@@ -29,40 +29,34 @@ const Events = () => {
     ];
 
     // Get the day, month, year, hours and minutes
-    let day = start.getDate();
-    let month = monthNames[start.getMonth()];
-    let year = start.getFullYear();
-    let startHours = start.getHours();
-    let startMinutes: string | number = start.getMinutes();
+    let day = end.getDate();
+    let month = monthNames[end.getMonth()];
+    let year = end.getFullYear();
+    // let startHours = end.getHours();
+    // let startMinutes: string | number = end.getMinutes();
     let endHours = end.getHours();
     let endMinutes: string | number = end.getMinutes();
 
-    // Convert hours from 24-hour format to 12-hour format
-    let startPeriod = startHours >= 12 ? "PM" : "AM";
-    startHours = startHours % 12;
-    startHours = startHours ? startHours : 12; // the hour '0' should be '12'
+    // // Convert hours from 24-hour format to 12-hour format
+    // let startPeriod = startHours >= 12 ? "PM" : "AM";
+    // startHours = startHours % 12;
+    // startHours = startHours ? startHours : 12; // the hour '0' should be '12'
     let endPeriod = endHours >= 12 ? "PM" : "AM";
     endHours = endHours % 12;
     endHours = endHours ? endHours : 12; // the hour '0' should be '12'
 
-    // Pad minutes with a zero if needed
-    startMinutes = startMinutes < 10 ? "0" + startMinutes : startMinutes;
+    // // Pad minutes with a zero if needed
+    // startMinutes = startMinutes < 10 ? "0" + startMinutes : startMinutes;
     endMinutes = endMinutes < 10 ? "0" + endMinutes : endMinutes;
 
     // Return the formatted date and time range
-    return (
+    return ("ET: " +
       day +
       "/" +
       month +
       "/" +
       year +
       " " +
-      startHours +
-      ":" +
-      startMinutes +
-      " " +
-      startPeriod +
-      " to " +
       endHours +
       ":" +
       endMinutes +
@@ -74,7 +68,14 @@ const Events = () => {
   useEffect(() => {
     const getAllEvents = async () => {
       const response = await axios.get("/api/events/getAllEventData");
-      setEvents(response.data);
+      const currentDate = new Date();      
+      // Filter out events that have already ended
+      const upcomingEvents = response.data.filter((event: any) => {
+        const eventEndDate = new Date(event.EndDateTime);
+        return eventEndDate >= currentDate;
+      });
+
+      setEvents(upcomingEvents);
     };
     getAllEvents();
   }, []);
