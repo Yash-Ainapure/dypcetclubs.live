@@ -11,6 +11,7 @@ import {
   GetHiringSessions,
   GetPositionsBySession,
   GetAllHiringSessions,
+  getApplicantsByPositionID,
 } from "../controllers/hiring.controller";
 // @ts-ignore
 import jwt from "jsonwebtoken";
@@ -74,5 +75,6 @@ router.delete("/DeleteHiringPosition", checkAuth, DeleteHiringPosition);
 router.put("/updateHiringPosition", checkAuth, UpdateHiringPosition);
 router.get("/getPositions", GetPositionsBySession);
 router.post("/applyForPosition", CreateApplicant);
+router.get("/getApplicantsByPositionId", getApplicantsByPositionID);
 
 export default router;
