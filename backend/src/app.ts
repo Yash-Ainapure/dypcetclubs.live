@@ -14,6 +14,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://dypcetclubs-live.vercel.app",
+  "*"
 ];
 
 interface CorsOptions {
