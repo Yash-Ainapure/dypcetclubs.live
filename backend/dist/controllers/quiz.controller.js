@@ -138,6 +138,7 @@ exports.submitQuiz = submitQuiz;
 const getQuizResults = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const clubId = Number(req.query.ClubID);
+    console.log("go requiest");
     try {
         const quiz = yield database_config_1.prisma.quiz.findUnique({
             where: { id: parseInt(id) },

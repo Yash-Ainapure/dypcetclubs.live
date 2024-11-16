@@ -54,7 +54,7 @@ router.post("/getQuizById/:id", getQuizById);
 router.post("/createUser", createQuizUser);
 router.post("/:id/submit", submitQuiz);
 //get results for a quiz only for that club admin access
-router.get("/:id/results", checkAuth, getQuizResults);
+router.get("/:id/results", getQuizResults);
 router.delete("/:id", checkAuth, deleteQuiz);
 router.post("/generateQuiz", checkAuth, generateQuiz);
 
