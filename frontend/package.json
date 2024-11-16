@@ -36,8 +36,7 @@
     "react-spinners": "^0.14.1",
     "styled-components": "^6.1.13",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7",
-    "workbox-window": "^7.1.0"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.6.4",
@@ -54,7 +53,6 @@
     "postcss": "^8.4.40",
     "tailwindcss": "^3.4.7",
     "typescript": "^5.2.2",
-    "vite": "^5.3.4",
-    "vite-plugin-pwa": "^0.20.5"
+    "vite": "^5.3.4"
   }
 }
