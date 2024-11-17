@@ -35,7 +35,7 @@ const checkAuth = (req, res, next) => {
 router.get("/getcron", club_controller_1.getCronJob);
 router.get("/getClubData", club_controller_1.getClubData);
 router.post("/addClub", club_controller_1.addClub);
-router.post("/addMember", checkAuth, club_controller_1.addClubMember);
+router.post("/addMember", club_controller_1.addClubMember);
 router.post("/login", club_controller_1.login);
 router.get("/getClubMembers", club_controller_1.getClubMembers);
 router.get("/:clubId", club_controller_1.getClubById);

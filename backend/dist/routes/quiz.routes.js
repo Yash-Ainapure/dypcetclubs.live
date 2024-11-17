@@ -29,7 +29,7 @@ const checkAuth = (req, res, next) => {
         return res.status(401).json({ message: "Invalid token" });
     }
 };
-router.post("/createQuiz", checkAuth, quiz_controller_1.createQuiz);
+router.post("/createQuiz", quiz_controller_1.createQuiz);
 // Get quizzes list for a club
 router.get("/getClubQuizzes", quiz_controller_1.getClubQuizzes);
 // Get quiz by ID (only if secret code is correct)
@@ -38,6 +38,6 @@ router.post("/createUser", quiz_controller_1.createQuizUser);
 router.post("/:id/submit", quiz_controller_1.submitQuiz);
 //get results for a quiz only for that club admin access
 router.get("/:id/results", quiz_controller_1.getQuizResults);
-router.delete("/:id", checkAuth, quiz_controller_1.deleteQuiz);
-router.post("/generateQuiz", checkAuth, quiz_controller_1.generateQuiz);
+router.delete("/:id", quiz_controller_1.deleteQuiz);
+router.post("/generateQuiz", quiz_controller_1.generateQuiz);
 exports.default = router;

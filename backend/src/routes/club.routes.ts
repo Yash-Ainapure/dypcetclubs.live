@@ -51,7 +51,7 @@ const checkAuth = (
 router.get("/getcron", getCronJob);
 router.get("/getClubData", getClubData);
 router.post("/addClub", addClub);
-router.post("/addMember", checkAuth, addClubMember);
+router.post("/addMember", addClubMember);
 router.post("/login", login);
 router.get("/getClubMembers", getClubMembers);
 router.get("/:clubId", getClubById);

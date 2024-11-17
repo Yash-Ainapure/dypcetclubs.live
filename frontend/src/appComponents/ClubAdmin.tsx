@@ -112,11 +112,11 @@ export function ClubAdmin({ setShowNavbar }: any) {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: "Pruthviraj Sawant",
                 href: "#",
                 icon: (
                   <img
-                    src="https://assets.aceternity.com/manu.png"
+                    src="https://media.licdn.com/dms/image/v2/D5603AQHwr9SNOOl-Ug/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1704366467090?e=2147483647&v=beta&t=Ufe1LDYVyt88xYS-9xe6HHR4laEE2us8ua_4DA4edNo"
                     className="flex-shrink-0 rounded-full h-7 w-7"
                     width={50}
                     height={50}
@@ -152,7 +152,7 @@ export const Logo = ({ userData }: any) => {
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-medium text-black whitespace-pre dark:text-white"
+        className="font-semibold text-lg text-black whitespace-pre dark:text-white"
       >
         {userData.ClubName}
       </motion.span>
@@ -215,7 +215,14 @@ const Dashboard = () => {
           setDisplayClubModal={setDisplayClubModal}
         />
       )}
-      <div className="flex flex-col flex-1 w-full h-full gap-2 p-2 bg-[#101524] md:p-10 rounded-tl-2xl border-2xl border-neutral-200 dark:border-neutral-2  00 dark:bg-neutral-900 items-center justify-center  space-y-20">
+      <div
+        style={{
+          backgroundImage: `url(${microBG})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        className="flex gap-40 w-full h-full p-2 md:p-10 rounded-tl-2xl border-2xl items-center justify-center"
+      >
         {/* Placeholder for skeleton loading */}
         {/* <div className="flex gap-2">
           {[...new Array(4)].map((_, index) => (
@@ -234,22 +241,24 @@ const Dashboard = () => {
           ))}
         </div> */}
 
-        <button
-          onClick={() => {
-            setDisplayClubModal(true);
-          }}
-          className="p-2 bg-cyan-300 text-black rounded-lg hover:bg-cyan-400 transition-colors w-[50em] "
-        >
-          Display Club Members
-        </button>
-        <button
-          onClick={() => {
-            setAddMemberModal(true);
-          }}
-          className="p-2 bg-cyan-300 text-black rounded-lg hover:bg-cyan-400 transition-colors  w-[50em] border-2xl border-white"
-        >
-          Add New Club Member
-        </button>
+        <div className="flex text-2xl flex-col gap-40">
+          <button
+            onClick={() => {
+              setDisplayClubModal(true);
+            }}
+            className="bg-black/70 hover:scale-[101%] text-white font-semibold rounded-lg shadow-md shadow-slate-500 transition-colors h-72 w-72 "
+          >
+            Display Club Members
+          </button>
+          <button
+            onClick={() => {
+              setAddMemberModal(true);
+            }}
+            className="p-2 font-semibold hover:scale-[101%] text-white bg-black/70 rounded-lg transition-colors  h-72 w-72"
+          >
+            Add New Club Member
+          </button>
+        </div>
 
         {addSessionModal && (
           <AddHiringSession setAddSessionModal={setAddSessionModal} />
@@ -259,22 +268,24 @@ const Dashboard = () => {
           <HiringSessions setDisplaySessionModal={setDisplaySessionModal} />
         )}
 
-        <button
-          onClick={() => {
-            setDisplaySessionModal(true);
-          }}
-          className="p-2 bg-cyan-300 text-black rounded-lg hover:bg-cyan-400 transition-colors w-[50rem]"
-        >
-          Display Previous Sessions
-        </button>
-        <button
-          onClick={() => {
-            setAddSessionModal(true);
-          }}
-          className="p-2 bg-cyan-300 text-black rounded-lg hover:bg-cyan-400 transition-colors w-[50rem]"
-        >
-          Add New Hiring Session
-        </button>
+        <div className="flex flex-col text-2xl gap-40">
+          <button
+            onClick={() => {
+              setDisplaySessionModal(true);
+            }}
+            className="p-2 font-semibold hover:scale-[101%]  text-white bg-black/70 rounded-lg transition-colors  h-72 w-72"
+          >
+            Display Previous Sessions
+          </button>
+          <button
+            onClick={() => {
+              setAddSessionModal(true);
+            }}
+            className="p-2 font-semibold hover:scale-[101%] text-white bg-black/70 rounded-lg transition-colors  h-72 w-72"
+          >
+            Add New Hiring Session
+          </button>
+        </div>
       </div>
     </div>
   );

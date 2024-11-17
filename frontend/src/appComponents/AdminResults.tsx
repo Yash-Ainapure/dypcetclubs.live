@@ -158,7 +158,7 @@ export default function AdminResults() {
                 setDropdownOpen(!dropdownOpen);
               }}
             >
-              Sortt (A-Z)
+              Sort (A-Z)
             </button>
           ) : null}
 
@@ -205,6 +205,7 @@ export default function AdminResults() {
             <th className="p-2 bg-white">Quiz Name</th>
             <th className="p-2 bg-white">Creation Time</th>
             <th className="p-2 bg-white rounded-tr-2xl">Action</th>
+            <th className="p-2 bg-white rounded-tr-2xl">Link</th>
           </tr>
         </thead>
         <tbody>
@@ -237,6 +238,27 @@ export default function AdminResults() {
                 }}
               >
                 Delete
+              </td>
+              <td className="border border-gray-300 p-2">
+                <div className="flex items-center gap-4">
+                  <a
+                    className="text-sky-700 mr-2"
+                    href={`http://localhost:5173/quiz/${quiz.id}`}
+                  >
+                    link
+                  </a>
+                  <button
+                    className="bg-gray-200 p-1 rounded"
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `http://localhost:5173/quiz/${quiz.id}`
+                      );
+                      alert("Link copied to clipboard!");
+                    }}
+                  >
+                    Copy
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

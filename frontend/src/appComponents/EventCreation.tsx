@@ -142,6 +142,7 @@ const EventCreation: React.FC = () => {
           if (response.status == 201) {
             setEventData([...eventData, response.data]);
             form.reset();
+            setShowForm(false);
           }
         } catch (e: any) {
           alert("Error: " + e.message);
