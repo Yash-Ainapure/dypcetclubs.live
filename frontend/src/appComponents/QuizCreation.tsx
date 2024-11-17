@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
-import microBG from "../assets/micro1.avif";  
-
+import microBG from "../assets/micro1.avif";
 
 interface Question {
   question: string;
@@ -99,7 +98,14 @@ const QuizCreation: React.FC = () => {
   };
 
   return (
-    <div className="w-full border-[#bababa] border-l overflow-scroll rounded-tl-2xl" style={{ backgroundImage: `url(${microBG})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div
+      className="w-full border-[#bababa] border-l overflow-scroll rounded-tl-2xl"
+      style={{
+        backgroundImage: `url(${microBG})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* {
        
       } */}
