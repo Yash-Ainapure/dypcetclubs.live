@@ -118,42 +118,42 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		<tr>
             <td align="center">
                 <a href="https://github.com/Yash-Ainapure">
-                    <img src="https://avatars.githubusercontent.com/u/136250383?v=4" width="100;" alt="Yash-Ainapure"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/136250383?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU2ODAsIm5iZiI6MTczNDY1NDQ4MCwicGF0aCI6Ii91LzEzNjI1MDM4MyJ9.9MO3OF_-ZtmfuYXxG9YUouYuNQ3iPX2PKIPS44Bzbrk&v=4" width="100;" alt="Yash-Ainapure"/>
                     <br />
                     <sub><b>yash ainapure</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/yashksaini-coder">
-                    <img src="https://avatars.githubusercontent.com/u/115717039?v=4" width="100;" alt="yashksaini-coder"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/115717039?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTUzMjAsIm5iZiI6MTczNDY1NDEyMCwicGF0aCI6Ii91LzExNTcxNzAzOSJ9.P2uZ43kO6L79IpWHlsvNvwpsh8ATbWVdf1H7RsqczoE&v=4" width="100;" alt="yashksaini-coder"/>
                     <br />
                     <sub><b>Yash Kumar Saini</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/Gauravtb2253">
-                    <img src="https://avatars.githubusercontent.com/u/114927759?v=4" width="100;" alt="Gauravtb2253"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/114927759?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTUyMDAsIm5iZiI6MTczNDY1NDAwMCwicGF0aCI6Ii91LzExNDkyNzc1OSJ9.LxflEh5ihazO9V4ieRbwX2gyS1nKqJMhZoEP6NYpj3c&v=4" width="100;" alt="Gauravtb2253"/>
                     <br />
                     <sub><b>Gaurav Bomble</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/Laxmi01345">
-                    <img src="https://avatars.githubusercontent.com/u/122423386?v=4" width="100;" alt="Laxmi01345"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/122423386?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTYwNDAsIm5iZiI6MTczNDY1NDg0MCwicGF0aCI6Ii91LzEyMjQyMzM4NiJ9.BY8XgnBgq3AIBwtN6Q7Gw38Pkehaow6y2PnH49w48is&v=4" width="100;" alt="Laxmi01345"/>
                     <br />
                     <sub><b>Laxmi Ray</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/radheypatil6630">
-                    <img src="https://avatars.githubusercontent.com/u/85211195?v=4" width="100;" alt="radheypatil6630"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/85211195?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU2ODAsIm5iZiI6MTczNDY1NDQ4MCwicGF0aCI6Ii91Lzg1MjExMTk1In0.a3Pa_iECk1J2JzNQxaA7pQZcvQzOP3THB7PJHiw0DNg&v=4" width="100;" alt="radheypatil6630"/>
                     <br />
                     <sub><b>Radhey patil</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/NK-Works">
-                    <img src="https://avatars.githubusercontent.com/u/132702983?v=4" width="100;" alt="NK-Works"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/132702983?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU5MjAsIm5iZiI6MTczNDY1NDcyMCwicGF0aCI6Ii91LzEzMjcwMjk4MyJ9.wtpRnbgohw789Dv2ZxeP5mBEI1vBmkoGUEW2FzH3i8Y&v=4" width="100;" alt="NK-Works"/>
                     <br />
                     <sub><b>Anneshu Nag</b></sub>
                 </a>
@@ -162,42 +162,42 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		<tr>
             <td align="center">
                 <a href="https://github.com/Hh440">
-                    <img src="https://avatars.githubusercontent.com/u/91595810?v=4" width="100;" alt="Hh440"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/91595810?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU0NDAsIm5iZiI6MTczNDY1NDI0MCwicGF0aCI6Ii91LzkxNTk1ODEwIn0.v1_Y26S8zJhq6S9feWPyrfQDFyHMkewse5JbEJrRiYE&v=4" width="100;" alt="Hh440"/>
                     <br />
                     <sub><b>Harsh</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/rishyym0927">
-                    <img src="https://avatars.githubusercontent.com/u/136720020?v=4" width="100;" alt="rishyym0927"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/136720020?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU5MjAsIm5iZiI6MTczNDY1NDcyMCwicGF0aCI6Ii91LzEzNjcyMDAyMCJ9.8DNmhiIH06uwO1XHik7Hni4a6nIVCLgwRuKOW2Ozalw&v=4" width="100;" alt="rishyym0927"/>
                     <br />
                     <sub><b>RISHIRAJ MUKHERJEE</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/varma-101">
-                    <img src="https://avatars.githubusercontent.com/u/138625491?v=4" width="100;" alt="varma-101"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/138625491?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU5ODAsIm5iZiI6MTczNDY1NDc4MCwicGF0aCI6Ii91LzEzODYyNTQ5MSJ9.Ji5BaNnpKR1v7kySiyYg7os_AkznXuMPbkM05BxYFqA&v=4" width="100;" alt="varma-101"/>
                     <br />
                     <sub><b>SAGI VENKATA NAGA GOPAL VARMA</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/prateek2102">
-                    <img src="https://avatars.githubusercontent.com/u/130992856?v=4" width="100;" alt="prateek2102"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/130992856?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU3NDAsIm5iZiI6MTczNDY1NDU0MCwicGF0aCI6Ii91LzEzMDk5Mjg1NiJ9.QoK7A91z0f1kTOJbiXMfaM9HcSkvkOMJNzN_bkqEnDc&v=4" width="100;" alt="prateek2102"/>
                     <br />
                     <sub><b>Prateek </b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/myselfshivams">
-                    <img src="https://avatars.githubusercontent.com/u/143623476?v=4" width="100;" alt="myselfshivams"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/143623476?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU1MDAsIm5iZiI6MTczNDY1NDMwMCwicGF0aCI6Ii91LzE0MzYyMzQ3NiJ9.d5fM_bW9zp3cFWmHs8MJIZQZhGQetamXwsVXHSp6BYU&v=4" width="100;" alt="myselfshivams"/>
                     <br />
                     <sub><b>Shivam </b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/siri-chandana-macha">
-                    <img src="https://avatars.githubusercontent.com/u/180281799?v=4" width="100;" alt="siri-chandana-macha"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/180281799?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU5MjAsIm5iZiI6MTczNDY1NDcyMCwicGF0aCI6Ii91LzE4MDI4MTc5OSJ9.GnkIJbFNFRnp9zKyGb2OwjZ775LxyC9luiAsVwi2aP0&v=4" width="100;" alt="siri-chandana-macha"/>
                     <br />
                     <sub><b>Siri Chandana Macha</b></sub>
                 </a>
@@ -206,42 +206,42 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		<tr>
             <td align="center">
                 <a href="https://github.com/Sourabh782">
-                    <img src="https://avatars.githubusercontent.com/u/103349890?v=4" width="100;" alt="Sourabh782"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/103349890?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU4NjAsIm5iZiI6MTczNDY1NDY2MCwicGF0aCI6Ii91LzEwMzM0OTg5MCJ9.C0CPLqO3dZCpWlFtyQ9Tl6NllDgReUK3wy9k0Ff02jo&v=4" width="100;" alt="Sourabh782"/>
                     <br />
                     <sub><b>Sourabh Singh Rawat</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/sushil-sagar05">
-                    <img src="https://avatars.githubusercontent.com/u/169032900?v=4" width="100;" alt="sushil-sagar05"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/169032900?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU2MjAsIm5iZiI6MTczNDY1NDQyMCwicGF0aCI6Ii91LzE2OTAzMjkwMCJ9.tdr2XMvIp-F4HePZJPDRHI8TK6bVVsgVsWOpqBlrelU&v=4" width="100;" alt="sushil-sagar05"/>
                     <br />
                     <sub><b>Sushil Sagar</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/Swetabh333">
-                    <img src="https://avatars.githubusercontent.com/u/109225662?v=4" width="100;" alt="Swetabh333"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/109225662?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU2MjAsIm5iZiI6MTczNDY1NDQyMCwicGF0aCI6Ii91LzEwOTIyNTY2MiJ9.heZjDxQtxkA74neJrWdJd8ZDrxBTbpb2wZedJ78huE8&v=4" width="100;" alt="Swetabh333"/>
                     <br />
                     <sub><b>Swetabh Shreyam</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/VinayLodhi1712">
-                    <img src="https://avatars.githubusercontent.com/u/135756009?v=4" width="100;" alt="VinayLodhi1712"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/135756009?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU5MjAsIm5iZiI6MTczNDY1NDcyMCwicGF0aCI6Ii91LzEzNTc1NjAwOSJ9.Qn_2ERte_0yoaUxLoWVoktqCodDauMXDshovMhHQY2w&v=4" width="100;" alt="VinayLodhi1712"/>
                     <br />
                     <sub><b>Vinay Anand Lodhi</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/vedhcet-07">
-                    <img src="https://avatars.githubusercontent.com/u/176995332?v=4" width="100;" alt="vedhcet-07"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/176995332?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTUzODAsIm5iZiI6MTczNDY1NDE4MCwicGF0aCI6Ii91LzE3Njk5NTMzMiJ9.qa9bTxKoS4IiemG7bDXhzt6z2uwwYhlorh3eKcHo_p4&v=4" width="100;" alt="vedhcet-07"/>
                     <br />
                     <sub><b>Vishwas M D</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/vivekrawat21">
-                    <img src="https://avatars.githubusercontent.com/u/116631005?v=4" width="100;" alt="vivekrawat21"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/116631005?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU2MjAsIm5iZiI6MTczNDY1NDQyMCwicGF0aCI6Ii91LzExNjYzMTAwNSJ9._vVRDfzSkVzvO2Vk7kXbcAgaVInarxvqvZ_VH2hizP0&v=4" width="100;" alt="vivekrawat21"/>
                     <br />
                     <sub><b>Vivek Rawat</b></sub>
                 </a>
@@ -250,42 +250,42 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		<tr>
             <td align="center">
                 <a href="https://github.com/ZayedShahcode">
-                    <img src="https://avatars.githubusercontent.com/u/115407231?v=4" width="100;" alt="ZayedShahcode"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/115407231?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTUzMjAsIm5iZiI6MTczNDY1NDEyMCwicGF0aCI6Ii91LzExNTQwNzIzMSJ9.ena_A3vPU28NySdeaaX2jZxw9ZRaBusqLxCn9MHAhvA&v=4" width="100;" alt="ZayedShahcode"/>
                     <br />
                     <sub><b>Zayed</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/im-amanjai">
-                    <img src="https://avatars.githubusercontent.com/u/145966547?v=4" width="100;" alt="im-amanjai"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/145966547?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU4NjAsIm5iZiI6MTczNDY1NDY2MCwicGF0aCI6Ii91LzE0NTk2NjU0NyJ9._blb3C2MuSRiBGv2pTf1MIDqLIwV5f76iFivrgdWrB4&v=4" width="100;" alt="im-amanjai"/>
                     <br />
                     <sub><b>im-amanjai</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/Pruthviraj-sawant">
-                    <img src="https://avatars.githubusercontent.com/u/157594404?v=4" width="100;" alt="Pruthviraj-sawant"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/157594404?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU4NjAsIm5iZiI6MTczNDY1NDY2MCwicGF0aCI6Ii91LzE1NzU5NDQwNCJ9.Wnt-1x6qUqhcSRR38Fjhpb3Y7NEGX9S-8oSy2U_aCUI&v=4" width="100;" alt="Pruthviraj-sawant"/>
                     <br />
                     <sub><b>pruthviraj-sawant</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/sps234">
-                    <img src="https://avatars.githubusercontent.com/u/141764206?v=4" width="100;" alt="sps234"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/141764206?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU3NDAsIm5iZiI6MTczNDY1NDU0MCwicGF0aCI6Ii91LzE0MTc2NDIwNiJ9.WBqSrrsb8JcbA6MULlip_h_3_IIbAxPEtKngw6w-Voo&v=4" width="100;" alt="sps234"/>
                     <br />
                     <sub><b>Saumya Pratap Singh</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/devxMani">
-                    <img src="https://avatars.githubusercontent.com/u/122438942?v=4" width="100;" alt="devxMani"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/122438942?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU2ODAsIm5iZiI6MTczNDY1NDQ4MCwicGF0aCI6Ii91LzEyMjQzODk0MiJ9.APjy7S2XbRjeR_v1z-ZL2ZUvcw8jDYF_943fl1yxC0k&v=4" width="100;" alt="devxMani"/>
                     <br />
                     <sub><b>MANI </b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/KrishChothani">
-                    <img src="https://avatars.githubusercontent.com/u/143370415?v=4" width="100;" alt="KrishChothani"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/143370415?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTUyNjAsIm5iZiI6MTczNDY1NDA2MCwicGF0aCI6Ii91LzE0MzM3MDQxNSJ9.amnAVjx7OSKTqzw7EGjVVyb96MlwuhHGuI4X_yneHns&v=4" width="100;" alt="KrishChothani"/>
                     <br />
                     <sub><b>Krish Chothani</b></sub>
                 </a>
@@ -294,42 +294,42 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		<tr>
             <td align="center">
                 <a href="https://github.com/JeetuSuthar">
-                    <img src="https://avatars.githubusercontent.com/u/129197623?v=4" width="100;" alt="JeetuSuthar"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/129197623?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTUzODAsIm5iZiI6MTczNDY1NDE4MCwicGF0aCI6Ii91LzEyOTE5NzYyMyJ9.bGls1ZoWu_RgO2MDUXjWWA0SqvkdGEn-0MET1YzaVh0&v=4" width="100;" alt="JeetuSuthar"/>
                     <br />
                     <sub><b>Jeetu Suthar</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/hetvipopat">
-                    <img src="https://avatars.githubusercontent.com/u/157787846?v=4" width="100;" alt="hetvipopat"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/157787846?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU4MDAsIm5iZiI6MTczNDY1NDYwMCwicGF0aCI6Ii91LzE1Nzc4Nzg0NiJ9.V5hijwNQxsAhLmFy5swNGAeRbMFusCaDjLIaHbdCHY8&v=4" width="100;" alt="hetvipopat"/>
                     <br />
                     <sub><b>Hetvi_26</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/Dipanita45">
-                    <img src="https://avatars.githubusercontent.com/u/132455672?v=4" width="100;" alt="Dipanita45"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/132455672?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU0NDAsIm5iZiI6MTczNDY1NDI0MCwicGF0aCI6Ii91LzEzMjQ1NTY3MiJ9.zi61z4m_1obvvOGV4sdOsvj4eyiAuPBK21KX1VpVGXM&v=4" width="100;" alt="Dipanita45"/>
                     <br />
                     <sub><b>Dipanita45</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/Dhruv-pahuja">
-                    <img src="https://avatars.githubusercontent.com/u/100836518?v=4" width="100;" alt="Dhruv-pahuja"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/100836518?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU3NDAsIm5iZiI6MTczNDY1NDU0MCwicGF0aCI6Ii91LzEwMDgzNjUxOCJ9.OVPJcWZKqhqBUcZI0Fau149ewORhmNzVz3tBS6w_pd0&v=4" width="100;" alt="Dhruv-pahuja"/>
                     <br />
                     <sub><b>Dhruv Pahuja</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/ChetanSingh14">
-                    <img src="https://avatars.githubusercontent.com/u/153702696?v=4" width="100;" alt="ChetanSingh14"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/153702696?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTYwNDAsIm5iZiI6MTczNDY1NDg0MCwicGF0aCI6Ii91LzE1MzcwMjY5NiJ9.gt1LgPDdZl-wOmCsCH7sqp5oLp-mXBoUNZwQtl0f4Zs&v=4" width="100;" alt="ChetanSingh14"/>
                     <br />
                     <sub><b>Chetan SIngh</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/jainaryan04">
-                    <img src="https://avatars.githubusercontent.com/u/138214350?v=4" width="100;" alt="jainaryan04"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/138214350?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTUyMDAsIm5iZiI6MTczNDY1NDAwMCwicGF0aCI6Ii91LzEzODIxNDM1MCJ9.AFpo0qbTZ1ND1TVhEzBZ0t6uhvk7ami_dqeOLQGJPKI&v=4" width="100;" alt="jainaryan04"/>
                     <br />
                     <sub><b>Aryan Ramesh Jain</b></sub>
                 </a>
@@ -338,14 +338,14 @@ We are grateful to all the contributors who have helped improve this project. Yo
 		<tr>
             <td align="center">
                 <a href="https://github.com/vastavikadi">
-                    <img src="https://avatars.githubusercontent.com/u/160533006?v=4" width="100;" alt="vastavikadi"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/160533006?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU4NjAsIm5iZiI6MTczNDY1NDY2MCwicGF0aCI6Ii91LzE2MDUzMzAwNiJ9.XgX8bsDA35BHktYmNXjbT5hgOp4yqQUtyqr5WX1UES0&v=4" width="100;" alt="vastavikadi"/>
                     <br />
                     <sub><b>Aditya Shukla</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/AasthaSingh28">
-                    <img src="https://avatars.githubusercontent.com/u/138100998?v=4" width="100;" alt="AasthaSingh28"/>
+                    <img src="https://private-avatars.githubusercontent.com/u/138100998?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2NTU0NDAsIm5iZiI6MTczNDY1NDI0MCwicGF0aCI6Ii91LzEzODEwMDk5OCJ9.Qn05ZoFwYNTW-SlsPBvxozMHLpBk1qS3mg6OXV8pSS8&v=4" width="100;" alt="AasthaSingh28"/>
                     <br />
                     <sub><b>Aastha Singh</b></sub>
                 </a>
