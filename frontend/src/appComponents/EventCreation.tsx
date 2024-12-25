@@ -12,7 +12,6 @@ import { CgMoreO } from "react-icons/cg";
 import microBG from "../assets/micro1.avif";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { en } from "node_modules/@fullcalendar/core/internal-common";
 
 // interface Event {
 //   ClubID: string;
@@ -47,13 +46,13 @@ const EventCreation: React.FC = () => {
   const [calendarDisplay, setCalendarDisplay] = useState(false);
   const navigate = useNavigate();
 
-  const demoEvents = [
-    {
-      title: "Meeting",
-      start: new Date(),
-      end: new Date(new Date().setDate(new Date().getDate() + 1)),
-    },
-  ];
+  // const demoEvents = [
+  //   {
+  //     title: "Meeting",
+  //     start: new Date(),
+  //     end: new Date(new Date().setDate(new Date().getDate() + 1)),
+  //   },
+  // ];
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
