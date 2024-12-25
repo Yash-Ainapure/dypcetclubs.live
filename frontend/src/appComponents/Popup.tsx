@@ -37,7 +37,7 @@ function Popup({ onClose }: any) {
 
    return (
       <div
-         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-100"
+         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
          onClick={handleOverlayClick} // Overlay click handler
       >
          <div className="relative w-4/5 max-w-3xl p-8 mx-auto bg-white rounded-lg shadow-lg">

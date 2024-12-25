@@ -64,15 +64,15 @@ const checkAuth = (
    7.apply for a position * 
 */
 
-router.post("/createHiringSession", checkAuth, CreateHiringSession);
-router.delete("/deleteHiringSession", checkAuth, DeleteHiringSession);
-router.put("/updateHiringSession", checkAuth, UpdateHiringSession);
+router.post("/createHiringSession", CreateHiringSession);
+router.delete("/deleteHiringSession", DeleteHiringSession);
+router.put("/updateHiringSession", UpdateHiringSession);
 router.get("/hiringSessions", GetHiringSessions);
 router.get("/hiringSessions/all", GetAllHiringSessions);
 
-router.post("/addHiringPosition", checkAuth, AddHiringPosition);
-router.delete("/DeleteHiringPosition", checkAuth, DeleteHiringPosition);
-router.put("/updateHiringPosition", checkAuth, UpdateHiringPosition);
+router.post("/addHiringPosition", AddHiringPosition);
+router.delete("/DeleteHiringPosition", DeleteHiringPosition);
+router.put("/updateHiringPosition", UpdateHiringPosition);
 router.get("/getPositions", GetPositionsBySession);
 router.post("/applyForPosition", CreateApplicant);
 router.get("/getApplicantsByPositionId", getApplicantsByPositionID);

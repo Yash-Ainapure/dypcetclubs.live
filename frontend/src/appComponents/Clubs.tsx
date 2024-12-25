@@ -1,11 +1,13 @@
 "use client";
 import ClubCard from "./ClubCard";
 import { useClubs } from "../hooks/useClubs";
+import { useNavigate } from "react-router-dom";
 
 export default function Clubs() {
   const isHomePage = window.location.pathname === "/";
   const { data: clubs, error, isLoading } = useClubs();
-  const displayedClubs = clubs?.slice(0, 6);
+  const navigate = useNavigate();
+  const displayedClubs = isHomePage ? clubs?.slice(0, 6) : clubs;
   if (isLoading)
     return (
       <div className="min-h-screen px-6 py-8 bg-white">
@@ -38,7 +40,11 @@ export default function Clubs() {
   if (error) return <div>Error loading users: {error.message}</div>;
 
   return (
-    <div className="min-h-screen px-6 py-12 bg-white">
+    <div
+      className={`min-h-screen px-6 py-12 bg-white flex flex-col ${
+        isHomePage ? "justify-between" : ""
+      }`}
+    >
       {/* Heading 1 */}
       <div className="pb-10 text-center">
         <h1 className="pb-4 text-3xl font-semibold">Our Clubs</h1>
@@ -60,14 +66,19 @@ export default function Clubs() {
         ))}
       </div>
       {isHomePage && (
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center items-center mt-4">
           <p className="mt-2 text-sm md:text-base text-slate-600 text-center">
             Want to Explore more? Visit our Dedicated&nbsp;
-            <a className="text-blue-500 underline" href="/clubboard">
-              <b>Clubs</b>
-            </a>
-            &nbsp;Page.
           </p>
+          <button
+            className="text-blue-500 underline cursor-pointer z-50 font-semibold"
+            onClick={() => {
+              navigate("/clubboard");
+            }}
+          >
+            Clubs
+          </button>
+          <p>&nbsp;Page.</p>
         </div>
       )}
     </div>

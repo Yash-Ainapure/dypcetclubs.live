@@ -29,12 +29,12 @@ const checkAuth = (req, res, next) => {
         return res.status(401).json({ message: "Invalid token" });
     }
 };
-router.delete("/deleteEvent", checkAuth, event_controller_1.deleteEvent);
+router.delete("/deleteEvent", event_controller_1.deleteEvent);
 //get all events
 router.get("/getAllEventData", event_controller_1.getAllEventData);
 router.get("/getSingleEventData", event_controller_1.getSingleEventData);
 //get all events for a club
 router.get("/getClubEventData", event_controller_1.getClubEventData);
-router.put("/update-event", checkAuth, event_controller_1.updateEvent);
-router.post("/create-event", checkAuth, event_controller_1.createEvent);
+router.put("/update-event", event_controller_1.updateEvent);
+router.post("/create-event", event_controller_1.createEvent);
 exports.default = router;

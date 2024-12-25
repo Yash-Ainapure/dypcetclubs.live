@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "./axiosInstance";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext.js";
+import microBG from "../assets/micro1.avif";
 
 export const ViewSession = () => {
   const location = useLocation();
@@ -131,7 +132,6 @@ export const ViewSession = () => {
       setIsSuccess(true);
     } catch (error) {
       console.error("Error deleting position", error);
-      setFeedbackMessage("Error deleting position. Please try again.");
       setIsSuccess(false);
     }
   };
@@ -164,8 +164,13 @@ export const ViewSession = () => {
 
   return (
     <div
+      style={{
+        backgroundImage: `url(${microBG})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        overflowY: "auto",
+      }}
       className="bg-green-500 w-full min-h-screen rounded-tl-2xl p-4 relative"
-      style={{ overflowY: "auto" }}
     >
       <button
         onClick={() => {
@@ -175,15 +180,13 @@ export const ViewSession = () => {
       >
         {"<--- Back"}
       </button>
-      <h1>Title: {session.Title}</h1>
+      <h1 className="font-semibold text-xl">Title: {session.Title}</h1>
       <p>Description: {session.Description}</p>
       <p>
-        <strong>Start Date:</strong>{" "}
+        Start Date:
         {new Date(session.StartDate).toLocaleString()}
       </p>
-      <p>
-        <strong>End Date:</strong> {new Date(session.EndDate).toLocaleString()}
-      </p>
+      <p>End Date:{new Date(session.EndDate).toLocaleString()}</p>
 
       <div className="mt-6">
         <h2 className="text-2xl font-bold">Positions</h2>
@@ -216,7 +219,7 @@ export const ViewSession = () => {
                 </button>
                 <button
                   onClick={() => handleViewApplicants(position.PositionID)}
-                  className="text-green-600"
+                  className=" bg-white p-2 rounded-md"
                 >
                   View Applicants
                 </button>
@@ -328,15 +331,16 @@ export const ViewSession = () => {
                     <strong>Phone Number:</strong>{" "}
                     {applicant.Applicant.PhoneNumber}
                   </p>
+                  {/* applicant.Applicant.ResumeURL */}
                   <p>
                     <strong>Resume URL:</strong>{" "}
                     <a
-                      href={applicant.Applicant.ResumeURL}
+                      href="https://drive.google.com/file/d/17wh0jvMWteW1HGCkI8zjitZvF3aA7YdR/view?usp=sharing"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 underline"
                     >
-                      {applicant.Applicant.ResumeURL}
+                      resume link
                     </a>
                   </p>
                 </li>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
+import microBG from "../assets/micro1.avif";
 
 interface Question {
   question: string;
@@ -23,9 +24,8 @@ const QuizCreation: React.FC = () => {
   const [AIQuizModalVisible, setAIQuizModalVisible] = useState<boolean>(false);
   const [quiz, setQuiz] = useState([]);
 
-
   useEffect(() => {
-    console.log(quizzes, clubInfo, quiz)
+    console.log(quizzes, clubInfo, quiz);
     if (userData) {
       setClubInfo(userData?.Club);
       fetchQuizzes();
@@ -98,17 +98,31 @@ const QuizCreation: React.FC = () => {
   };
 
   return (
-    <div className="bg-black w-full overflow-scroll">
+    <div
+      className="w-full border-[#bababa] border-l overflow-scroll rounded-tl-2xl"
+      style={{
+        backgroundImage: `url(${microBG})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* {
        
       } */}
-      <button className="bg-white text-black p-2 rounded-md absolute top-4 right-8"
+      <button
+        className="bg-white text-black p-2 rounded-md absolute top-4 right-8"
         onClick={() => setAIQuizModalVisible(true)}
-      >Generate Quiz with AI</button>
-      {AIQuizModalVisible && <AiQuizCreationModal setQuiz={setQuiz} setQuestions={setQuestions} />}
+      >
+        Generate Quiz with AI
+      </button>
+      {AIQuizModalVisible && (
+        <AiQuizCreationModal setQuiz={setQuiz} setQuestions={setQuestions} />
+      )}
 
-      <div className="mx-auto mt-3 mb-8 p-6 bg-[#6284eb] shadow-lg rounded-lg w-full max-w-2xl">
-        <h1 className="text-3xl text-white font-bold mb-6  text-center">Create New Quiz</h1>
+      <div className="mx-auto mt-3 mb-8 p-6 bg-slate-400 shadow-lg rounded-lg w-full max-w-2xl">
+        <h1 className="text-3xl text-white font-bold mb-6  text-center">
+          Create New Quiz
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"
@@ -154,7 +168,11 @@ const QuizCreation: React.FC = () => {
                   type="text"
                   value={q.correctAnswer}
                   onChange={(e) =>
-                    handleQuestionChange(qIndex, "correctAnswer", e.target.value)
+                    handleQuestionChange(
+                      qIndex,
+                      "correctAnswer",
+                      e.target.value
+                    )
                   }
                   placeholder="Correct Answer"
                   className="w-full p-3 focus:outline-none focus:ring focus:ring-blue-300"
@@ -169,7 +187,7 @@ const QuizCreation: React.FC = () => {
               onClick={() => {
                 handleAddQuestion();
               }}
-              className="w-full bg-black text-white px-4 py-2  rounded-lg transition duration-200 hover:bg-gray-800"
+              className="w-full bg-black text-white font-semibold px-4 py-2  rounded-lg transition duration-200 hover:bg-gray-800"
             >
               Add Question
             </button>
@@ -182,29 +200,25 @@ const QuizCreation: React.FC = () => {
             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
             required
           />
-          <div className="mx-40">
+          <div className="mx-20">
             <button
               type="submit"
-              className="w-full bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200 hover:bg-green-700"
+              className="w-full bg-green-600 font-semibold text-white px-4 py-2 rounded-lg transition duration-200 hover:bg-green-700"
             >
               Create Quiz
             </button>
           </div>
         </form>
-
       </div>
     </div>
   );
 };
 
 const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
-
-
-
   const [topic, setTopic] = useState<any>();
   const [level, setLevel] = useState<any>();
   const [numberOfQuestions, setNumberOfQuestions] = useState<any>();
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
   // const handleQuiz=();
   const handleQuiz = async () => {
     setLoading(true);
@@ -218,9 +232,8 @@ const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
     console.log("Payload:", payload);
 
     try {
-
       const response = await axios.post("/api/quizzes/generateQuiz", payload);
-      let data = JSON.parse(response.data?.data?.choices[0]?.message?.content)
+      let data = JSON.parse(response.data?.data?.choices[0]?.message?.content);
       if (data?.questions) {
         setQuiz(data.questions);
         const formattedQuestions = data.questions.map((q: any) => ({
@@ -233,11 +246,10 @@ const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
       }
     } catch (error) {
       console.error("Error generating quiz:", error);
-    }finally{
+    } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="flex flex-col gap-2 bg-white bg-opacity-70 mx-auto mt-3 mb-8 p-6 w-full max-w-lg">
@@ -257,7 +269,6 @@ const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
         <option value="hard">hard</option>
       </select>
       <input
-
         placeholder="Number of questions"
         className="p-2 border rounded"
         value={numberOfQuestions}
@@ -266,14 +277,12 @@ const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
       <button
         className="p-2 bg-blue-500 text-white rounded"
         onClick={() => {
-          handleQuiz()
+          handleQuiz();
         }} // Trigger quiz generation on click
       >
-        {
-          loading ? "Generating..." : "Generate Quiz"
-        }
+        {loading ? "Generating..." : "Generate Quiz"}
       </button>
     </div>
-  )
-}
+  );
+};
 export default QuizCreation;

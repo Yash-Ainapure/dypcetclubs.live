@@ -43,7 +43,7 @@ const checkAuth = (
   }
 };
 
-router.delete("/deleteEvent", checkAuth, deleteEvent);
+router.delete("/deleteEvent", deleteEvent);
 
 //get all events
 router.get("/getAllEventData", getAllEventData);
@@ -53,8 +53,8 @@ router.get("/getSingleEventData", getSingleEventData);
 //get all events for a club
 router.get("/getClubEventData", getClubEventData);
 
-router.put("/update-event", checkAuth, updateEvent);
+router.put("/update-event", updateEvent);
 
-router.post("/create-event", checkAuth, createEvent);
+router.post("/create-event", createEvent);
 
 export default router;
