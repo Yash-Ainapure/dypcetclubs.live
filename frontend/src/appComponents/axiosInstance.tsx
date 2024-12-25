@@ -5,7 +5,7 @@ import axios from "axios";
 //   withCredentials: true,
 // });
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "https://dypcetclubs-live.onrender.com",
 });
 axiosInstance.defaults.withCredentials = true;
 
