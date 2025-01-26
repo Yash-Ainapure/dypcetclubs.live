@@ -18,6 +18,9 @@ import jwt from "jsonwebtoken";
 // @ts-ignore
 import cookieParser from "cookie-parser";
 
+import multer from "multer";
+const upload = multer({ storage: multer.memoryStorage() }).single("resume");
+
 const router = Router();
 router.use(cookieParser());
 
@@ -74,7 +77,7 @@ router.post("/addHiringPosition", AddHiringPosition);
 router.delete("/DeleteHiringPosition", DeleteHiringPosition);
 router.put("/updateHiringPosition", UpdateHiringPosition);
 router.get("/getPositions", GetPositionsBySession);
-router.post("/applyForPosition", CreateApplicant);
+router.post("/applyForPosition", upload, CreateApplicant);
 router.get("/getApplicantsByPositionId", getApplicantsByPositionID);
 
 export default router;

@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { prisma } from "../config/database.config";
 import logger from "../config/logger";
+import multer from "multer";
+import { bucket } from "../config/firestore-config";
 
 export const CreateHiringSession = async (req: Request, res: Response) => {
   const { ClubID } = req.query;
@@ -326,32 +328,73 @@ export const CreateApplicant = async (req: Request, res: Response) => {
   if (!PositionID || isNaN(parseInt(PositionID as string))) {
     return res.status(400).json({ error: "Invalid or missing PositionID" });
   }
-  const { name, phone, resume, yearOfStudy, department } = req.body;
 
-  try {
-    const hiringPosition = await prisma.hiringPosition.findUnique({
-      where: {
-        PositionID: parseInt(PositionID as string),
-      },
-    });
+  // Access non-file fields from req.body
+  const { name, phone, yearOfStudy, department } = req.body;
 
-    if (!hiringPosition) {
-      return res.status(404).json({ error: "Hiring position not found" });
-    }
+  // Access the uploaded file
+  if (!req.file) {
+    return res.status(400).json({ error: "No resume file uploaded" });
+  }
+
+  const file = req.file;
+  const fileName = `resumes/${Date.now()}_${file.originalname}`;
+  const fileUpload = bucket.file(fileName);
+
+  const blobStream = fileUpload.createWriteStream({
+    metadata: {
+      contentType: file.mimetype,
+    },
+  });
+
+  blobStream.on("error", (error: any) => {
+    console.error(error);
+    return res.status(500).json({ error: "Error uploading resume" });
+  });
+
+  blobStream.on("finish", async () => {
+    const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
+
+    await fileUpload.makePublic();
 
     try {
+      if (!name || !phone || !yearOfStudy || !department) {
+        console.log("Missing fields:", {
+          name,
+          phone,
+          yearOfStudy,
+          department,
+        });
+        return res.status(400).json({ error: "All fields are required" });
+      }
+
+      // Check if the hiring position exists
+      const hiringPosition = await prisma.hiringPosition.findUnique({
+        where: {
+          PositionID: parseInt(PositionID as string),
+        },
+      });
+
+      if (!hiringPosition) {
+        return res.status(404).json({ error: "Hiring position not found" });
+      }
+
+      // Create the applicant
       const applicant = await prisma.applicant.create({
         data: {
           Name: name,
-          YearOfStudy: yearOfStudy,
+          YearOfStudy: parseInt(yearOfStudy),
           Department: department,
           PhoneNumber: phone,
-          ResumeURL: resume,
+          ResumeURL: publicUrl,
         },
       });
+
       if (!applicant) {
         return res.status(500).json({ error: "Error creating applicant" });
       }
+
+      // Create the hiring application
       await prisma.hiringApplication.create({
         data: {
           Applicant: {
@@ -368,16 +411,35 @@ export const CreateApplicant = async (req: Request, res: Response) => {
       });
 
       logger.info(`Applicant created id: ${applicant.ApplicantID}`);
-      res.status(201).json(applicant);
+      return res.status(201).json(applicant);
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Error creating applicant" });
+      console.error(error);
+      return res.status(500).json({ error: "Error creating applicant" });
     }
-  } catch (error) {
-    logger.error(`Error creating applicant: ${error}`);
-    res.status(500).json({ error: "Error creating applicant" });
-  }
+  });
+
+  blobStream.end(file.buffer);
 };
+
+// export const CreateApplicant = async (req: Request, res: Response) => {
+//   console.log("Request Body:", req.body);
+//   console.log("Request File:", req.file);
+
+//   if (!req.file) {
+//     return res.status(400).json({ error: "No resume file uploaded yet" });
+//   }
+
+//   const { name, phone, yearOfStudy, department } = req.body;
+
+//   if (!name || !phone || !yearOfStudy || !department) {
+//     return res.status(400).json({ error: "All fields are required" });
+//   }
+
+//   console.log("Request Body:", req.body);
+//   console.log("Request File:", req.file);
+
+//   res.status(200).json({ message: "File uploaded successfully" });
+// };
 
 export const getApplicantsByPositionID = async (
   req: Request,
@@ -396,7 +458,7 @@ export const getApplicantsByPositionID = async (
         },
       },
       include: {
-        Applicant: true
+        Applicant: true,
       },
     });
     if (!applicants.length) {

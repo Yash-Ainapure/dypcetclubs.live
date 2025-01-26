@@ -155,6 +155,7 @@ export const ViewSession = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log("Applicants", response.data);
       setApplicants(response.data);
       setShowApplicantsModal(true);
     } catch (error) {
@@ -331,8 +332,18 @@ export const ViewSession = () => {
                     <strong>Phone Number:</strong>{" "}
                     {applicant.Applicant.PhoneNumber}
                   </p>
-                  {/* applicant.Applicant.ResumeURL */}
                   <p>
+                    <strong>Resume URL:</strong>{" "}
+                    <a
+                      href={applicant.Applicant.ResumeURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline"
+                    >
+                      resume link
+                    </a>
+                  </p>
+                  {/* <p>
                     <strong>Resume URL:</strong>{" "}
                     <a
                       href="https://drive.google.com/file/d/17wh0jvMWteW1HGCkI8zjitZvF3aA7YdR/view?usp=sharing"
@@ -342,7 +353,7 @@ export const ViewSession = () => {
                     >
                       resume link
                     </a>
-                  </p>
+                  </p> */}
                 </li>
               ))}
             </ul>

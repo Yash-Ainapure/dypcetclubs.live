@@ -81,7 +81,8 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
     }));
   };
 
-  const handleSubmitApplication = async () => {
+  const handleSubmitApplication = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     if (!selectedPosition) return;
 
     const applicationData = {
@@ -89,13 +90,27 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
       yearOfStudy: parseInt(applicantData.yearOfStudy as unknown as string, 10),
       department: applicantData.department,
       phone: applicantData.phoneNumber,
-      resume: "",
+      resume: applicantData.resume,
     };
+
+    console.log("Application data:", applicationData);
+    const formData = new FormData();
+    formData.append("name", applicantData.name);
+    formData.append("yearOfStudy", applicantData.yearOfStudy.toString());
+    formData.append("department", applicantData.department);
+    formData.append("phone", applicantData.phoneNumber);
+    if (applicantData.resume) {
+      formData.append("resume", applicantData.resume); // Append the file
+    }
+    console.log("form data:", formData);
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
 
     try {
       await axios.post(
         `/api/hiring/applyForPosition?PositionID=${selectedPosition.PositionID}`,
-        applicationData
+        formData
       );
       alert("Application submitted successfully!");
       handleCloseModal();
@@ -221,6 +236,7 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
               />
               <input
                 type="file"
+                name="resume"
                 onChange={(e) =>
                   setApplicantData({
                     ...applicantData,
