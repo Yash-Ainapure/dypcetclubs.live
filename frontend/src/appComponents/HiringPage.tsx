@@ -9,7 +9,7 @@ import { useHiringSessions } from "../hooks/useHiringSessions";
 const HiringPage = () => {
   const { data: clubs } = useClubs();
   const { data: hiringSessions } = useHiringSessions();
-  const [activeSession, setActiveSession] = useState<number | null>(null);
+  // const [activeSession, setActiveSession] = useState<number | null>(null);
 
   const sessionsByClubId =
     hiringSessions?.reduce((acc, session) => {
