@@ -85,26 +85,13 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
     e.preventDefault();
     if (!selectedPosition) return;
 
-    const applicationData = {
-      name: applicantData.name,
-      yearOfStudy: parseInt(applicantData.yearOfStudy as unknown as string, 10),
-      department: applicantData.department,
-      phone: applicantData.phoneNumber,
-      resume: applicantData.resume,
-    };
-
-    console.log("Application data:", applicationData);
     const formData = new FormData();
     formData.append("name", applicantData.name);
     formData.append("yearOfStudy", applicantData.yearOfStudy.toString());
     formData.append("department", applicantData.department);
     formData.append("phone", applicantData.phoneNumber);
     if (applicantData.resume) {
-      formData.append("resume", applicantData.resume); // Append the file
-    }
-    console.log("form data:", formData);
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
+      formData.append("resume", applicantData.resume);
     }
 
     try {
@@ -121,50 +108,49 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
   };
 
   return (
-    <div className="bg-black hover:scale-[101%] transform transition-all duration-500 text-gray-900 rounded-lg shadow-lg p-6 mb-4">
+    <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-xl shadow-2xl p-6 mb-6 transition-transform transform hover:scale-105 hover:shadow-3xl">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold text-white">{name}</h2>
+        <h2 className="text-2xl font-bold text-indigo-400">{name}</h2>
         <button
           onClick={handleToggleSessions}
-          className="px-4 py-2 text-sm font-bold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-all"
+          className="px-6 py-2 text-sm font-bold bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all transform hover:scale-105"
         >
           {expanded ? "Hide Sessions" : "View Sessions"}
         </button>
       </div>
-      <p className="text-white mt-2">{description}</p>
+      <p className="mt-3 text-gray-300 text-sm leading-relaxed">{description}</p>
 
       {expanded && (
-        <div className="mt-4 p-4 bg-gray-800 rounded-lg">
-          <h3 className="text-lg font-semibold text-white mb-3">
+        <div className="mt-6 p-5 bg-gray-700 rounded-xl shadow-inner">
+          <h3 className="text-xl font-semibold mb-4 text-indigo-300">
             Hiring Sessions
           </h3>
-
           {sessions.length > 0 ? (
             <ul className="space-y-4">
               {sessions.map((session) => (
                 <li
                   key={session.SessionID}
-                  className="p-4 bg-gray-900 rounded-lg shadow"
+                  className="p-5 bg-gray-800 rounded-lg shadow"
                 >
                   <div className="mb-2">
-                    <p className="font-bold text-white">{session.Title}</p>
-                    <p className="text-sm text-gray-400 mb-1">
+                    <p className="font-bold text-indigo-200">{session.Title}</p>
+                    <p className="text-sm text-gray-300 mt-2">
                       {session.Description}
                     </p>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-xs text-gray-400 mt-1">
                       Date: {new Date(session.StartDate).toLocaleDateString()} -{" "}
                       {new Date(session.EndDate).toLocaleDateString()}
                     </p>
                   </div>
 
                   {session.Positions.length > 0 ? (
-                    <ul className="mt-2 space-y-3 pl-4 border-l border-gray-700">
+                    <ul className="mt-2 space-y-3 pl-4 border-l-2 border-indigo-400">
                       {session.Positions.map((position) => (
                         <li key={position.PositionID} className="pl-2">
                           <p className="text-white font-semibold">
                             {position.Title}
                           </p>
-                          <p className="text-sm text-gray-400">
+                          <p className="text-sm text-gray-300">
                             {position.Description}
                           </p>
                           <p className="text-sm text-gray-500">
@@ -172,7 +158,7 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
                           </p>
                           <button
                             onClick={() => handleApply(position)}
-                            className="mt-2 px-3 py-1 text-sm font-bold text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-all"
+                            className="mt-3 px-4 py-2 text-sm font-bold bg-blue-600 rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105"
                           >
                             Apply
                           </button>
@@ -196,19 +182,19 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
       )}
 
       {isModalOpen && selectedPosition && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-bold mb-4">
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-95 hover:scale-100">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">
               Apply for {selectedPosition.Title}
             </h3>
-            <form>
+            <form onSubmit={handleSubmitApplication}>
               <input
                 type="text"
                 name="name"
                 placeholder="Full Name"
                 value={applicantData.name}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded mb-3"
+                className="w-full p-3 border text-black border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-indigo-500"
               />
               <input
                 type="number"
@@ -216,7 +202,7 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
                 placeholder="Year of Study"
                 value={applicantData.yearOfStudy}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded mb-3"
+                className="w-full p-3 border text-black border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-indigo-500"
               />
               <input
                 type="text"
@@ -224,7 +210,7 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
                 placeholder="Department"
                 value={applicantData.department}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded mb-3"
+                className="w-full p-3 border text-black border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-indigo-500"
               />
               <input
                 type="text"
@@ -232,7 +218,7 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
                 placeholder="Phone Number"
                 value={applicantData.phoneNumber}
                 onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded mb-3"
+                className="w-full p-3 border text-black border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-indigo-500"
               />
               <input
                 type="file"
@@ -243,20 +229,19 @@ const HiringSessionClubCard: React.FC<HiringSessionClubCardType> = ({
                     resume: e.target.files?.[0] || null,
                   })
                 }
-                className="w-full p-2 border border-gray-300 rounded mb-3"
+                className="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:border-indigo-500"
               />
 
               <button
-                type="button"
-                onClick={handleSubmitApplication}
-                className="w-full py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition-all"
+                type="submit"
+                className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition-all transform hover:scale-105"
               >
                 Submit Application
               </button>
               <button
                 type="button"
                 onClick={handleCloseModal}
-                className="mt-2 w-full py-2 bg-gray-300 text-gray-700 font-bold rounded hover:bg-gray-400 transition-all"
+                className="mt-4 w-full py-3 bg-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-400 transition-all transform hover:scale-105"
               >
                 Cancel
               </button>
