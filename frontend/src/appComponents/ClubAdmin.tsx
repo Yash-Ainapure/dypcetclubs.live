@@ -18,6 +18,7 @@ import AdminResults from "./AdminResults";
 import EventCreation from "./EventCreation";
 // import SettingsPa
 import ViewEvent from "./ViewEvent";
+
 import AddClubMembers from "./AddClubMembers";
 import axiosInstance from "./axiosInstance";
 import AddHiringSession from "./AddHiringSession";
@@ -170,19 +171,16 @@ export const LogoIcon = () => {
   );
 };
 
+
 const Dashboard = () => {
-  // const navigate = useNavigate();
   const [clubMembers, setClubMembers] = useState([]);
   const [displayClubModal, setDisplayClubModal] = useState(false);
   const [addMemberModal, setAddMemberModal] = useState(false);
   const [displaySessionModal, setDisplaySessionModal] = useState(false);
   const [addSessionModal, setAddSessionModal] = useState(false);
-  // const handleAddMember = () => {
-  //   navigate("/clubAdmin/addMember");
-  //   console.log("Add new club member");
-  // };
 
   const { userData } = useAuth();
+
   useEffect(() => {
     const getClubData = async () => {
       try {
@@ -190,8 +188,6 @@ const Dashboard = () => {
           await axiosInstance
             .get(`/api/clubs/getClubMembers?ClubID=${userData?.ClubID}`)
             .then((res) => {
-              console.log("members");
-              console.log(res.data);
               setClubMembers(res.data);
             });
         } else {
@@ -205,7 +201,7 @@ const Dashboard = () => {
   }, [userData]);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col bg-gray-900 min-h-screen">
       {addMemberModal && (
         <AddClubMembers setAddMemberModal={setAddMemberModal} />
       )}
@@ -215,73 +211,46 @@ const Dashboard = () => {
           setDisplayClubModal={setDisplayClubModal}
         />
       )}
+      {addSessionModal && (
+        <AddHiringSession setAddSessionModal={setAddSessionModal} />
+      )}
+      {displaySessionModal && (
+        <HiringSessions setDisplaySessionModal={setDisplaySessionModal} />
+      )}
+
       <div
         style={{
           backgroundImage: `url(${microBG})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-        className="flex gap-40 w-full h-full p-2 md:p-10 rounded-tl-2xl border-2xl items-center justify-center"
+        className="flex flex-col md:flex-row gap-8 w-full h-full p-8 rounded-tl-2xl items-center justify-center"
       >
-        {/* Placeholder for skeleton loading */}
-        {/* <div className="flex gap-2">
-          {[...new Array(4)].map((_, index) => (
-            <div
-              key={`first-array-${index}`}
-              className="w-full h-20 bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"
-            ></div>
-          ))}
-        </div>
-        <div className="flex flex-1 gap-2">
-          {[...new Array(2)].map((_, index) => (
-            <div
-              key={`second-array-${index}`}
-              className="w-full h-full bg-gray-100 rounded-lg dark:bg-neutral-800 animate-pulse"
-            ></div>
-          ))}
-        </div> */}
-
-        <div className="flex text-2xl flex-col gap-40">
+        <div className="flex flex-col gap-8">
           <button
-            onClick={() => {
-              setDisplayClubModal(true);
-            }}
-            className="bg-black/70 hover:scale-[101%] text-white font-semibold rounded-lg shadow-md shadow-slate-500 transition-colors h-72 w-72 "
+            onClick={() => setDisplayClubModal(true)}
+            className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 h-48 w-48 flex items-center justify-center text-center"
           >
             Display Club Members
           </button>
           <button
-            onClick={() => {
-              setAddMemberModal(true);
-            }}
-            className="p-2 font-semibold hover:scale-[101%] text-white bg-black/70 rounded-lg transition-colors  h-72 w-72"
+            onClick={() => setAddMemberModal(true)}
+            className="bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 h-48 w-48 flex items-center justify-center text-center"
           >
             Add New Club Member
           </button>
         </div>
 
-        {addSessionModal && (
-          <AddHiringSession setAddSessionModal={setAddSessionModal} />
-        )}
-
-        {displaySessionModal && (
-          <HiringSessions setDisplaySessionModal={setDisplaySessionModal} />
-        )}
-
-        <div className="flex flex-col text-2xl gap-40">
+        <div className="flex flex-col gap-8">
           <button
-            onClick={() => {
-              setDisplaySessionModal(true);
-            }}
-            className="p-2 font-semibold hover:scale-[101%]  text-white bg-black/70 rounded-lg transition-colors  h-72 w-72"
+            onClick={() => setDisplaySessionModal(true)}
+            className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 h-48 w-48 flex items-center justify-center text-center"
           >
             Display Previous Sessions
           </button>
           <button
-            onClick={() => {
-              setAddSessionModal(true);
-            }}
-            className="p-2 font-semibold hover:scale-[101%] text-white bg-black/70 rounded-lg transition-colors  h-72 w-72"
+            onClick={() => setAddSessionModal(true)}
+            className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 h-48 w-48 flex items-center justify-center text-center"
           >
             Add New Hiring Session
           </button>
@@ -290,6 +259,8 @@ const Dashboard = () => {
     </div>
   );
 };
+
+
 const ClubMembers = ({ clubMembers, setDisplayClubModal }: any) => {
   return (
     <div
@@ -298,23 +269,21 @@ const ClubMembers = ({ clubMembers, setDisplayClubModal }: any) => {
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
-      className="w-[90%] md:w-[75%] h-[70%] p-4 absolute z-50 rounded-lg left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-scroll pt-12 flex flex-col gap-4 shadow-lg "
+      className="w-[90%] md:w-[75%] h-[80%] p-8 absolute z-50 rounded-2xl left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-y-auto flex flex-col gap-6 shadow-2xl backdrop-blur-sm bg-black/50"
     >
-      <p className="font-extrabold text-4xl  text-center text-blue-900">
+      <p className="font-extrabold text-4xl text-center text-white">
         Club Members List
       </p>
-      <p
-        onClick={() => {
-          setDisplayClubModal(false);
-        }}
-        className="absolute top-4 right-4 hover:text-red-600 font-semibold cursor-pointer text-lg transition-colors"
+      <button
+        onClick={() => setDisplayClubModal(false)}
+        className="absolute top-6 right-6 hover:text-red-600 font-semibold cursor-pointer text-2xl transition-colors"
       >
         X
-      </p>
+      </button>
       {clubMembers.map((member: any, index: any) => (
         <div
           key={index}
-          className="flex flex-col gap-2 p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-md transition-transform transform hover:scale-[101%] shadow-md"
+          className="flex flex-col gap-4 p-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl transition-transform transform hover:scale-105 shadow-lg"
         >
           <div className="flex justify-between items-center">
             <img
@@ -323,38 +292,42 @@ const ClubMembers = ({ clubMembers, setDisplayClubModal }: any) => {
               className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
             />
             <div className="flex gap-4">
-              <svg
-                className="hover:text-red-400 w-6 h-6 transition-colors"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="w-6 h-6 hover:text-green-400 transition-colors"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15.232 5.232a3 3 0 114.243 4.243L7.5 21H3v-4.5L15.232 5.232z"
-                />
-              </svg>
+              <button className="hover:text-red-400 transition-colors">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                  />
+                </svg>
+              </button>
+              <button className="hover:text-green-400 transition-colors">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15.232 5.232a3 3 0 114.243 4.243L7.5 21H3v-4.5L15.232 5.232z"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-lg font-semibold">
+          <div className="flex flex-col gap-2">
+            <span className="text-xl font-semibold">
               {member.FirstName} {member.LastName} -{" "}
               <span className="text-yellow-300">{member.Role}</span>
             </span>
@@ -365,4 +338,7 @@ const ClubMembers = ({ clubMembers, setDisplayClubModal }: any) => {
     </div>
   );
 };
+
+
+
 export default Dashboard;
