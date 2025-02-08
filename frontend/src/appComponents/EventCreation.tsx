@@ -91,6 +91,7 @@ const EventCreation: React.FC = () => {
       }
     };
     getAllEvents();
+    console.log(formCreator);
   }, []);
 
   const checkForConflicts = (newEvent: any) => {
@@ -258,7 +259,9 @@ const EventCreation: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
-      {eventID ? <FormCreator setEventID={setEventID} eventID={eventID} /> : null}
+      {eventID ? (
+        <FormCreator setEventID={setEventID} eventID={eventID} />
+      ) : null}
 
       {calendarDisplay ? (
         <div
@@ -322,7 +325,7 @@ const EventCreation: React.FC = () => {
             >
               <form
                 className="flex justify-center flex-col  items-center gap-4 p-4 px-8 rounded-xl w-fit bg-slate-950 bg-opacity-90 text-white"
-                onSubmit={(e) => {  
+                onSubmit={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                   form.handleSubmit();
