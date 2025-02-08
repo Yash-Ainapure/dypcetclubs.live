@@ -79,3 +79,34 @@ process.on("SIGINT", () => __awaiter(void 0, void 0, void 0, function* () {
 module.exports = (req, res) => {
     app(req, res);
 };
+// the Below code is used to generate refresh token
+// please don't uncomment it
+// const oauth2Client = new google.auth.OAuth2(
+//   process.env.CLIENT_ID,
+//   process.env.CLIENT_SECRET,
+//   process.env.REDIRECT_URL
+// );
+// const scopes = [
+//   'https://www.googleapis.com/auth/forms.body',
+//   'https://www.googleapis.com/auth/forms.responses.readonly'
+// ];
+// const authUrl = oauth2Client.generateAuthUrl({
+//   access_type: 'offline',
+//   scope: scopes,
+// });
+// console.log('Visit this URL:', authUrl);
+// const rl = require('readline').createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// });
+// rl.question('Enter the new code: ', async (code:any) => {
+//   try {
+//     const { tokens } = await oauth2Client.getToken(code);
+//     console.log('Refresh Token:', tokens.refresh_token);
+//     console.log('Access Token:', tokens);
+//   } catch (error) {
+//     console.error('Error getting token:', error);
+//   } finally {
+//     rl.close();
+//   }
+// });

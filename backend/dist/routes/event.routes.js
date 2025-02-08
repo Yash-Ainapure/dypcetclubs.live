@@ -37,4 +37,6 @@ router.get("/getSingleEventData", event_controller_1.getSingleEventData);
 router.get("/getClubEventData", event_controller_1.getClubEventData);
 router.put("/update-event", event_controller_1.updateEvent);
 router.post("/create-event", event_controller_1.createEvent);
+router.post("/create-form", event_controller_1.createEventForm);
+router.get("/forms/:formId/responses", event_controller_1.getFormResponses);
 exports.default = router;

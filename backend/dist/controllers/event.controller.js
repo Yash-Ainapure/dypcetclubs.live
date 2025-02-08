@@ -12,11 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleEventData = exports.createQuiz = exports.getAllEventData = exports.createEvent = exports.updateEvent = exports.getClubEventData = exports.deleteEvent = void 0;
+exports.getFormResponses = exports.createEventForm = exports.getSingleEventData = exports.createQuiz = exports.getAllEventData = exports.createEvent = exports.updateEvent = exports.getClubEventData = exports.deleteEvent = void 0;
 const database_config_1 = require("../config/database.config");
 const const_1 = require("../config/const");
 const logger_1 = __importDefault(require("../config/logger"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const axios_1 = __importDefault(require("axios"));
+const google_forms_accesstoken_1 = require("../config/google-forms-accesstoken");
+const googleapis_1 = require("googleapis");
 // Add other club-related controller functions here
 const deleteEvent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { eventId } = req.body;
@@ -173,3 +176,165 @@ const getSingleEventData = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.getSingleEventData = getSingleEventData;
+const createEventForm = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const { title, fields, eventID } = req.body;
+    console.log("Creating form with title:", title, "and fields:", fields);
+    try {
+        // Step 1: Create the Google Form with just the title
+        const googleForm = {
+            info: {
+                title: title,
+            },
+        };
+        // Fetch the access token from your stored method
+        const access_token = yield (0, google_forms_accesstoken_1.getAccessToken)();
+        // Create the form with title
+        const formResponse = yield axios_1.default.post("https://forms.googleapis.com/v1/forms", googleForm, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        const formId = formResponse.data.formId;
+        console.log(`Form created with ID: ${formId}`);
+        // Step 2: Create requests for adding questions based on the fields
+        const requests = fields.map((field) => ({
+            createItem: {
+                item: {
+                    title: field.question,
+                    questionItem: {
+                        question: field.type === "multipleChoice" ||
+                            field.type === "checkbox" ||
+                            field.type === "dropdown"
+                            ? {
+                                choiceQuestion: {
+                                    type: mapQuestionType(field),
+                                    options: (field.options || []).map((option) => ({
+                                        value: option,
+                                    })),
+                                },
+                            }
+                            : {
+                                textQuestion: {
+                                    paragraph: field.type === "paragraph", // Use paragraph for long answers
+                                },
+                            },
+                    },
+                },
+                location: {
+                    index: 0, // Append all items at the end of the form
+                },
+            },
+        }));
+        console.log("Requests for adding questions:", JSON.stringify(requests, null, 2));
+        // Step 3: Add questions to the form using batchUpdate
+        yield axios_1.default.post(`https://forms.googleapis.com/v1/forms/${formId}:batchUpdate`, { requests }, {
+            headers: {
+                Authorization: `Bearer ${access_token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        //save this forlurl in database
+        yield database_config_1.prisma.event
+            .update({
+            where: { EventID: eventID },
+            data: {
+                Link: `https://docs.google.com/forms/d/${formId}/viewform`,
+            },
+        })
+            .catch((error) => {
+            console.error(`Error updating event with form link: ${error}`);
+            res
+                .status(500)
+                .json({ error: "Failed to update event with form link" });
+        });
+        // Step 6: Send the form URL back in the response
+        const formUrl = `https://docs.google.com/forms/d/${formId}/viewform`;
+        res.json({
+            formId,
+            formUrl,
+            message: "Google Form created successfully",
+        });
+    }
+    catch (error) {
+        console.error("Error creating form", ((_a = error.response) === null || _a === void 0 ? void 0 : _a.data) || error.message);
+        res.status(500).json({ error: "Failed to create Google Form or Sheet" });
+    }
+});
+exports.createEventForm = createEventForm;
+const mapQuestionType = (field) => {
+    switch (field.type) {
+        case "shortAnswer":
+            return "TEXT"; // Text type for short answer
+        case "paragraph":
+            return "PARAGRAPH"; // Text type for paragraph
+        case "multipleChoice":
+            return "RADIO"; // Use uppercase RADIO for Google Forms
+        case "checkbox":
+            return "CHECKBOX"; // Use CHECKBOX for multiple selections
+        case "dropdown":
+            console.warn(`Dropdown type is not supported by the Google Forms API. Mapping to RADIO instead. Field: ${field.question}`);
+            return "RADIO"; // Map dropdown to RADIO since DROPDOWN is not supported
+        default:
+            return "TEXT"; // Default to TEXT if the type doesn't match
+    }
+};
+const getFormResponses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
+    const { formId } = req.params;
+    try {
+        const access_token = yield (0, google_forms_accesstoken_1.getAccessToken)();
+        // Initialize the Forms API
+        const forms = googleapis_1.google.forms({
+            version: 'v1',
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        });
+        // Get form responses
+        const responseData = yield forms.forms.responses.list({
+            formId: formId
+        });
+        // Get form structure to map question IDs to questions
+        const formStructure = yield forms.forms.get({
+            formId: formId
+        });
+        // Create a map of question IDs to their text
+        const questionMap = new Map();
+        (_a = formStructure.data.items) === null || _a === void 0 ? void 0 : _a.forEach(item => {
+            var _a;
+            if (item.questionItem && item.title) {
+                questionMap.set((_a = item.questionItem.question) === null || _a === void 0 ? void 0 : _a.questionId, item.title);
+            }
+        });
+        // Process responses to a more readable format
+        const processedResponses = ((_b = responseData.data.responses) === null || _b === void 0 ? void 0 : _b.map(response => {
+            const answers = {};
+            if (response.answers) {
+                Object.entries(response.answers).forEach(([questionId, answer]) => {
+                    var _a, _b, _c;
+                    const questionText = questionMap.get(questionId) || questionId;
+                    answers[questionText] = ((_c = (_b = (_a = answer.textAnswers) === null || _a === void 0 ? void 0 : _a.answers) === null || _b === void 0 ? void 0 : _b[0]) === null || _c === void 0 ? void 0 : _c.value) || '';
+                });
+            }
+            return {
+                responseId: response.responseId,
+                createTime: response.createTime,
+                answers
+            };
+        })) || [];
+        res.json({
+            total: processedResponses.length,
+            responses: processedResponses
+        });
+    }
+    catch (error) {
+        console.error('Error fetching form responses:', ((_c = error.response) === null || _c === void 0 ? void 0 : _c.data) || error);
+        res.status(500).json({
+            error: 'Failed to fetch form responses',
+            details: error.message
+        });
+    }
+});
+exports.getFormResponses = getFormResponses;
