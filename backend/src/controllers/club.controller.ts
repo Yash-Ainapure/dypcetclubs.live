@@ -15,6 +15,7 @@ interface CustomRequest extends Request {
   user?: any;
 }
 
+
 export const getClubByEmail = async (req: Request, res: Response) => {
   const { email } = req.body; // Read email from request body
 

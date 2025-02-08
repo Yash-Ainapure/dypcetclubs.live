@@ -11,6 +11,8 @@ import {
   createEvent,
   getAllEventData,
   getSingleEventData,
+  createEventForm,
+  getFormResponses
 } from "../controllers/event.controller";
 
 const router = Router();
@@ -56,5 +58,9 @@ router.get("/getClubEventData", getClubEventData);
 router.put("/update-event", updateEvent);
 
 router.post("/create-event", createEvent);
+
+router.post("/create-form", createEventForm);
+
+router.get("/forms/:formId/responses", getFormResponses);
 
 export default router;

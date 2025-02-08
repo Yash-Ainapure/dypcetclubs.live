@@ -7,7 +7,7 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const isHomePage = window.location.pathname === "/";
 
-  const formatTimeRange = ( endDateTime: any) => {
+  const formatTimeRange = (endDateTime: any) => {
     // Convert the strings to Date objects
     let end = new Date(endDateTime);
 
@@ -49,7 +49,8 @@ const Events = () => {
     endMinutes = endMinutes < 10 ? "0" + endMinutes : endMinutes;
 
     // Return the formatted date and time range
-    return ("ET: " +
+    return (
+      "ET: " +
       day +
       "/" +
       month +
@@ -67,13 +68,15 @@ const Events = () => {
   useEffect(() => {
     const getAllEvents = async () => {
       const response = await axios.get("/api/events/getAllEventData");
-      const currentDate = new Date();      
+      const currentDate = new Date();
       // Filter out events that have already ended
       const upcomingEvents = response.data.filter((event: any) => {
         const eventEndDate = new Date(event.EndDateTime);
         return eventEndDate >= currentDate;
       });
 
+      console.log("events: ");
+      console.log(upcomingEvents);
       setEvents(upcomingEvents);
     };
     getAllEvents();
@@ -99,6 +102,7 @@ const Events = () => {
             name={event.EventName}
             description={event.Description}
             time={formatTimeRange(event.EndDateTime)}
+            link={event.Link}
           />
         ))}
       </div>
@@ -107,7 +111,7 @@ const Events = () => {
           <p className="px-4 text-sm md:text-base mt-2 text-white text-center">
             Want to know about more Events? Visit our Dedicated&nbsp;
             <a className="text-blue-500 underline" href="/events">
-              <b>Events</b> 
+              <b>Events</b>
             </a>
             &nbsp;Page.
           </p>
@@ -118,4 +122,3 @@ const Events = () => {
 };
 
 export default Events;
-
