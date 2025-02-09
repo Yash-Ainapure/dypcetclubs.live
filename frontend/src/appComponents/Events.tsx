@@ -75,8 +75,6 @@ const Events = () => {
         return eventEndDate >= currentDate;
       });
 
-      console.log("events: ");
-      console.log(upcomingEvents);
       setEvents(upcomingEvents);
     };
     getAllEvents();

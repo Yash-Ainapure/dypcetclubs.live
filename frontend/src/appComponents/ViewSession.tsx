@@ -155,7 +155,6 @@ export const ViewSession = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("Applicants", response.data);
       setApplicants(response.data);
       setShowApplicantsModal(true);
     } catch (error) {

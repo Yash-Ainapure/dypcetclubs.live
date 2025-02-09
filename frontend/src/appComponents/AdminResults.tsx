@@ -54,12 +54,6 @@ export default function AdminResults() {
   const fetchResults = async () => {
     if (!id) return;
     setLoading(true);
-    console.log(
-      "Fetching results for quiz ID:",
-      id,
-      "with ClubID:",
-      userData?.ClubID
-    );
     try {
       const response = await axios.get(
         `/api/quizzes/${id}/results?ClubID=${userData?.ClubID}`

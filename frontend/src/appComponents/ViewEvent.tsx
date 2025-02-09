@@ -42,7 +42,6 @@ const ViewEvent = () => {
         const response = await axiosInstance.get(
           `/api/events/getSingleEventData?EventID=${id}`
         );
-        console.log("Event data:", response.data);
         setEventData(response.data);
 
         // After getting event data, fetch responses if there's a form link

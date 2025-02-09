@@ -81,8 +81,6 @@ const EventCreation: React.FC = () => {
           start: new Date(event.StartDateTime).toISOString(),
           end: new Date(event.EndDateTime).toISOString(),
         }));
-        console.log("all events:");
-        console.log(transformedEvents);
 
         setAllEvents(transformedEvents);
       } catch (e: any) {
@@ -196,7 +194,6 @@ const EventCreation: React.FC = () => {
 
   useEffect(() => {
     const getEventsData = async () => {
-      console.log("fetching event data..");
       axios
         .get(`/api/events/getClubEventData?ClubID=${userData?.ClubID}`)
         .then((response) => {
