@@ -4,9 +4,9 @@ import bcrypt from "bcrypt";
 import { MESSAGES } from "../config/const";
 import logger from "../config/logger"; // Import Winston logger
 import { config } from "../config/env.config";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 import { log } from "console";
-dotenv.config()
+dotenv.config();
 
 export const createQuiz = async (req: Request, res: Response) => {
   const { title, questions, secretCode } = req.body;
@@ -174,9 +174,9 @@ export const getQuizResults = async (req: Request, res: Response) => {
 export const deleteQuiz = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await prisma.result.deleteMany({ where: { quizId: parseInt(id) }, });
-    await prisma.question.deleteMany({ where: { quizId: parseInt(id) }, });
-    await prisma.quiz.delete({ where: { id: parseInt(id) }, });
+    await prisma.result.deleteMany({ where: { quizId: parseInt(id) } });
+    await prisma.question.deleteMany({ where: { quizId: parseInt(id) } });
+    await prisma.quiz.delete({ where: { id: parseInt(id) } });
 
     //also delete the users who have taken the quiz
     //not done yet
@@ -189,11 +189,8 @@ export const deleteQuiz = async (req: Request, res: Response) => {
   }
 };
 
-
-
 // generate quiz
 export const generateQuiz = async (req: Request, res: Response) => {
-
   // const GROQ_API_KEY = "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";
   const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
@@ -205,25 +202,44 @@ export const generateQuiz = async (req: Request, res: Response) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${GROQ_API_KEY}`
+        Authorization: `Bearer ${GROQ_API_KEY}`,
       },
 
       body: JSON.stringify({
         model: "mixtral-8x7b-32768",
-        messages: [{
-          role: "user", content: `give me ${numberOfQuestions} MCQ questions about topic: ${topic} ,level:${level} in json format.
+        messages: [
+          {
+            role: "user",
+            content: `give me ${numberOfQuestions} MCQ questions about topic: ${topic} ,level:${level} in json format.
 it should include question,options(array of string),answer.
 Do not return any extra text,only the json object 
-` }],
+example of json is below:
+{
+  questions: [
+    {
+      question: "What is GitHub?",
+      options: [
+        "A version control system",
+        "A social networking platform for developers",
+        "A code hosting platform",
+        "All of the above",
+      ],
+      answer: "All of the above",
+    },
+  ],
+};
+`,
+          },
+        ],
+        response_format: { type: "json_object" },
       }),
     });
 
-    const data = await response.json()
-    res.status(200).json({ data: data })
+    const data = await response.json();
+    res.status(200).json({ data: data });
 
     const messageContent = data?.choices?.[0]?.message?.content;
-
   } catch (error) {
-    console.error("Error :", error)
+    console.error("Error :", error);
   }
 };

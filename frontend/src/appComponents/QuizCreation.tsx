@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "./axiosInstance";
 import { useAuth } from "../context/AuthContext";
 import microBG from "../assets/micro1.avif";
+import { dA } from "node_modules/@fullcalendar/core/internal-common";
 
 interface Question {
   question: string;
@@ -286,3 +287,18 @@ const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
   );
 };
 export default QuizCreation;
+
+const data = {
+  questions: [
+    {
+      question: "What is GitHub?",
+      options: [
+        "A version control system",
+        "A social networking platform for developers",
+        "A code hosting platform",
+        "All of the above",
+      ],
+      answer: "All of the above",
+    },
+  ],
+};
