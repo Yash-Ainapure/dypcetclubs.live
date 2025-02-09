@@ -152,14 +152,21 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/Pruthviraj-sawant">
+                    <img src="https://avatars.githubusercontent.com/u/157594404?v=4" width="100;" alt="Pruthviraj-sawant"/>
+                    <br />
+                    <sub><b>pruthviraj-sawant</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
+            <td align="center">
                 <a href="https://github.com/NK-Works">
                     <img src="https://avatars.githubusercontent.com/u/132702983?v=4" width="100;" alt="NK-Works"/>
                     <br />
                     <sub><b>Anneshu Nag</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/Hh440">
                     <img src="https://avatars.githubusercontent.com/u/91595810?v=4" width="100;" alt="Hh440"/>
@@ -189,6 +196,15 @@ We are grateful to all the contributors who have helped improve this project. Yo
                 </a>
             </td>
             <td align="center">
+                <a href="https://github.com/sps234">
+                    <img src="https://avatars.githubusercontent.com/u/141764206?v=4" width="100;" alt="sps234"/>
+                    <br />
+                    <sub><b>Saumya Pratap Singh</b></sub>
+                </a>
+            </td>
+		</tr>
+		<tr>
+            <td align="center">
                 <a href="https://github.com/myselfshivams">
                     <img src="https://avatars.githubusercontent.com/u/143623476?v=4" width="100;" alt="myselfshivams"/>
                     <br />
@@ -202,8 +218,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Siri Chandana Macha</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/Sourabh782">
                     <img src="https://avatars.githubusercontent.com/u/103349890?v=4" width="100;" alt="Sourabh782"/>
@@ -232,6 +246,8 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Vinay Anand Lodhi</b></sub>
                 </a>
             </td>
+		</tr>
+		<tr>
             <td align="center">
                 <a href="https://github.com/vedhcet-07">
                     <img src="https://avatars.githubusercontent.com/u/176995332?v=4" width="100;" alt="vedhcet-07"/>
@@ -246,8 +262,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <sub><b>Vivek Rawat</b></sub>
                 </a>
             </td>
-		</tr>
-		<tr>
             <td align="center">
                 <a href="https://github.com/ZayedShahcode">
                     <img src="https://avatars.githubusercontent.com/u/115407231?v=4" width="100;" alt="ZayedShahcode"/>
@@ -260,20 +274,6 @@ We are grateful to all the contributors who have helped improve this project. Yo
                     <img src="https://avatars.githubusercontent.com/u/145966547?v=4" width="100;" alt="im-amanjai"/>
                     <br />
                     <sub><b>im-amanjai</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/Pruthviraj-sawant">
-                    <img src="https://avatars.githubusercontent.com/u/157594404?v=4" width="100;" alt="Pruthviraj-sawant"/>
-                    <br />
-                    <sub><b>pruthviraj-sawant</b></sub>
-                </a>
-            </td>
-            <td align="center">
-                <a href="https://github.com/sps234">
-                    <img src="https://avatars.githubusercontent.com/u/141764206?v=4" width="100;" alt="sps234"/>
-                    <br />
-                    <sub><b>Saumya Pratap Singh</b></sub>
                 </a>
             </td>
             <td align="center">
