@@ -5,6 +5,8 @@ import type { FieldApi } from "@tanstack/react-form";
 import { useNavigate } from "react-router-dom";
 import confetti from "canvas-confetti";
 import { autoGrow } from "@/lib/utils";
+import { Eye, EyeOff } from "lucide-react"
+import ClubLogin from "./ClubLogin";
 
 // Define a TypeScript interface for the club
 interface Club {
@@ -38,9 +40,12 @@ const addClub = async (newClub: Club): Promise<Club> => {
   return response.data;
 };
 
-const ClubRegistration: React.FC = () => {
+const ClubRegistration: React.FC<any> = ({ onClose }) => {
   const navigate = useNavigate();
   const [displayModal, setDisplayModal] = useState(false);
+  const [hidden, setHidden] = useState(true);
+  const [showLoginPage, setShowLoginPage] = useState(false);
+
   const form = useForm({
     defaultValues: {
       ClubName: "",
@@ -58,7 +63,8 @@ const ClubRegistration: React.FC = () => {
         console.log(response)
         setDisplayModal(true);
         handleClick();
-      } catch (e:any) {
+        onClose(false);
+      } catch (e: any) {
         alert("Error: " + e.message);
         return;
       }
@@ -94,15 +100,27 @@ const ClubRegistration: React.FC = () => {
     }, 250);
   };
 
+  const togglePasswordVisibility = () => {
+    setHidden(!hidden);
+  };
+
+  const handleOpenLogin = () => {
+    setShowLoginPage(true);
+  };
+
+  const handleCloseLogin = () => {
+    setShowLoginPage(false);
+  };
+
   return (
-    <div className="absolute h-full w-full flex items-center justify-center">
-      <div className="absolute bg-black opacity-40 z-[11] w-full h-full"></div>
-      <div className="bg-white rounded-3xl relative flex flex-col gap-4 z-20 items-center justify-center px-8 py-4 ">
-        {/* <img src="" alt="close" /> */}
-        <div className="flex items-center justify-end w-full ">
-          <h1 className="text-2xl font-bold underline grow text-center ml-4">
-            Club Registration Form
-          </h1>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-100">
+      <div className="bg-white rounded-lg px-4 relative border-2 py-8 md:w-1/2 flex flex-col gap-4 items-center">
+        <p
+          className="cursor-pointer absolute p-2 rounded-md top-2 right-2 text-red-600 font-semibold"
+          onClick={() => {
+            onClose(false);
+          }}
+        >
           <img
             width="30"
             height="30"
@@ -111,145 +129,146 @@ const ClubRegistration: React.FC = () => {
             src="https://img.icons8.com/pastel-glyph/128/cancel--v1.png"
             alt="cancel--v1"
           />
-        </div>
+        </p>
+        <p className="text-2xl font-bold flex justify-center">
+          {" "}
+          Club Registration Form
+        </p>
         <form
-          className="flex flex-col gap-4 p-4"
+          className="flex flex-col gap-4 p-4 w-full"
           onSubmit={(e) => {
             e.preventDefault();
             e.stopPropagation();
             form.handleSubmit();
           }}
         >
-          <div className="grid grid-cols-1 gap-2">
-            {/* A type-safe field component*/}
-            <div className="">
-              <form.Field
-                name="ClubName"
-                validators={{
-                  onChange: ({ value }) =>
-                    !value ? "Club  Name is required" : undefined,
-                  onChangeAsyncDebounceMs: 500,
-                  onChangeAsync: async ({ value }) => {
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
-                    return (
-                      value.includes("error") &&
-                      'No "error" allowed in ClubName'
-                    );
-                  },
-                }}
-                children={(field) => {
-                  // Avoid hasty abstractions. Render props are great!
+          {/* A type-safe field component*/}
+          <div className="h-full w-full border-0 outline-none text-1xl border-black border-2 w-full">
+            <form.Field
+              name="ClubName"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "Club  Name is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
-                    <>
-                      {/* <label htmlFor={field.name}>ClubName:</label> */}
-                      <input
-                        placeholder="Club Name"
-                        className="p-2 glass shadow-2xl border border-gray-300  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                      />
-                      <div className="text-red-600 text-sm ml-2">
-                        <FieldInfo field={field} />
-                      </div>
-                    </>
+                    value.includes("error") &&
+                    'No "error" allowed in ClubName'
                   );
-                }}
-              />
-            </div>
-
-            <div>
-              <form.Field
-                name="Description"
-                validators={{
-                  onChange: ({ value }) =>
-                    !value ? "A Description is required" : undefined,
-                  onChangeAsyncDebounceMs: 500,
-                  onChangeAsync: async ({ value }) => {
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
-                    return (
-                      value?.includes("error") &&
-                      'No "error" allowed in first name'
-                    );
-                  },
-                }}
-                children={(field) => {
-                  const descriptionRef = useRef(null);
-                  const handleInput = () => {
-                    if (descriptionRef && typeof descriptionRef !== "function") {
-                      autoGrow(descriptionRef);
-                    }
-                  };
-                  // Avoid hasty abstractions. Render props are great!
-                  return (
-                    <>
-                      {/* <label htmlFor={field.name}>Description:</label> */}
-                      <textarea
-                        placeholder="Description"
-                        className="p-2 glass resize-none max-h-24 h-12 shadow-2xl border border-gray-300  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        onInput={handleInput}
-                        ref={descriptionRef}
-                      />
-                      <div className="text-red-600 text-sm ml-2">
-                        <FieldInfo field={field} />
-                      </div>
-                    </>
-                  );
-                }}
-              />
-            </div>
+                },
+              }}
+              children={(field) => {
+                // Avoid hasty abstractions. Render props are great!
+                return (
+                  <>
+                    {/* <label htmlFor={field.name}>ClubName:</label> */}
+                    <input
+                      placeholder="Club Name"
+                      className="p-2 glass shadow-2xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5] "
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                    />
+                    <div className="text-red-600 text-sm ml-2">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
+                );
+              }}
+            />
           </div>
 
-          <div className="grid grid-cols-1 ">
-            <div>
-              <form.Field
-                name="FoundedDate"
-                validators={{
-                  onChange: ({ value }) =>
-                    !value ? "FoundedDate is required" : undefined,
-                  onChangeAsyncDebounceMs: 500,
-                  onChangeAsync: async ({ value }) => {
-                    await new Promise((resolve) => setTimeout(resolve, 1000));
-                    return (
-                      value.includes("error") &&
-                      'No "error" allowed in first name'
-                    );
-                  },
-                }}
-                children={(field) => {
-                  const [isFocused,setIsFocused] = useState(false);
-
-                  // Avoid hasty abstractions. Render props are great!
+          <div className="h-full w-full border-0 outline-none text-1xl border-black border-2 w-full">
+            <form.Field
+              name="Description"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "A Description is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
                   return (
-                    <>
-                      <input
-                        placeholder="Founded Date (DD/MM/YYYY)"
-                        className="p-2 shadow-xl  glass border border-gray-300 h-12  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px]  border-[#035ec5]"
-                        type={isFocused ? "date" : "text"}  
-                        id={field.name}
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                        onFocus={() => setIsFocused(true)}  
-                      />
-                      <div className="text-red-600 text-sm ml-2">
-                        <FieldInfo field={field} />
-                      </div>
-                    </>
+                    value?.includes("error") &&
+                    'No "error" allowed in first name'
                   );
-                }}
-              />
-            </div>
+                },
+              }}
+              children={(field) => {
+                const descriptionRef = useRef(null);
+                const handleInput = () => {
+                  if (descriptionRef && typeof descriptionRef !== "function") {
+                    autoGrow(descriptionRef);
+                  }
+                };
+                // Avoid hasty abstractions. Render props are great!
+                return (
+                  <>
+                    {/* <label htmlFor={field.name}>Description:</label> */}
+                    <input
+                      placeholder="Description"
+                      className="p-2 glass shadow-2xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      onInput={handleInput}
+                      ref={descriptionRef}
+                    />
+                    <div className="text-red-600 text-sm ml-2">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
+                );
+              }}
+            />
           </div>
-          <div>
+
+          <div className="h-full w-full border-0 outline-none text-1xl border-black border-2 w-full">
+            <form.Field
+              name="FoundedDate"
+              validators={{
+                onChange: ({ value }) =>
+                  !value ? "FoundedDate is required" : undefined,
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: async ({ value }) => {
+                  await new Promise((resolve) => setTimeout(resolve, 1000));
+                  return (
+                    value.includes("error") &&
+                    'No "error" allowed in first name'
+                  );
+                },
+              }}
+              children={(field) => {
+                const [isFocused, setIsFocused] = useState(false);
+
+                // Avoid hasty abstractions. Render props are great!
+                return (
+                  <>
+                    <input
+                      placeholder="Founded Date (DD/MM/YYYY)"
+                      className="p-2 glass shadow-2xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
+                      type={isFocused ? "date" : "text"}
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      onFocus={() => setIsFocused(true)}
+                    />
+                    <div className="text-red-600 text-sm ml-2">
+                      <FieldInfo field={field} />
+                    </div>
+                  </>
+                );
+              }}
+            />
+          </div>
+
+          <div className="h-full w-full border-0 outline-none text-1xl border-black border-2 w-full">
             <form.Field
               name="Email"
               validators={{
@@ -271,7 +290,7 @@ const ClubRegistration: React.FC = () => {
                     {/* <label htmlFor={field.name}>Email:</label> */}
                     <input
                       placeholder="Email"
-                      className="p-2  border border-gray-300  shadow-xl w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
+                      className="p-2 glass shadow-2xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
                       type="email"
                       id={field.name}
                       name={field.name}
@@ -287,7 +306,8 @@ const ClubRegistration: React.FC = () => {
               }}
             />
           </div>
-          <div>
+
+          <div className="h-full w-full border-0 outline-none text-1xl border-black border-2 w-full">
             <form.Field
               name="Password"
               validators={{
@@ -295,8 +315,8 @@ const ClubRegistration: React.FC = () => {
                   !value
                     ? "Password is required"
                     : value.length < 6
-                    ? "Password must be at least 6 characters"
-                    : undefined,
+                      ? "Password must be at least 6 characters"
+                      : undefined,
                 onChangeAsyncDebounceMs: 500,
                 onChangeAsync: async ({ value }) => {
                   await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -310,16 +330,25 @@ const ClubRegistration: React.FC = () => {
                 return (
                   <>
                     {/* <label htmlFor={field.name}>Password:</label> */}
-                    <input
-                      className="p-2 glass shadow-xl border border-gray-300  w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
-                      type="password"
-                      id={field.name}
-                      placeholder="Password"
-                      name={field.name}
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(e) => field.handleChange(e.target.value)}
-                    />
+                    <div className="relative">
+                      <input
+                        className="p-2 glass shadow-2xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
+                        type={hidden ? "password" : "text"}
+                        id={field.name}
+                        placeholder="Password"
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                      />
+                      <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-xs"
+                      >
+                        {hidden ? <EyeOff size={17} /> : <Eye size={17} />}
+                      </button>
+                    </div>
                     <div className="text-red-600 text-sm ml-2">
                       <FieldInfo field={field} />
                     </div>
@@ -328,7 +357,8 @@ const ClubRegistration: React.FC = () => {
               }}
             />
           </div>
-          <div>
+
+          <div className="h-full w-full border-0 outline-none text-1xl border-black border-2 w-full">
             <form.Field
               name="LogoURL"
               validators={{
@@ -351,7 +381,7 @@ const ClubRegistration: React.FC = () => {
                     <input
                       type="file"
                       accept="image/*"
-                      className="p-2 glass shadow-xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
+                      className="p-2 glass shadow-2xl border border-gray-300 w-full placeholder:text-gray outline-none focus:border-black focus:border-[1px] border-[#035ec5]"
                       id={field.name}
                       name={field.name}
                       // value={field.state.value}
@@ -373,21 +403,34 @@ const ClubRegistration: React.FC = () => {
               }}
             />
           </div>
+          <div className="w-full flex gap-2">
 
-          <form.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-            children={([canSubmit, isSubmitting]) => (
-              <button
-                className="outline-none cursor-pointer glass border-slate-50 border shadow-xl tracking-wider leading-8  w-full p-2 bg-gray-900 text-white text-xl font-bold hover:bg-slate-50 hover:text-stone-950  hover:border-black hover:border-solid hover:border-[1px]  hover:text-[#035ec5] font-bold"
-                type="submit"
-                disabled={!canSubmit}
-              >
-                {isSubmitting ? "Submiting..." : "Register"}
-              </button>
-            )}
-          />
+            <form.Subscribe
+              selector={(state) => [state.canSubmit, state.isSubmitting]}
+              children={([canSubmit, isSubmitting]) => (
+                <button
+                  className="text-white rounded text-lg font-semibold p-2 w-1/2 bg-black"
+                  type="submit"
+                  disabled={!canSubmit}
+                >
+                  {isSubmitting ? "Submiting..." : "Register"}
+                </button>
+              )}
+            />
+            <button
+              className="text-black border border-black rounded text-lg font-semibold p-2 w-1/2"
+              onClick={handleOpenLogin}
+            >
+              Login
+            </button>
+          </div>
         </form>
       </div>
+      
+      {/* Conditionally render the login page */}
+      {showLoginPage && (
+        <ClubLogin onClose={handleCloseLogin} />
+      )}
 
       {displayModal ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -418,6 +461,7 @@ const ClubRegistration: React.FC = () => {
         ""
       )}
     </div>
+    // </div>
   );
 };
 

@@ -4,8 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon",
-    "build": "tsc",
+    "clean": "rm -rf dist",
+    "clean2": "rmdir /s /q dist",
+    "build-windows": "npm run clean2 && tsc",
+    "build": "npm run clean && tsc",
+    "start": "node dist/app.js",
     "start:dev": "nodemon",
     "check-types": "tsc --noEmit",
     "check-build": "npm run check-types && npm run build"
@@ -14,11 +17,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/connect": "^3.4.38",
+    "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
-    "@types/node": "^22.5.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.7.9",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.3"
   },
   "dependencies": {
     "@libsql/client": "^0.8.1",
@@ -27,20 +33,25 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/multer": "^1.4.12",
+    "axios": "^1.7.9",
     "backend": "file:",
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^4.21.2",
     "express-rate-limit": "^7.4.0",
     "express-validator": "^7.2.0",
+    "firebase-admin": "^13.0.2",
+    "googleapis": "^144.0.0",
+    "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "mysql2": "^3.11.0",
     "prisma": "^5.19.1",
     "sharp": "^0.33.5",
-    "winston": "^3.15.0",
+    "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   }
 }

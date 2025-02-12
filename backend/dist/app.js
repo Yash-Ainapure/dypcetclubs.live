@@ -14,15 +14,47 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const env_config_1 = require("./config/env.config");
+// @ts-ignore
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const index_1 = require("./routes/index");
 const database_config_1 = require("./config/database.config");
 const app = (0, express_1.default)();
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://dypcetclubs-live.vercel.app",
+    "*"
+];
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.indexOf(origin || "") !== -1 || !origin) {
+            callback(null, origin);
+        }
+        else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Accept",
+        "Origin",
+    ],
+    exposedHeaders: [
+        "Content-Length",
+        "X-Content-Type-Options",
+        "X-RateLimit-Limit",
+        "X-RateLimit-Remaining",
+    ],
+};
 app.use(express_1.default.json());
-app.use((0, cors_1.default)());
+app.use((0, cors_1.default)(corsOptions));
+app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.urlencoded({ extended: true }));
 (0, index_1.setupRoutes)(app);
-const PORT = env_config_1.config.PORT || 4000;
+const PORT = 4000;
 function startServer() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -44,8 +76,37 @@ process.on("SIGINT", () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, database_config_1.closeDatabaseConnection)();
     process.exit(0);
 }));
-// export default app;
-// module.exports = app;
 module.exports = (req, res) => {
     app(req, res);
 };
+// the Below code is used to generate refresh token
+// please don't uncomment it
+// const oauth2Client = new google.auth.OAuth2(
+//   process.env.CLIENT_ID,
+//   process.env.CLIENT_SECRET,
+//   process.env.REDIRECT_URL
+// );
+// const scopes = [
+//   'https://www.googleapis.com/auth/forms.body',
+//   'https://www.googleapis.com/auth/forms.responses.readonly'
+// ];
+// const authUrl = oauth2Client.generateAuthUrl({
+//   access_type: 'offline',
+//   scope: scopes,
+// });
+// console.log('Visit this URL:', authUrl);
+// const rl = require('readline').createInterface({
+//   input: process.stdin,
+//   output: process.stdout,
+// });
+// rl.question('Enter the new code: ', async (code:any) => {
+//   try {
+//     const { tokens } = await oauth2Client.getToken(code);
+//     console.log('Refresh Token:', tokens.refresh_token);
+//     console.log('Access Token:', tokens);
+//   } catch (error) {
+//     console.error('Error getting token:', error);
+//   } finally {
+//     rl.close();
+//   }
+// });

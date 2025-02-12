@@ -12,11 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteQuiz = exports.getQuizResults = exports.submitQuiz = exports.createQuizUser = exports.getQuizById = exports.getClubQuizzes = exports.createQuiz = void 0;
+exports.generateQuiz = exports.deleteQuiz = exports.getQuizResults = exports.submitQuiz = exports.createQuizUser = exports.getQuizById = exports.getClubQuizzes = exports.createQuiz = void 0;
 const database_config_1 = require("../config/database.config");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const const_1 = require("../config/const");
 const logger_1 = __importDefault(require("../config/logger")); // Import Winston logger
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const createQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, questions, secretCode } = req.body;
     const clubId = Number(req.query.ClubID);
@@ -176,3 +178,36 @@ const deleteQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteQuiz = deleteQuiz;
+// generate quiz
+const generateQuiz = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c;
+    // const GROQ_API_KEY = "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";
+    const GROQ_API_KEY = process.env.GROQ_API_KEY;
+    const API_url = "https://api.groq.com/openai/v1/chat/completions";
+    const { topic, level, numberOfQuestions } = req.body;
+    try {
+        const response = yield fetch(API_url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${GROQ_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "mixtral-8x7b-32768",
+                messages: [{
+                        role: "user", content: `give me ${numberOfQuestions} MCQ questions about topic: ${topic} ,level:${level} in json format.
+it should include question,options(array of string),answer.
+Do not return any extra text,only the json object 
+`
+                    }],
+            }),
+        });
+        const data = yield response.json();
+        res.status(200).json({ data: data });
+        const messageContent = (_c = (_b = (_a = data === null || data === void 0 ? void 0 : data.choices) === null || _a === void 0 ? void 0 : _a[0]) === null || _b === void 0 ? void 0 : _b.message) === null || _c === void 0 ? void 0 : _c.content;
+    }
+    catch (error) {
+        console.error("Error :", error);
+    }
+});
+exports.generateQuiz = generateQuiz;

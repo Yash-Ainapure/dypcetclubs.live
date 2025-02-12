@@ -7,9 +7,8 @@ const Events = () => {
   const [events, setEvents] = useState([]);
   const isHomePage = window.location.pathname === "/";
 
-  const formatTimeRange = (startDateTime: any, endDateTime: any) => {
+  const formatTimeRange = (endDateTime: any) => {
     // Convert the strings to Date objects
-    let start = new Date(startDateTime);
     let end = new Date(endDateTime);
 
     // Array of month names
@@ -29,40 +28,35 @@ const Events = () => {
     ];
 
     // Get the day, month, year, hours and minutes
-    let day = start.getDate();
-    let month = monthNames[start.getMonth()];
-    let year = start.getFullYear();
-    let startHours = start.getHours();
-    let startMinutes: string | number = start.getMinutes();
+    let day = end.getDate();
+    let month = monthNames[end.getMonth()];
+    let year = end.getFullYear();
+    // let startHours = end.getHours();
+    // let startMinutes: string | number = end.getMinutes();
     let endHours = end.getHours();
     let endMinutes: string | number = end.getMinutes();
 
-    // Convert hours from 24-hour format to 12-hour format
-    let startPeriod = startHours >= 12 ? "PM" : "AM";
-    startHours = startHours % 12;
-    startHours = startHours ? startHours : 12; // the hour '0' should be '12'
+    // // Convert hours from 24-hour format to 12-hour format
+    // let startPeriod = startHours >= 12 ? "PM" : "AM";
+    // startHours = startHours % 12;
+    // startHours = startHours ? startHours : 12; // the hour '0' should be '12'
     let endPeriod = endHours >= 12 ? "PM" : "AM";
     endHours = endHours % 12;
     endHours = endHours ? endHours : 12; // the hour '0' should be '12'
 
-    // Pad minutes with a zero if needed
-    startMinutes = startMinutes < 10 ? "0" + startMinutes : startMinutes;
+    // // Pad minutes with a zero if needed
+    // startMinutes = startMinutes < 10 ? "0" + startMinutes : startMinutes;
     endMinutes = endMinutes < 10 ? "0" + endMinutes : endMinutes;
 
     // Return the formatted date and time range
     return (
+      "ET: " +
       day +
       "/" +
       month +
       "/" +
       year +
       " " +
-      startHours +
-      ":" +
-      startMinutes +
-      " " +
-      startPeriod +
-      " to " +
       endHours +
       ":" +
       endMinutes +
@@ -74,7 +68,14 @@ const Events = () => {
   useEffect(() => {
     const getAllEvents = async () => {
       const response = await axios.get("/api/events/getAllEventData");
-      setEvents(response.data);
+      const currentDate = new Date();
+      // Filter out events that have already ended
+      const upcomingEvents = response.data.filter((event: any) => {
+        const eventEndDate = new Date(event.EndDateTime);
+        return eventEndDate >= currentDate;
+      });
+
+      setEvents(upcomingEvents);
     };
     getAllEvents();
   }, []);
@@ -92,21 +93,22 @@ const Events = () => {
           </div>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-8 mt-8 sm:grid-cols-2 lg:grid-cols-3 px-10">
+      <div className="grid grid-cols-1 gap-6 md:gap-10 sm:grid-cols-2 lg:grid-cols-3 px-6 md:px-10">
         {events.map((event: any) => (
           <EventCard
             key={event.EventID}
             name={event.EventName}
             description={event.Description}
-            time={formatTimeRange(event.StartDateTime, event.EndDateTime)}
+            time={formatTimeRange(event.EndDateTime)}
+            link={event.Link}
           />
         ))}
       </div>
       {isHomePage && (
         <div className="flex justify-center mt-4">
-          <p className="mt-4 text-base text-white">
+          <p className="px-4 text-sm md:text-base mt-2 text-white text-center">
             Want to know about more Events? Visit our Dedicated&nbsp;
-            <a href="/events">
+            <a className="text-blue-500 underline" href="/events">
               <b>Events</b>
             </a>
             &nbsp;Page.

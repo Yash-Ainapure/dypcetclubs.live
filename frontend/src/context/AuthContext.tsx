@@ -1,29 +1,51 @@
-// src/context/AuthContext.tsx
-
 import axios from "../appComponents/axiosInstance";
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, { createContext, useState, useContext, ReactNode, useEffect } from "react";
+
+interface Club {
+  ClubID: number;
+  ClubName: string;
+  Description?: string;
+  FoundedDate?: string;
+  Email: string;
+  LogoURL?: string;
+}
+
+interface UserData {
+  Email: string;
+  ClubName: string; 
+  ClubID: number; 
+  Club: Club;
+}
 
 interface AuthContextType {
   isLoggedIn: boolean;
-  userData: any;
+  userData: UserData | null; 
+  token: string; 
   login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
-// Create the context with default values
-const AuthContext = createContext<AuthContextType>({
+const AuthContext = createContext<AuthContextType>( {
   isLoggedIn: false,
   userData: null,
+  token: "", 
   login: async () => false,
   logout: () => {},
 });
 
-// Create a provider component
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [token, setToken] = useState<string>(""); 
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      const user = JSON.parse(storedUserData);
+      setUserData(user);
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
@@ -32,8 +54,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         password,
       });
       if (response.status === 200) {
-        setUserData(response.data);
+        const club = response.data.club;
+        setUserData({ 
+          Email: club.Email, 
+          ClubName: club.ClubName, 
+          ClubID: club.ClubID,
+          Club: club,
+        });
+        setToken(response.data.token);
         setIsLoggedIn(true);
+
+        localStorage.setItem("userData", JSON.stringify({ 
+          Email: club.Email, 
+          ClubName: club.ClubName, 
+          ClubID: club.ClubID,
+          Club: club,
+        }));
+        
         return true;
       }
     } catch (error: any) {
@@ -45,19 +82,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
     return false;
   };
+
   const logout = () => {
-    // Simulate logout logic, e.g., clearing tokens
     setIsLoggedIn(false);
     setUserData(null);
+    localStorage.removeItem("userData");
+    setToken("");
     console.log("User logged out");
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, userData, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, userData, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook for consuming the AuthContext
 export const useAuth = () => useContext(AuthContext);

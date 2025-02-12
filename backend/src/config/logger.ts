@@ -8,7 +8,7 @@ const logFormat = printf(({ level, message, timestamp }) => {
 });
 
 const logger = createLogger({
-  format: combine(
+  format: combine( 
     timestamp({
       format: 'YYYY-MM-DD HH:mm:ss',
     }),

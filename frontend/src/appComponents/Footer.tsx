@@ -50,26 +50,29 @@ const Footer = () => {
     };
 
     return (
-        <footer className='bg-white pt-8 text-black border-t-2'>
+        <footer className='bg-slate-900 pt-8 text-white border-t-2 w-full'>
             <div className='px-4 py-4 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]'>
                 <div className='container mx-auto'>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
                         {/* Company Section */}
-                        <div className="space-y-4">
+                        <div className="space-y-4 flex flex-col items-center md:space-y-4 ">
                             <Link to="/" className="flex items-center gap-2 group transition-all duration-300 ease-in-out transform hover:scale-105">
-                                <img src={playstore} className="bg-black h-20 w-20 transition-transform duration-300 group-hover:rotate-12" alt="DYPCETCLUBS.LIVE Logo" />
-                                <span className="text-xl font-semibold bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-400 group-hover:to-purple-800 transition-all duration-300">
+                                <img src={playstore} className="bg-black h-20 w-20 transition-transform duration-300 group-hover:rotate-12 " alt="DYPCETCLUBS.LIVE Logo" />
+                               
+                            </Link>
+
+                            <span className="text-xl font-semibold bg-gradient-to-r from-purple-800 to-purple-400 bg-clip-text text-transparent group-hover:from-purple-400 group-hover:to-purple-800 transition-all duration-300 ">
                                     DYPCETCLUBS.LIVE
                                 </span>
-                            </Link>
-                            <p className="text-sm leading-relaxed max-w-xs hover:scale-105 transition-transform">
+                            <p className="text-sm justify-start leading-relaxed max-w-xs hover:scale-105 transition-transform">
                                 <b>dypcetclubs.live</b> is a robust web application designed to simplify the management of college clubs.
                             </p>
+
                         </div>
 
                         {/* Company Links */}
-                        <div>
-                            <h3 className='text-lg font-semibold mb-4 relative inline-block after:content-[""] after:absolute after:w-0 after:h-0.5 after:bg-purple-600 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full'>Company</h3>
+                        <div className='hidden md:block'>
+                            <h3 className='text-lg font-semibold mb-4 relative inline-block after:content-[""] after:absolute after:w-0 after:h-0.5 after:bg-purple-600 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full '>Company</h3>
                             <ul className='space-y-2'>
                                 {companyLinks.map((link) => (
                                     <li key={link.name}>
@@ -86,7 +89,7 @@ const Footer = () => {
                         </div>
 
                         {/* Quick Links */}
-                        <div className="flex flex-col">
+                        <div className="flex flex-col hidden md:block">
                             <h3 className='text-lg font-semibold mb-4 relative inline-block after:content-[""] after:absolute after:w-0 after:h-0.5 after:bg-purple-600 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full'>
                                 Quick Links
                             </h3>
@@ -109,7 +112,7 @@ const Footer = () => {
                         <div>
                             {/* Social Media Links */}
                             <h3 className='text-lg font-semibold mb-4 relative inline-block after:content-[""] after:absolute after:w-0 after:h-0.5 after:bg-purple-600 after:left-0 after:-bottom-1 after:transition-all after:duration-300 hover:after:w-full'>Connect with us</h3>
-                            <div className='flex space-x-4 mt-4'>
+                            <div className='flex space-x-3 mt-1 md:space-x-5'>
                                 {socialMedia.map(({ Icon, link, color }, index) => (
                                     <a
                                         key={index}
@@ -156,9 +159,9 @@ const Footer = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className='mt-8 pt-8 border-t border-white/30 text-center'>
-                        <p className='flex items-center justify-center text-sm'>
-                            Copyright <FaRegCopyright className='mx-1' /> {currentYear} All Rights Reserved <span className="font-bold ml-2 bg-white text-blue-800 px-2 py-1 rounded transition-all duration-300 hover:bg-blue-800 hover:text-white">DYCETCLUBS.LIVE</span>
+                    <div className='mt-4 pt-4 md:mt-8 md:pt-8 border-t border-white/30 text-center'>
+                        <p className='flex md:items-center md:justify-center text-sm'>
+                            Copyright <FaRegCopyright className='mx-1 md:mx-1' /> {currentYear} All Rights Reserved <span className="hidden md:block font-bold ml-2 bg-white text-blue-800 px-2 py-1 rounded transition-all duration-300 hover:bg-blue-800 hover:text-white">DYCETCLUBS.LIVE</span>
                         </p>
                     </div>
                 </div>

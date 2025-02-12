@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import user_icon from "../assets/user_icon.png";
 import password_icon from "../assets/password_icon.png";
 import { useAuth } from "../context/AuthContext";
-import {Eye, EyeOff} from "lucide-react"
+import { Eye, EyeOff } from "lucide-react"
 import ClipLoader from "react-spinners/ClipLoader";
+import ClubRegistration from "./ClubRegistration";
 
-const ClubLogin: React.FC<any> = ({ onClose }) => {
+const ClubLogin: React.FC<any> = ({ onClose, handleClosePopup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -15,6 +16,8 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
   const [hidden, setHidden] = useState(true);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [showRegistrationPage, setShowRegistrationPage] = useState(false);
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +38,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
         setTimeout(() => {
           navigate("/clubAdmin");
         }, 1000);
+        onClose(false);
       } else {
         setErrorMessage("Email or password is incorrect.");
       }
@@ -43,11 +47,20 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
       setErrorMessage("An error occurred. Please try again.");
     } finally {
       setLoading(false);
+      handleClosePopup();
     }
   };
 
+  const handleOpenRegistration = () => {
+    setShowRegistrationPage(true);
+  };
+
+  const handleCloseRegistration = () => {
+    setShowRegistrationPage(false);
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 rounded-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-100 rounded-lg">
       <div className="bg-white rounded-lg px-4 relative border-2 py-8 md:w-1/2 flex flex-col justify-center gap-4 items-center ">
         <p
           className="cursor-pointer absolute p-2 rounded-md top-0 right-2 text-red-600 font-semibold"
@@ -55,7 +68,15 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
             onClose(false);
           }}
         >
-          X
+          <img
+            width="30"
+            height="30"
+            className="m-2 self-end cursor-pointer"
+            onClick={() => navigate("/")}
+            src="https://img.icons8.com/pastel-glyph/128/cancel--v1.png"
+            alt="cancel--v1"
+          />
+
         </p>
         <p className="text-2xl font-bold flex justify-center">
           {" "}
@@ -80,7 +101,7 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button className="absolute right-4" onClick={()=>setHidden(!hidden)}>
+          <button className="absolute right-4" onClick={() => setHidden(!hidden)}>
             {
               hidden ? <EyeOff /> : <Eye />
             }
@@ -105,13 +126,13 @@ const ClubLogin: React.FC<any> = ({ onClose }) => {
           </button>
           <button
             className="text-black border border-black rounded text-lg font-semibold p-2 w-1/2"
-            onClick={() => {
-              onClose(false);
-              navigate("/registerClub");
-            }}
+            onClick={handleOpenRegistration}
           >
             Register
           </button>
+          {showRegistrationPage && (
+            <ClubRegistration onClose={handleCloseRegistration} />
+          )}
         </div>
       </div>
     </div>

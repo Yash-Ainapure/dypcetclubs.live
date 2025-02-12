@@ -1,16 +1,16 @@
 "use client";
 import ClubCard from "./ClubCard";
 import { useClubs } from "../hooks/useClubs";
+import { useNavigate } from "react-router-dom";
 
 export default function Clubs() {
-  const isHomePage = window.location.pathname === '/'; 
+  const isHomePage = window.location.pathname === "/";
   const { data: clubs, error, isLoading } = useClubs();
-
-  const displayedClubs = clubs?.slice(0, 6);
-
+  const navigate = useNavigate();
+  const displayedClubs = isHomePage ? clubs?.slice(0, 6) : clubs;
   if (isLoading)
     return (
-      <div className="min-h-screen px-6 py-12 bg-white">
+      <div className="min-h-screen px-6 py-8 bg-white">
         <div className="pb-10 text-center">
           <h1 className="pb-4 text-3xl font-semibold">Our Clubs</h1>
           <p className="text-base text-slate-600">
@@ -40,7 +40,11 @@ export default function Clubs() {
   if (error) return <div>Error loading users: {error.message}</div>;
 
   return (
-    <div className="min-h-screen px-6 py-12 bg-white">
+    <div
+      className={`min-h-screen px-6 py-12 bg-white flex flex-col ${
+        isHomePage ? "justify-between" : ""
+      }`}
+    >
       {/* Heading 1 */}
       <div className="pb-10 text-center">
         <h1 className="pb-4 text-3xl font-semibold">Our Clubs</h1>
@@ -50,21 +54,31 @@ export default function Clubs() {
         </p>
       </div>
       {/* Clubs Grid */}
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 px-8">
+      <div className="grid grid-cols-1 gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 px-2 md:px-8">
         {displayedClubs?.map((club, index) => (
           <ClubCard
             key={index}
             memberCount={club.Members.length}
             name={club.ClubName}
             description={club.Description}
+            email={club.Email}
           />
         ))}
       </div>
       {isHomePage && (
-        <div className="flex justify-center mt-4">
-        <p className="mt-4 text-base text-slate-600">
-          Want to Explore more? Visit our Dedicated&nbsp;<a href="/clubboard"><b>Clubs</b></a>&nbsp;Page.
-        </p>
+        <div className="flex justify-center items-center mt-4">
+          <p className="mt-2 text-sm md:text-base text-slate-600 text-center">
+            Want to Explore more? Visit our Dedicated&nbsp;
+          </p>
+          <button
+            className="text-blue-500 underline cursor-pointer z-50 font-semibold"
+            onClick={() => {
+              navigate("/clubboard");
+            }}
+          >
+            Clubs
+          </button>
+          <p>&nbsp;Page.</p>
         </div>
       )}
     </div>

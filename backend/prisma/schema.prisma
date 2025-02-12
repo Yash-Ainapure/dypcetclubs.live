@@ -44,6 +44,7 @@ model Event {
   StartDateTime String?
   EndDateTime   String?
   Location      String?
+  Link          String?
   Club          Club         @relation(fields: [ClubID], references: [ClubID])
   Images        EventImage[]
   Tags          EventTag[]
