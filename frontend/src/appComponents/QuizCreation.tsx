@@ -233,7 +233,10 @@ const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
 
     try {
       const response = await axios.post("/api/quizzes/generateQuiz", payload);
+      console.log("response", response)
       let data = JSON.parse(response.data?.data?.choices[0]?.message?.content);
+      console.log("data", data)
+
       if (data?.questions) {
         setQuiz(data.questions);
         const formattedQuestions = data.questions.map((q: any) => ({
@@ -241,11 +244,11 @@ const AiQuizCreationModal = ({ setQuiz, setQuestions }: any) => {
           options: q.options,
           correctAnswer: q.answer,
         }));
-
         setQuestions(formattedQuestions);
       }
     } catch (error) {
       console.error("Error generating quiz:", error);
+      console.log(error)
     } finally {
       setLoading(false);
     }

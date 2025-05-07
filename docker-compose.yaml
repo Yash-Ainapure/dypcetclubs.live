@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  backend:
+    image: dypcetclubs-backend
+    container_name: backend
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+
+  frontend:
+    image: dypcetclubs-frontend
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://backend:4000
+    restart: unless-stopped
+

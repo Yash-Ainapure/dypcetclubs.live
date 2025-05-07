@@ -3,12 +3,19 @@ import { PrismaLibSQL } from "@prisma/adapter-libsql";
 import { createClient } from "@libsql/client";
 import { config } from "./env.config";
 
-const libsql = createClient({
+console.log("detailesss...")
+console.log(config.TURSO_AUTH_TOKEN)
+console.log(config.TURSO_DATABASE_URL)
+
+// const libsql = createClient({
+//   url: `${config.TURSO_DATABASE_URL}`,
+//   authToken: `${config.TURSO_AUTH_TOKEN}`,
+// });
+
+const adapter = new PrismaLibSQL({
   url: `${config.TURSO_DATABASE_URL}`,
   authToken: `${config.TURSO_AUTH_TOKEN}`,
-}); 
-
-const adapter = new PrismaLibSQL(libsql);
+});
 export const prisma = new PrismaClient({ adapter });
 
 // Function to test the database connection
