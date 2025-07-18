@@ -4,6 +4,11 @@
 
 A comprehensive platform for **managing college clubs, events, and announcements** effectively.
 
+Below is the video showcasing the website working.
+
+
+https://github.com/user-attachments/assets/29283a49-5e6d-44e8-80f6-c402d9d4d15d
+
 
 
 ## 🚀 **Table of Contents**
